@@ -29,6 +29,11 @@ func (i Item) GetId() uint {
 	return i.id
 }
 
+// GetIdString returns the item's ID in string format
+func (i Item) GetIdString() string {
+	return ufmt.Sprintf("%d", i.GetId())
+}
+
 // GetPrice returns the item's price
 func (i Item) GetPrice() int64 {
 	return i.price

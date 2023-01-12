@@ -8,15 +8,15 @@ import (
 
 	"gno.land/p/demo/avl"
 	"gno.land/p/demo/store"
-	"gno.land/p/demo/ufmt"
 )
 
 const (
-	notFoundMessage = "404: item not found"
-	successMessage  = "Successfully added item"
+	notFoundMessage = "404: gnome not found"
+	successMessage  = "Successfully added gnome"
 	failedMessage   = "Unable to add item"
 
-	noItemsMessage = "There are no items in the store"
+	noItemsMessage = "There are no gnomes in the store"
+	failedBuyOrder = "unable to execute buy order"
 )
 
 var (
@@ -84,9 +84,9 @@ func getItemByID(id string) *store.Item {
 	return item.(*store.Item)
 }
 
-// AddItem adds a new item to the store
-func AddItem(
-	price int64,
+// AddGnome adds a new gnome item to the store
+func AddGnome(
+	price uint64,
 	description string,
 ) string {
 	// Only store owners can modify
@@ -104,7 +104,7 @@ func AddItem(
 
 	// Add the item to the store
 	items.Set(
-		ufmt.Sprintf("%d", item.GetId()),
+		item.GetIdString(),
 		item,
 	)
 
@@ -112,4 +112,38 @@ func AddItem(
 	idCounter++
 
 	return successMessage
+}
+
+// BuyItem executes a buy order
+func BuyItem(id string) string {
+	// Make sure the item exists
+	gnome := getItemByID(id)
+	if gnome == nil {
+		return notFoundMessage
+	}
+
+	// Get the item price in native currency (ugnot)
+	amount := std.Coins{
+		Denom:  "ugnot",
+		Amount: gnome.GetPrice(),
+	}
+
+	// Get a reference to the banker
+	banker := std.GetBanker(std.BankerTypeOrigSend)
+
+	// Get the address of the method caller
+	buyer := std.GetOrigCaller()
+
+	// Make sure the buyer has enough funds
+	if !banker.GetCoins(std.GetOrigPkgAddr()).isGTE(amount) {
+		return failedBuyOrder
+	}
+
+	// Execute the buy order
+	banker.SendCoins(buyer, storeAdmin, amount)
+
+	return umft.Sprintf(
+		"gnome with ID %s successfully purchased!",
+		id,
+	)
 }
