@@ -8,6 +8,7 @@ import (
 
 	"gno.land/p/demo/avl"
 	"gno.land/p/demo/store"
+	"gno.land/p/demo/ufmt"
 )
 
 const (
@@ -20,7 +21,8 @@ const (
 )
 
 var (
-	storeAdmin std.Address = "g1hm7f7sjmlmzqzavhcaqmxzh4nah0m4kchc2ue3"
+	// TODO change
+	storeAdmin std.Address = "g1yzcp8jlcr06lrlq7ex22xlsscuumq5k39r7d83"
 
 	items     avl.Tree
 	idCounter uint
@@ -43,7 +45,7 @@ func Render(path string) string {
 	case len(parts) == 2 && parts[0] == "item":
 		// Check if the item exists
 		item := getItemByID(parts[1])
-		if item != nil {
+		if item == nil {
 			return notFoundMessage
 		}
 
@@ -86,7 +88,7 @@ func getItemByID(id string) *store.Item {
 
 // AddGnome adds a new gnome item to the store
 func AddGnome(
-	price uint64,
+	price int64,
 	description string,
 ) string {
 	// Only store owners can modify
@@ -114,8 +116,8 @@ func AddGnome(
 	return successMessage
 }
 
-// BuyItem executes a buy order
-func BuyItem(id string) string {
+// BuyGnome executes a buy order
+func BuyGnome(id string) string {
 	// Make sure the item exists
 	gnome := getItemByID(id)
 	if gnome == nil {
@@ -124,25 +126,29 @@ func BuyItem(id string) string {
 
 	// Get the item price in native currency (ugnot)
 	amount := std.Coins{
-		Denom:  "ugnot",
-		Amount: gnome.GetPrice(),
+		{
+			"ugnot",
+			gnome.GetPrice(),
+		},
 	}
 
 	// Get a reference to the banker
-	banker := std.GetBanker(std.BankerTypeOrigSend)
+	banker := std.GetBanker(std.BankerTypeRealmSend)
 
 	// Get the address of the method caller
 	buyer := std.GetOrigCaller()
 
 	// Make sure the buyer has enough funds
-	if !banker.GetCoins(buyer).isGTE(amount) {
+	if banker.GetCoins(buyer).AmountOf("ugnot") < gnome.GetPrice() {
 		return failedBuyOrder
 	}
 
 	// Execute the buy order
-	banker.SendCoins(buyer, storeAdmin, amount)
+	// PkgAddress is used instead of the buyer address,
+	// because of current package limitations in stdlibs/banker.go (SendCoins method)
+	banker.SendCoins(std.GetOrigPkgAddr(), storeAdmin, amount)
 
-	return umft.Sprintf(
+	return ufmt.Sprintf(
 		"gnome with ID %s successfully purchased!",
 		id,
 	)
