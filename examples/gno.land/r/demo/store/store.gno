@@ -135,7 +135,7 @@ func BuyItem(id string) string {
 	buyer := std.GetOrigCaller()
 
 	// Make sure the buyer has enough funds
-	if !banker.GetCoins(std.GetOrigPkgAddr()).isGTE(amount) {
+	if !banker.GetCoins(buyer).isGTE(amount) {
 		return failedBuyOrder
 	}
 
