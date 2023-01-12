@@ -1,6 +1,8 @@
 package store
 
-import "fmt"
+import (
+	"gno.land/p/demo/ufmt"
+)
 
 // Item is an instance of an arbitrary item
 type Item struct {
@@ -39,7 +41,7 @@ func (i Item) GetDescription() string {
 
 // GetInfo returns the item's formatted info
 func (i Item) GetInfo() string {
-	return fmt.Sprintf(
+	return ufmt.Sprintf(
 		"id: %d\nprice: %d\ndescription: %s",
 		i.id, i.price, i.description,
 	)

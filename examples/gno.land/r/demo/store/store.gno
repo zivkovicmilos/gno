@@ -2,19 +2,21 @@ package store
 
 import (
 	"bytes"
-	"fmt"
 	"strings"
 
 	"std"
 
 	"gno.land/p/demo/avl"
 	"gno.land/p/demo/store"
+	"gno.land/p/demo/ufmt"
 )
 
 const (
 	notFoundMessage = "404: item not found"
 	successMessage  = "Successfully added item"
 	failedMessage   = "Unable to add item"
+
+	noItemsMessage = "There are no items in the store"
 )
 
 var (
@@ -53,6 +55,11 @@ func Render(path string) string {
 
 // renderItems renders all available store items
 func renderItems() string {
+	// Check if there are any items in the store
+	if items.Size() < 1 {
+		return noItemsMessage
+	}
+
 	var buffer bytes.Buffer
 
 	items.Iterate("", "", func(t *avl.Node) bool {
@@ -97,7 +104,7 @@ func AddItem(
 
 	// Add the item to the store
 	items.Set(
-		fmt.Sprintf("%d", item.GetId()),
+		ufmt.Sprintf("%d", item.GetId()),
 		item,
 	)
 
