@@ -206,7 +206,14 @@ func TestEqualCoins(t *testing.T) {
 	}{
 		{Coins{}, Coins{}, true, false},
 		{Coins{NewCoin(testDenom1, 0)}, Coins{NewCoin(testDenom1, 0)}, true, false},
-		{Coins{NewCoin(testDenom1, 0), NewCoin(testDenom2, 1)}, Coins{NewCoin(testDenom1, 0), NewCoin(testDenom2, 1)}, true, false},
+		{Coins{
+			NewCoin(testDenom1, 0),
+			NewCoin(testDenom2, 1)},
+			Coins{NewCoin(testDenom1, 0),
+				NewCoin(testDenom2, 1)},
+			true,
+			false,
+		},
 		{Coins{NewCoin(testDenom1, 0)}, Coins{NewCoin(testDenom2, 0)}, false, true},
 		{Coins{NewCoin(testDenom1, 0)}, Coins{NewCoin(testDenom1, 1)}, false, false},
 		{Coins{NewCoin(testDenom1, 0)}, Coins{NewCoin(testDenom1, 0), NewCoin(testDenom2, 1)}, false, false},

@@ -331,7 +331,9 @@ func TestAnteHandlerFees(t *testing.T) {
 	env.acck.SetAccount(ctx, acc1)
 	checkValidTx(t, anteHandler, ctx, tx, false)
 
-	require.Equal(t, env.bank.(DummyBankKeeper).acck.GetAccount(ctx, FeeCollectorAddress()).GetCoins().AmountOf("atom"), int64(150))
+	require.Equal(t, env.bank.(DummyBankKeeper).acck.GetAccount(
+		ctx, FeeCollectorAddress()).GetCoins().AmountOf("atom"), int64(150),
+	)
 	require.Equal(t, env.acck.GetAccount(ctx, addr1).GetCoins().AmountOf("atom"), int64(0))
 }
 
@@ -362,12 +364,28 @@ func TestAnteHandlerMemoGas(t *testing.T) {
 
 	// tx with memo doesn't have enough gas
 	fee = std.NewFee(801, std.NewCoin("atom", 0))
-	tx = tu.NewTestTxWithMemo(ctx.ChainID(), []std.Msg{msg}, privs, accnums, seqs, fee, "abcininasidniandsinasindiansdiansdinaisndiasndiadninsd")
+	tx = tu.NewTestTxWithMemo(
+		ctx.ChainID(),
+		[]std.Msg{msg},
+		privs,
+		accnums,
+		seqs,
+		fee,
+		"abcininasidniandsinasindiansdiansdinaisndiasndiadninsd",
+	)
 	checkInvalidTx(t, anteHandler, ctx, tx, false, std.OutOfGasError{})
 
 	// memo too large
 	fee = std.NewFee(9000, std.NewCoin("atom", 0))
-	tx = tu.NewTestTxWithMemo(ctx.ChainID(), []std.Msg{msg}, privs, accnums, seqs, fee, strings.Repeat("01234567890", 99000))
+	tx = tu.NewTestTxWithMemo(
+		ctx.ChainID(),
+		[]std.Msg{msg},
+		privs,
+		accnums,
+		seqs,
+		fee,
+		strings.Repeat("01234567890", 99000),
+	)
 	checkInvalidTx(t, anteHandler, ctx, tx, false, std.MemoTooLargeError{})
 
 	// tx with memo has enough gas
@@ -411,7 +429,15 @@ func TestAnteHandlerMultiSigner(t *testing.T) {
 
 	// signers in order
 	privs, accnums, seqs := []crypto.PrivKey{priv1, priv2, priv3}, []uint64{0, 1, 2}, []uint64{0, 0, 0}
-	tx = tu.NewTestTxWithMemo(ctx.ChainID(), msgs, privs, accnums, seqs, fee, "Check signers are in expected order and different account numbers works")
+	tx = tu.NewTestTxWithMemo(
+		ctx.ChainID(),
+		msgs,
+		privs,
+		accnums,
+		seqs,
+		fee,
+		"Check signers are in expected order and different account numbers works",
+	)
 
 	checkValidTx(t, anteHandler, ctx, tx, false)
 

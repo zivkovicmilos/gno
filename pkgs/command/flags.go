@@ -70,7 +70,11 @@ func applyFlagReflect(rv reflect.Value, fname string, fvalue interface{}) (bool,
 			// NOTE: instead of returning an error here,
 			// check all structs for consistency beforehand instead.
 			// Otherwise it's "offensive" programming.
-			fmt.Fprintf(os.Stderr, "WARN: non-anonymous option field found (%s) with no flag name; in the future this will panic at start of program\n", rtf.Name)
+			fmt.Fprintf(
+				os.Stderr,
+				"WARN: non-anonymous option field found (%s) with no flag name; in the future this will panic at start of program\n",
+				rtf.Name,
+			)
 		} else if ffn == fname {
 			frv := rv.Field(i)
 			return true, applyFlagToFieldReflect(frv, fvalue)
