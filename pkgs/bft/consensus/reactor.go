@@ -132,8 +132,10 @@ func (conR *ConsensusReactor) GetChannels() []*p2p.ChannelDescriptor {
 			RecvMessageCapacity: maxMsgSize,
 		},
 		{
-			ID:                  DataChannel, // maybe split between gossiping current block and catchup stuff
-			Priority:            10,          // once we gossip the whole block there's nothing left to send until next height or round
+			// maybe split between gossiping current block and catchup stuff
+			ID: DataChannel,
+			// once we gossip the whole block there's nothing left to send until next height or round
+			Priority:            10,
 			SendQueueCapacity:   100,
 			RecvBufferCapacity:  50 * 4096,
 			RecvMessageCapacity: maxMsgSize,
@@ -1094,6 +1096,7 @@ func (ps *PeerState) ensureCatchupCommitRound(height int64, round int, numValida
 	if ps.PRS.Height != height {
 		return
 	}
+	//nolint:lll
 	/*
 		NOTE: This is wrong, 'round' could change.
 		e.g. if orig round is not the same as block LastCommit round.

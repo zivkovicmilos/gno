@@ -90,7 +90,12 @@ func WriteProtoBindingsForTypes(filename string, pkg *amino.Package, rtz ...refl
 }
 
 // modified imports if necessary.
-func generateMethodsForType(imports *ast.GenDecl, scope *ast.Scope, pkg *amino.Package, info *amino.TypeInfo) (methods []ast.Decl, err error) {
+func generateMethodsForType(
+	imports *ast.GenDecl,
+	scope *ast.Scope,
+	pkg *amino.Package,
+	info *amino.TypeInfo,
+) (methods []ast.Decl, err error) {
 	if info.Type.Kind() == reflect.Interface {
 		panic("should not happen")
 	}
@@ -235,7 +240,18 @@ func hasPBBindings(info *amino.TypeInfo) bool {
 //
 // CONTRACT: for arrays and lists, memory must be allocated beforehand, but new
 // instances are created within this function.
-func go2pbStmts(rootPkg *amino.Package, isRoot bool, imports *ast.GenDecl, scope *ast.Scope, pbo ast.Expr, goo ast.Expr, gooIsPtr bool, gooType *amino.TypeInfo, fopts amino.FieldOptions, options uint64) (b []ast.Stmt) {
+func go2pbStmts(
+	rootPkg *amino.Package,
+	isRoot bool,
+	imports *ast.GenDecl,
+	scope *ast.Scope,
+	pbo ast.Expr,
+	goo ast.Expr,
+	gooIsPtr bool,
+	gooType *amino.TypeInfo,
+	fopts amino.FieldOptions,
+	options uint64,
+) (b []ast.Stmt) {
 	const (
 		option_bytes         = 0x01 // if goo's repr is uint8 as an element of bytes.
 		option_implicit_list = 0x02 // if goo is a repeated list & also an element.
@@ -501,7 +517,19 @@ func go2pbStmts(rootPkg *amino.Package, isRoot bool, imports *ast.GenDecl, scope
 						_block(
 							// Translate in place.
 							_a("goore", ":=", _idx(goor, _i("i"))),
-							_block(go2pbStmts(rootPkg, false, imports, scope2, _x("%v~[~i~]", pbos_), _i("goore"), gooreIsPtr, gooreType, fopts, newoptions)...),
+							_block(
+								go2pbStmts(
+									rootPkg,
+									false,
+									imports,
+									scope2,
+									_x("%v~[~i~]", pbos_),
+									_i("goore"),
+									gooreIsPtr,
+									gooreType,
+									fopts,
+									newoptions)...,
+							),
 						),
 					),
 					_ctif((pboIsImplicit && options&option_implicit_list != 0), // compile time if
@@ -807,7 +835,18 @@ func pb2goStmts(
 		goors_ := addVarUniq(scope, "goors")
 		scope2 := ast.NewScope(scope)
 		addVars(scope2, "i", "pboe", "pboev")
-		subStmts := pb2goStmts(rootPkg, false, imports, scope2, _x("%v~[~i~]", goors_), gooreIsPtr, gooreType, _i("pboev"), fopts, newoptions)
+		subStmts := pb2goStmts(
+			rootPkg,
+			false,
+			imports,
+			scope2,
+			_x("%v~[~i~]", goors_),
+			gooreIsPtr,
+			gooreType,
+			_i("pboev"),
+			fopts,
+			newoptions,
+		)
 		b = append(b,
 			_var(pbol_, _i("int"), _x("0")),
 			_if(_b(pbo, "!=", "nil"),
@@ -866,7 +905,15 @@ func pb2goStmts(
 	return b
 }
 
-func isReprEmptyStmts(rootPkg *amino.Package, isRoot bool, imports *ast.GenDecl, scope *ast.Scope, goo ast.Expr, gooIsPtr bool, gooType *amino.TypeInfo) (b []ast.Stmt) {
+func isReprEmptyStmts(
+	rootPkg *amino.Package,
+	isRoot bool,
+	imports *ast.GenDecl,
+	scope *ast.Scope,
+	goo ast.Expr,
+	gooIsPtr bool,
+	gooType *amino.TypeInfo,
+) (b []ast.Stmt) {
 	// Special case if non-nil struct-pointer.
 	// TODO: this could be precompiled and optimized (when !isRoot).
 	if gooIsPtr && gooType.ReprType.Type.Kind() == reflect.Struct {
@@ -1060,7 +1107,14 @@ func _iOrNil(name string) *ast.Ident {
 
 // recvTypeName is empty if there are no receivers.
 // recvTypeName cannot contain any dots.
-func _func(name string, recvRef string, recvTypeName string, params *ast.FieldList, results *ast.FieldList, b *ast.BlockStmt) *ast.FuncDecl {
+func _func(
+	name string,
+	recvRef string,
+	recvTypeName string,
+	params *ast.FieldList,
+	results *ast.FieldList,
+	b *ast.BlockStmt,
+) *ast.FuncDecl {
 	fn := &ast.FuncDecl{
 		Name: _i(name),
 		Type: &ast.FuncType{
@@ -1926,7 +1980,13 @@ OUTER:
 }
 
 // If rt.PkgPath() is "",
-func goPkgPrefix(rootPkg *amino.Package, rt reflect.Type, info *amino.TypeInfo, imports *ast.GenDecl, scope *ast.Scope) (pkgPrefix string) {
+func goPkgPrefix(
+	rootPkg *amino.Package,
+	rt reflect.Type,
+	info *amino.TypeInfo,
+	imports *ast.GenDecl,
+	scope *ast.Scope,
+) (pkgPrefix string) {
 	if rt.Name() == "" {
 		panic("expected rt to have name")
 	}

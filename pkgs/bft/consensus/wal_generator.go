@@ -28,7 +28,8 @@ import (
 // WALGenerateNBlocks generates a consensus WAL. It does this by spinning up a
 // stripped down version of node (proxy app, event bus, consensus state) with a
 // persistent kvstore application and special consensus wal instance
-// (heightStopWAL) and waits until numBlocks are created. If the node fails to produce given numBlocks, it returns an error.
+// (heightStopWAL) and waits until numBlocks are created.
+// If the node fails to produce given numBlocks, it returns an error.
 func WALGenerateNBlocks(t *testing.T, wr io.Writer, numBlocks int) (err error) {
 	config := getConfig(t)
 
@@ -159,7 +160,12 @@ type heightStopWAL struct {
 // needed for determinism
 var fixedTime, _ = time.Parse(time.RFC3339, "2017-01-02T15:04:05Z")
 
-func newHeightStopWAL(logger log.Logger, enc *walm.WALWriter, nBlocks int64, signalStop chan<- struct{}) *heightStopWAL {
+func newHeightStopWAL(
+	logger log.Logger,
+	enc *walm.WALWriter,
+	nBlocks int64,
+	signalStop chan<- struct{},
+) *heightStopWAL {
 	return &heightStopWAL{
 		enc:               enc,
 		heightToStop:      nBlocks,

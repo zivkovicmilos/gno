@@ -9,7 +9,7 @@ import (
 
 const bd_option_byte = 0x01
 
-//----------------------------------------
+// ----------------------------------------
 // cdc.decodeReflectBinary
 
 var ErrOverflowInt = errors.New("encoded integer value overflows int(32)")
@@ -88,7 +88,7 @@ func (cdc *Codec) decodeReflectBinary(bz []byte, info *TypeInfo,
 
 	switch info.Type.Kind() {
 
-	//----------------------------------------
+	// ----------------------------------------
 	// Complex
 
 	case reflect.Interface:
@@ -123,7 +123,7 @@ func (cdc *Codec) decodeReflectBinary(bz []byte, info *TypeInfo,
 		n += _n
 		return
 
-	//----------------------------------------
+	// ----------------------------------------
 	// Signed
 
 	case reflect.Int64:
@@ -189,7 +189,7 @@ func (cdc *Codec) decodeReflectBinary(bz []byte, info *TypeInfo,
 		rv.SetInt(num)
 		return
 
-	//----------------------------------------
+	// ----------------------------------------
 	// Unsigned
 
 	case reflect.Uint64:
@@ -258,7 +258,7 @@ func (cdc *Codec) decodeReflectBinary(bz []byte, info *TypeInfo,
 		rv.SetUint(num)
 		return
 
-	//----------------------------------------
+	// ----------------------------------------
 	// Misc.
 
 	case reflect.Bool:
@@ -408,7 +408,12 @@ func (cdc *Codec) decodeReflectBinaryInterface(bz []byte, iinfo *TypeInfo, rv re
 // Returns the number of bytes read from value.
 // CONTRACT: rv.CanAddr() is true.
 // CONTRACT: rv.Kind() == reflect.Interface.
-func (cdc *Codec) decodeReflectBinaryAny(typeURL string, value []byte, rv reflect.Value, fopts FieldOptions) (n int, err error) {
+func (cdc *Codec) decodeReflectBinaryAny(
+	typeURL string,
+	value []byte,
+	rv reflect.Value,
+	fopts FieldOptions,
+) (n int, err error) {
 	// Invalid typeURL value is invalid.
 	if !IsASCIIText(typeURL) {
 		err = fmt.Errorf("invalid type_url string bytes %X", typeURL)
@@ -1018,7 +1023,7 @@ func (cdc *Codec) decodeReflectBinaryStruct(bz []byte, info *TypeInfo, rv reflec
 	return n, err
 }
 
-//----------------------------------------
+// ----------------------------------------
 // consume* for skipping struct fields
 
 // Read everything without doing anything with it. Report errors if they occur.
@@ -1045,7 +1050,7 @@ func consumeAny(typ3 Typ3, bz []byte) (n int, err error) {
 	return
 }
 
-//----------------------------------------
+// ----------------------------------------
 
 // Read field key.
 func decodeFieldNumberAndTyp3(bz []byte) (num uint32, typ Typ3, n int, err error) {
@@ -1068,7 +1073,7 @@ func decodeFieldNumberAndTyp3(bz []byte) (num uint32, typ Typ3, n int, err error
 	return
 }
 
-//----------------------------------------
+// ----------------------------------------
 // Misc.
 
 func decodeMaybeBare(bz []byte, n *int, bare bool) ([]byte, error) {

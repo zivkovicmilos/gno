@@ -29,7 +29,7 @@ var (
 	base64stdnp = base64.StdEncoding.WithPadding(base64.NoPadding)
 )
 
-//--------------------------------------------------------
+// --------------------------------------------------------
 // types and functions for savings consensus messages
 
 type WALMessage interface {
@@ -52,7 +52,7 @@ type MetaMessage struct {
 	Height int64 `json:"h"`
 }
 
-//--------------------------------------------------------
+// --------------------------------------------------------
 // Simple write-ahead logger
 
 // WAL is an interface for any write-ahead logger.
@@ -208,14 +208,22 @@ func (wal *baseWAL) WriteMetaSync(meta MetaMessage) error {
 	}
 
 	if err := wal.enc.WriteMeta(meta); err != nil {
-		wal.Logger.Error("Error writing height to consensus wal. WARNING: full recover may not be possible for the previous height",
-			"err", err)
+		wal.Logger.Error(
+			"Error writing height to consensus wal. "+
+				"WARNING: full recover may not be possible for the previous height",
+			"err",
+			err,
+		)
 		return err
 	}
 
 	if err := wal.FlushAndSync(); err != nil {
-		wal.Logger.Error("WriteSync failed to flush consensus wal. WARNING: may result in creating alternative proposals / votes for the current height iff the node restarted",
-			"err", err)
+		wal.Logger.Error(
+			"WriteSync failed to flush consensus wal. "+
+				"WARNING: may result in creating alternative proposals / votes for the current height iff the node restarted",
+			"err",
+			err,
+		)
 		return err
 	}
 
@@ -235,8 +243,12 @@ func (wal *baseWAL) WriteSync(msg WALMessage) error {
 	}
 
 	if err := wal.FlushAndSync(); err != nil {
-		wal.Logger.Error("WriteSync failed to flush consensus wal. WARNING: may result in creating alternative proposals / votes for the current height iff the node restarted",
-			"err", err)
+		wal.Logger.Error(
+			"WriteSync failed to flush consensus wal. WARNING: may result in creating alternative proposals / "+
+				"votes for the current height iff the node restarted",
+			"err",
+			err,
+		)
 		return err
 	}
 
@@ -436,7 +448,7 @@ OUTER_LOOP:
 	return nil, false, nil
 }
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 
 // A WALWriter writes custom-encoded WAL messages to an output stream.
 // Each binary WAL entry is length encoded, then crc encoded,
@@ -512,7 +524,7 @@ func (enc *WALWriter) WriteMeta(meta MetaMessage) error {
 	return err
 }
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 
 // IsDataCorruptionError returns true if data has been corrupted inside WAL.
 func IsDataCorruptionError(err error) bool {
@@ -618,7 +630,13 @@ func (dec *WALReader) ReadMessage() (*TimedWALMessage, *MetaMessage, error) {
 	}
 	crc, twmBytes := binary.BigEndian.Uint32(line[:crcSize]), line[crcSize:]
 	if dec.maxSize < int64(len(twmBytes)) {
-		return nil, nil, DataCorruptionError{fmt.Errorf("length %d exceeded maximum possible value of %d bytes", int64(len(twmBytes)), dec.maxSize)}
+		return nil, nil, DataCorruptionError{
+			fmt.Errorf(
+				"length %d exceeded maximum possible value of %d bytes",
+				int64(len(twmBytes)),
+				dec.maxSize,
+			),
+		}
 	}
 
 	// check checksum before decoding twmBytes
@@ -627,7 +645,13 @@ func (dec *WALReader) ReadMessage() (*TimedWALMessage, *MetaMessage, error) {
 	}
 	actualCRC := crc32.Checksum(twmBytes, crc32c)
 	if actualCRC != crc {
-		return nil, nil, DataCorruptionError{fmt.Errorf("checksums do not match: read: %v, actual: %v", crc, actualCRC)}
+		return nil, nil, DataCorruptionError{
+			fmt.Errorf(
+				"checksums do not match: read: %v, actual: %v",
+				crc,
+				actualCRC,
+			),
+		}
 	}
 
 	// decode amino sized bytes.

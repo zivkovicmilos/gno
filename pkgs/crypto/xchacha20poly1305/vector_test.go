@@ -1,4 +1,3 @@
-//nolint:lll
 package xchacha20poly1305
 
 import (

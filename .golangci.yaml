@@ -49,3 +49,4 @@ issues:
     - path: _test\.go
       linters:
         - gosec # Disabled linting of weak number generators
+        - lll # Disabled linting of long test case lines

@@ -10,7 +10,7 @@ import (
 	"github.com/gnolang/gno/pkgs/errors"
 )
 
-//----------------------------------------
+// ----------------------------------------
 // cdc.decodeReflectJSON
 
 // CONTRACT: rv.CanAddr() is true.
@@ -69,7 +69,7 @@ func (cdc *Codec) decodeReflectJSON(bz []byte, info *TypeInfo, rv reflect.Value,
 
 	switch ikind := info.Type.Kind(); ikind {
 
-	//----------------------------------------
+	// ----------------------------------------
 	// Complex
 
 	case reflect.Interface:
@@ -84,7 +84,7 @@ func (cdc *Codec) decodeReflectJSON(bz []byte, info *TypeInfo, rv reflect.Value,
 	case reflect.Struct:
 		err = cdc.decodeReflectJSONStruct(bz, info, rv, fopts)
 
-	//----------------------------------------
+	// ----------------------------------------
 	// Signed, Unsigned
 
 	case reflect.Int64, reflect.Int:
@@ -105,7 +105,7 @@ func (cdc *Codec) decodeReflectJSON(bz []byte, info *TypeInfo, rv reflect.Value,
 		reflect.Uint32, reflect.Uint16, reflect.Uint8:
 		err = invokeStdlibJSONUnmarshal(bz, rv, fopts)
 
-	//----------------------------------------
+	// ----------------------------------------
 	// Misc
 
 	case reflect.Float32, reflect.Float64:
@@ -116,7 +116,7 @@ func (cdc *Codec) decodeReflectJSON(bz []byte, info *TypeInfo, rv reflect.Value,
 	case reflect.Bool, reflect.String:
 		err = invokeStdlibJSONUnmarshal(bz, rv, fopts)
 
-	//----------------------------------------
+	// ----------------------------------------
 	// Default
 
 	default:
@@ -401,7 +401,7 @@ func (cdc *Codec) decodeReflectJSONStruct(bz []byte, info *TypeInfo, rv reflect.
 	return nil
 }
 
-//----------------------------------------
+// ----------------------------------------
 // Misc.
 
 type anyWrapper struct {
@@ -457,7 +457,11 @@ func deriveJSONObject(bz []byte, typeURL string) (res []byte, err error) {
 	str = str[1:]
 	str = strings.TrimLeft(str, " \t\r\n")
 	if !strings.HasPrefix(str, fmt.Sprintf(`"%v"`, typeURL)) {
-		err = fmt.Errorf("expected JSON object representing Any to start with \"@type\":\"%v\", but got %v", typeURL, string(bz))
+		err = fmt.Errorf(
+			"expected JSON object representing Any to start with \"@type\":\"%v\", but got %v",
+			typeURL,
+			string(bz),
+		)
 		return
 	}
 	str = str[2+len(typeURL):]

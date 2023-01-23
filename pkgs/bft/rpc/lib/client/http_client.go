@@ -287,7 +287,11 @@ func (b *JSONRPCRequestBatch) Send() ([]interface{}, error) {
 
 // Call enqueues a request to call the given RPC method with the specified
 // parameters, in the same way that the `JSONRPCClient.Call` function would.
-func (b *JSONRPCRequestBatch) Call(method string, params map[string]interface{}, result interface{}) (interface{}, error) {
+func (b *JSONRPCRequestBatch) Call(
+	method string,
+	params map[string]interface{},
+	result interface{},
+) (interface{}, error) {
 	request, err := types.MapToRequest(b.client.id, method, params)
 	if err != nil {
 		return nil, err
@@ -388,7 +392,11 @@ func unmarshalResponseBytesArray(
 	// and unsuccessful responses.
 
 	if len(results) != len(responses) {
-		return nil, errors.New("expected %d result objects into which to inject responses, but got %d", len(responses), len(results))
+		return nil, errors.New(
+			"expected %d result objects into which to inject responses, but got %d",
+			len(responses),
+			len(results),
+		)
 	}
 
 	for i, response := range responses {

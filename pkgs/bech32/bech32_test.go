@@ -1,4 +1,3 @@
-//nolint:lll
 package bech32_test
 
 import (

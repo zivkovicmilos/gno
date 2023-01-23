@@ -39,7 +39,11 @@ var crc32c = crc32.MakeTable(crc32.Castagnoli)
 // Unmarshal and apply a single message to the consensus state as if it were
 // received in receiveRoutine.  Lines that start with "#" are ignored.
 // NOTE: receiveRoutine should not be running.
-func (cs *ConsensusState) readReplayMessage(msg *walm.TimedWALMessage, meta *walm.MetaMessage, newStepSub <-chan events.Event) error {
+func (cs *ConsensusState) readReplayMessage(
+	msg *walm.TimedWALMessage,
+	meta *walm.MetaMessage,
+	newStepSub <-chan events.Event,
+) error {
 	// Skip meta messages which exist for demarcating boundaries.
 	if meta != nil {
 		return nil
@@ -284,7 +288,15 @@ func (h *Handshaker) ReplayBlocks(
 ) ([]byte, error) {
 	storeBlockHeight := h.store.Height()
 	stateBlockHeight := state.LastBlockHeight
-	h.logger.Info("ABCI Replay Blocks", "appHeight", appBlockHeight, "storeHeight", storeBlockHeight, "stateHeight", stateBlockHeight)
+	h.logger.Info(
+		"ABCI Replay Blocks",
+		"appHeight",
+		appBlockHeight,
+		"storeHeight",
+		storeBlockHeight,
+		"stateHeight",
+		stateBlockHeight,
+	)
 
 	// If appBlockHeight == 0 it means that we are at genesis and hence should send InitChain.
 	if appBlockHeight == 0 {

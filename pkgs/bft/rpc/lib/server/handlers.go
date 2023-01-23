@@ -23,7 +23,8 @@ import (
 	"github.com/gnolang/gno/pkgs/service"
 )
 
-// RegisterRPCFuncs adds a route for each function in the funcMap, as well as general jsonrpc and websocket handlers for all functions.
+// RegisterRPCFuncs adds a route for each function in the funcMap,
+// as well as general jsonrpc and websocket handlers for all functions.
 // "result" is the interface on which the result objects are registered, and is populated with every RPCResponse
 func RegisterRPCFuncs(mux *http.ServeMux, funcMap map[string]*RPCFunc, logger log.Logger) {
 	// HTTP endpoints
@@ -103,7 +104,12 @@ func makeJSONRPCHandler(funcMap map[string]*RPCFunc, logger log.Logger) http.Han
 	return func(w http.ResponseWriter, r *http.Request) {
 		b, err := ioutil.ReadAll(r.Body)
 		if err != nil {
-			WriteRPCResponseHTTP(w, types.RPCInvalidRequestError(types.JSONRPCStringID(""), errors.Wrap(err, "error reading request body")))
+			WriteRPCResponseHTTP(
+				w,
+				types.RPCInvalidRequestError(types.JSONRPCStringID(""),
+					errors.Wrap(err, "error reading request body"),
+				),
+			)
 			return
 		}
 		// if its an empty request (like from a browser),
@@ -122,7 +128,12 @@ func makeJSONRPCHandler(funcMap map[string]*RPCFunc, logger log.Logger) http.Han
 			// next, try to unmarshal as a single request
 			var request types.RPCRequest
 			if err := json.Unmarshal(b, &request); err != nil {
-				WriteRPCResponseHTTP(w, types.RPCParseError(types.JSONRPCStringID(""), errors.Wrap(err, "error unmarshalling request")))
+				WriteRPCResponseHTTP(
+					w,
+					types.RPCParseError(types.JSONRPCStringID(""),
+						errors.Wrap(err, "error unmarshalling request"),
+					),
+				)
 				return
 			}
 			requests = []types.RPCRequest{request}
@@ -186,7 +197,8 @@ func makeJSONRPCHandler(funcMap map[string]*RPCFunc, logger log.Logger) http.Han
 
 func handleInvalidJSONRPCPaths(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// Since the pattern "/" matches all paths not matched by other registered patterns we check whether the path is indeed
+		// Since the pattern "/" matches all paths not matched by other registered patterns
+		// we check whether the path is indeed
 		// "/", otherwise return a 404 error
 		if r.URL.Path != "/" {
 			http.NotFound(w, r)
@@ -384,7 +396,8 @@ func _nonJSONStringToArg(rt reflect.Type, arg string) (reflect.Value, error, boo
 
 	var expectingString, expectingByteSlice, expectingInt bool
 	switch rt.Kind() {
-	case reflect.Int, reflect.Uint, reflect.Int8, reflect.Uint8, reflect.Int16, reflect.Uint16, reflect.Int32, reflect.Uint32, reflect.Int64, reflect.Uint64:
+	case reflect.Int, reflect.Uint, reflect.Int8, reflect.Uint8, reflect.Int16, reflect.Uint16,
+		reflect.Int32, reflect.Uint32, reflect.Int64, reflect.Uint64:
 		expectingInt = true
 	case reflect.String:
 		expectingString = true
@@ -673,7 +686,10 @@ func (wsc *wsConnection) readRoutine() {
 			// A Notification is a Request object without an "id" member.
 			// The Server MUST NOT reply to a Notification, including those that are within a batch request.
 			if request.ID == types.JSONRPCStringID("") {
-				wsc.Logger.Debug("WSJSONRPC received a notification, skipping... (please send a non-empty ID if you want to call a method)")
+				wsc.Logger.Debug(
+					"WSJSONRPC received a notification, skipping... " +
+						"(please send a non-empty ID if you want to call a method)",
+				)
 				continue
 			}
 
@@ -689,7 +705,12 @@ func (wsc *wsConnection) readRoutine() {
 			if len(request.Params) > 0 {
 				fnArgs, err := jsonParamsToArgs(rpcFunc, request.Params)
 				if err != nil {
-					wsc.WriteRPCResponse(types.RPCInternalError(request.ID, errors.Wrap(err, "error converting json params to arguments")))
+					wsc.WriteRPCResponse(
+						types.RPCInternalError(
+							request.ID,
+							errors.Wrap(err, "error converting json params to arguments"),
+						),
+					)
 					continue
 				}
 				args = append(args, fnArgs...)
@@ -761,7 +782,8 @@ func (wsc *wsConnection) writeRoutine() {
 }
 
 // All writes to the websocket must (re)set the write deadline.
-// If some writes don't set it while others do, they may timeout incorrectly (https://github.com/gnolang/gno/pkgs/bft/issues/553)
+// If some writes don't set it while others do,
+// they may timeout incorrectly (https://github.com/gnolang/gno/pkgs/bft/issues/553)
 func (wsc *wsConnection) writeMessageWithDeadline(msgType int, msg []byte) error {
 	if err := wsc.baseConn.SetWriteDeadline(time.Now().Add(wsc.writeWait)); err != nil {
 		return err
