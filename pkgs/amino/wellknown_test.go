@@ -1,3 +1,4 @@
+//nolint:lll
 package amino_test
 
 import (

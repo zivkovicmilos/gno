@@ -31,10 +31,10 @@ var crc32c = crc32.MakeTable(crc32.Castagnoli)
 // The former is handled by the WAL, the latter by the proxyApp Handshake on
 // restart, which ultimately hands off the work to the WAL.
 
-//-----------------------------------------
+// -----------------------------------------
 // 1. Recover from failure during consensus
 // (by replaying messages from the WAL)
-//-----------------------------------------
+// -----------------------------------------
 
 // Unmarshal and apply a single message to the consensus state as if it were
 // received in receiveRoutine.  Lines that start with "#" are ignored.
@@ -160,7 +160,7 @@ LOOP:
 	return nil
 }
 
-//--------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------
 
 // Parses marker lines of the form:
 // #ENDHEIGHT: 12345
@@ -186,11 +186,11 @@ func makeHeightSearchFunc(height int64) auto.SearchFunc {
 	}
 }*/
 
-//---------------------------------------------------
+// ---------------------------------------------------
 // 2. Recover from failure while applying the block.
 // (by handshaking with the app to figure out where
 // we were last, and using the WAL to recover there.)
-//---------------------------------------------------
+// ---------------------------------------------------
 
 type Handshaker struct {
 	stateDB      dbm.DB
@@ -393,7 +393,13 @@ func (h *Handshaker) ReplayBlocks(
 		appBlockHeight, storeBlockHeight, stateBlockHeight))
 }
 
-func (h *Handshaker) replayBlocks(state sm.State, proxyApp proxy.AppConns, appBlockHeight, storeBlockHeight int64, mutateState bool) ([]byte, error) {
+func (h *Handshaker) replayBlocks(
+	state sm.State,
+	proxyApp proxy.AppConns,
+	appBlockHeight,
+	storeBlockHeight int64,
+	mutateState bool,
+) ([]byte, error) {
 	// App is further behind than it should be, so we need to replay blocks.
 	// We replay all blocks from appBlockHeight+1.
 	//
@@ -480,7 +486,7 @@ Did you reset Tendermint without resetting your application's data?`,
 	}
 }
 
-//--------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------
 // mockProxyApp uses ABCIResponses to give the right results
 // Useful because we don't want to call Commit() twice for the same block on the real app.
 

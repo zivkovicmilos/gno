@@ -122,7 +122,7 @@ func BenchmarkValidatorSetCopy(b *testing.B) {
 	}
 }
 
-//-------------------------------------------------------------------
+// -------------------------------------------------------------------
 
 func TestProposerSelection1(t *testing.T) {
 	vset := NewValidatorSet([]*Validator{
@@ -136,6 +136,8 @@ func TestProposerSelection1(t *testing.T) {
 		proposers = append(proposers, string(val.Address[17:]))
 		vset.IncrementProposerPriority(1)
 	}
+
+	//nolint:lll
 	expected := `foo baz foo bar foo foo baz foo bar foo foo baz foo foo bar foo baz foo foo bar foo foo baz foo bar foo foo baz foo bar foo foo baz foo foo bar foo baz foo foo bar foo baz foo foo bar foo baz foo foo bar foo baz foo foo foo baz bar foo foo foo baz foo bar foo foo baz foo bar foo foo baz foo bar foo foo baz foo bar foo foo baz foo foo bar foo baz foo foo bar foo baz foo foo bar foo baz foo foo`
 	if expected != strings.Join(proposers, " ") {
 		t.Errorf("Expected sequence of proposers was\n%v\nbut got \n%v", expected, strings.Join(proposers, " "))
@@ -321,7 +323,7 @@ func (valSet *ValidatorSet) fromBytes(b []byte) {
 	}
 }
 
-//-------------------------------------------------------------------
+// -------------------------------------------------------------------
 
 func TestValidatorSetTotalVotingPowerPanicsOnOverflow(t *testing.T) {
 	// NewValidatorSet calls IncrementProposerPriority which calls TotalVotingPower()
@@ -343,11 +345,77 @@ func TestAvgProposerPriority(t *testing.T) {
 		vs   ValidatorSet
 		want int64
 	}{
-		0: {ValidatorSet{Validators: []*Validator{{ProposerPriority: 0}, {ProposerPriority: 0}, {ProposerPriority: 0}}}, 0},
-		1: {ValidatorSet{Validators: []*Validator{{ProposerPriority: math.MaxInt64}, {ProposerPriority: 0}, {ProposerPriority: 0}}}, math.MaxInt64 / 3},
-		2: {ValidatorSet{Validators: []*Validator{{ProposerPriority: math.MaxInt64}, {ProposerPriority: 0}}}, math.MaxInt64 / 2},
-		3: {ValidatorSet{Validators: []*Validator{{ProposerPriority: math.MaxInt64}, {ProposerPriority: math.MaxInt64}}}, math.MaxInt64},
-		4: {ValidatorSet{Validators: []*Validator{{ProposerPriority: math.MinInt64}, {ProposerPriority: math.MinInt64}}}, math.MinInt64},
+		0: {
+			ValidatorSet{
+				Validators: []*Validator{
+					{
+						ProposerPriority: 0,
+					},
+					{
+						ProposerPriority: 0,
+					},
+					{
+						ProposerPriority: 0,
+					},
+				},
+			},
+			0,
+		},
+		1: {
+			ValidatorSet{
+				Validators: []*Validator{
+					{
+						ProposerPriority: math.MaxInt64,
+					},
+					{
+						ProposerPriority: 0,
+					},
+					{
+						ProposerPriority: 0,
+					},
+				},
+			},
+			math.MaxInt64 / 3,
+		},
+		2: {
+			ValidatorSet{
+				Validators: []*Validator{
+					{
+						ProposerPriority: math.MaxInt64,
+					},
+					{
+						ProposerPriority: 0,
+					},
+				},
+			},
+			math.MaxInt64 / 2,
+		},
+		3: {
+			ValidatorSet{
+				Validators: []*Validator{
+					{
+						ProposerPriority: math.MaxInt64,
+					},
+					{
+						ProposerPriority: math.MaxInt64,
+					},
+				},
+			},
+			math.MaxInt64,
+		},
+		4: {
+			ValidatorSet{
+				Validators: []*Validator{
+					{
+						ProposerPriority: math.MinInt64,
+					},
+					{
+						ProposerPriority: math.MinInt64,
+					},
+				},
+			},
+			math.MinInt64,
+		},
 	}
 	for i, tc := range tcs {
 		got := tc.vs.computeAvgProposerPriority()
@@ -580,7 +648,7 @@ func TestSafeSubClip(t *testing.T) {
 	assert.EqualValues(t, math.MaxInt64, safeSubClip(math.MaxInt64, -10))
 }
 
-//-------------------------------------------------------------------
+// -------------------------------------------------------------------
 
 func TestValidatorSetVerifyCommit(t *testing.T) {
 	privKey := mock.GenPrivKey()

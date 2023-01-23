@@ -117,7 +117,7 @@ func DefaultHTTPClient(remoteAddr string) *http.Client {
 	}
 }
 
-//------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------
 
 // jsonRPCBufferedRequest encapsulates a single buffered request, as well as its
 // anticipated response structure.
@@ -245,7 +245,7 @@ func (c *JSONRPCClient) sendBatch(requests []*jsonRPCBufferedRequest) ([]interfa
 	return unmarshalResponseBytesArray(responseBytes, c.id, results)
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 
 // Count returns the number of enqueued requests waiting to be sent.
 func (b *JSONRPCRequestBatch) Count() int {
@@ -296,7 +296,7 @@ func (b *JSONRPCRequestBatch) Call(method string, params map[string]interface{},
 	return result, nil
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 
 // URI takes params as a map
 type URIClient struct {
@@ -339,9 +339,13 @@ func (c *URIClient) Call(method string, params map[string]interface{}, result in
 	return unmarshalResponseBytes(responseBytes, "", result)
 }
 
-//------------------------------------------------
+// ------------------------------------------------
 
-func unmarshalResponseBytes(responseBytes []byte, expectedID types.JSONRPCStringID, result interface{}) (interface{}, error) {
+func unmarshalResponseBytes(
+	responseBytes []byte,
+	expectedID types.JSONRPCStringID,
+	result interface{},
+) (interface{}, error) {
 	// Read response.  If rpc/core/types is imported, the result will unmarshal
 	// into the correct type.
 	// log.Notice("response", "response", string(responseBytes))
@@ -367,7 +371,11 @@ func unmarshalResponseBytes(responseBytes []byte, expectedID types.JSONRPCString
 	return result, nil
 }
 
-func unmarshalResponseBytesArray(responseBytes []byte, expectedID types.JSONRPCStringID, results []interface{}) ([]interface{}, error) {
+func unmarshalResponseBytesArray(
+	responseBytes []byte,
+	expectedID types.JSONRPCStringID,
+	results []interface{},
+) ([]interface{}, error) {
 	var (
 		err       error
 		responses []types.RPCResponse

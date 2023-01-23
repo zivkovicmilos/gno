@@ -163,7 +163,12 @@ func (t *ImmutableTree) Iterate(fn func(key []byte, value []byte) bool) (stopped
 
 // IterateRange makes a callback for all nodes with key between start and end non-inclusive.
 // If either are nil, then it is open on that side (nil, nil is the same as Iterate)
-func (t *ImmutableTree) IterateRange(start, end []byte, ascending bool, fn func(key []byte, value []byte) bool) (stopped bool) {
+func (t *ImmutableTree) IterateRange(
+	start,
+	end []byte,
+	ascending bool,
+	fn func(key []byte, value []byte) bool,
+) (stopped bool) {
 	if t.root == nil {
 		return false
 	}
@@ -177,7 +182,12 @@ func (t *ImmutableTree) IterateRange(start, end []byte, ascending bool, fn func(
 
 // IterateRangeInclusive makes a callback for all nodes with key between start and end inclusive.
 // If either are nil, then it is open on that side (nil, nil is the same as Iterate)
-func (t *ImmutableTree) IterateRangeInclusive(start, end []byte, ascending bool, fn func(key, value []byte, version int64) bool) (stopped bool) {
+func (t *ImmutableTree) IterateRangeInclusive(
+	start,
+	end []byte,
+	ascending bool,
+	fn func(key, value []byte, version int64) bool,
+) (stopped bool) {
 	if t.root == nil {
 		return false
 	}

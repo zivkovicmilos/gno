@@ -72,7 +72,8 @@ func applyFlagReflect(rv reflect.Value, fname string, fvalue interface{}) (bool,
 			// Otherwise it's "offensive" programming.
 			fmt.Fprintf(
 				os.Stderr,
-				"WARN: non-anonymous option field found (%s) with no flag name; in the future this will panic at start of program\n",
+				"WARN: non-anonymous option field found (%s) with no flag name; "+
+					"in the future this will panic at start of program\n",
 				rtf.Name,
 			)
 		} else if ffn == fname {
@@ -229,7 +230,8 @@ func applyFlagToFieldReflectString(frv reflect.Value, fvalue string) error {
 		frv.SetUint(fnum)
 		return nil
 	case reflect.String:
-		// XXX is there something wrong with os.Args? why does it strip '/", and then not unescape \n and \t while unescaping \\?
+		// XXX is there something wrong with os.Args? why does it strip '/",
+		// and then not unescape \n and \t while unescaping \\?
 		fvalue = strings.ReplaceAll(fvalue, `\n`, "\n")
 		fvalue = strings.ReplaceAll(fvalue, `\t`, "\t")
 		frv.SetString(fvalue)

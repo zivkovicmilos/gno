@@ -35,7 +35,7 @@ func RegisterRPCFuncs(mux *http.ServeMux, funcMap map[string]*RPCFunc, logger lo
 	mux.HandleFunc("/", handleInvalidJSONRPCPaths(makeJSONRPCHandler(funcMap, logger)))
 }
 
-//-------------------------------------
+// -------------------------------------
 // function introspection
 
 // RPCFunc contains the introspected type information for a function
@@ -95,7 +95,7 @@ func funcReturnTypes(f interface{}) []reflect.Type {
 }
 
 // function introspection
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // rpc.json
 
 // jsonrpc calls grab the given method's function info and runs reflect.Call
@@ -133,11 +133,19 @@ func makeJSONRPCHandler(funcMap map[string]*RPCFunc, logger log.Logger) http.Han
 			// A Notification is a Request object without an "id" member.
 			// The Server MUST NOT reply to a Notification, including those that are within a batch request.
 			if request.ID == types.JSONRPCStringID("") {
-				logger.Debug("HTTPJSONRPC received a notification, skipping... (please send a non-empty ID if you want to call a method)")
+				logger.Debug(
+					"HTTPJSONRPC received a notification, skipping... (please send a non-empty ID if you want to call a method)",
+				)
 				continue
 			}
 			if len(r.URL.Path) > 1 {
-				responses = append(responses, types.RPCInvalidRequestError(request.ID, errors.New("path %s is invalid", r.URL.Path)))
+				responses = append(
+					responses,
+					types.RPCInvalidRequestError(
+						request.ID,
+						errors.New("path %s is invalid", r.URL.Path),
+					),
+				)
 				continue
 			}
 			rpcFunc, ok := funcMap[request.Method]
@@ -150,7 +158,13 @@ func makeJSONRPCHandler(funcMap map[string]*RPCFunc, logger log.Logger) http.Han
 			if len(request.Params) > 0 {
 				fnArgs, err := jsonParamsToArgs(rpcFunc, request.Params)
 				if err != nil {
-					responses = append(responses, types.RPCInvalidParamsError(request.ID, errors.Wrap(err, "error converting json params to arguments")))
+					responses = append(
+						responses,
+						types.RPCInvalidParamsError(
+							request.ID,
+							errors.Wrap(err, "error converting json params to arguments"),
+						),
+					)
 					continue
 				}
 				args = append(args, fnArgs...)
@@ -252,7 +266,7 @@ func jsonParamsToArgs(rpcFunc *RPCFunc, raw []byte) ([]reflect.Value, error) {
 }
 
 // rpc.json
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // rpc.http
 
 // convert from a function name to the http handler
@@ -273,7 +287,13 @@ func makeHTTPHandler(rpcFunc *RPCFunc, logger log.Logger) func(http.ResponseWrit
 
 		fnArgs, err := httpParamsToArgs(rpcFunc, r)
 		if err != nil {
-			WriteRPCResponseHTTP(w, types.RPCInvalidParamsError(types.JSONRPCStringID(""), errors.Wrap(err, "error converting http params to arguments")))
+			WriteRPCResponseHTTP(
+				w,
+				types.RPCInvalidParamsError(
+					types.JSONRPCStringID(""),
+					errors.Wrap(err, "error converting http params to arguments"),
+				),
+			)
 			return
 		}
 		args = append(args, fnArgs...)
@@ -415,7 +435,7 @@ func _nonJSONStringToArg(rt reflect.Type, arg string) (reflect.Value, error, boo
 }
 
 // rpc.http
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // rpc.websocket
 
 const (
@@ -749,7 +769,7 @@ func (wsc *wsConnection) writeMessageWithDeadline(msgType int, msg []byte) error
 	return wsc.baseConn.WriteMessage(msgType, msg)
 }
 
-//----------------------------------------
+// ----------------------------------------
 
 // WebsocketManager provides a WS handler for incoming connections and passes a
 // map of functions along with any additional params to new connections.
@@ -804,7 +824,7 @@ func (wm *WebsocketManager) WebsocketHandler(w http.ResponseWriter, r *http.Requ
 }
 
 // rpc.websocket
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 // NOTE: assume returns is result struct and error. If error is not nil, return it
 func unreflectResult(returns []reflect.Value) (interface{}, error) {

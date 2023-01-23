@@ -58,7 +58,7 @@ func TestMain(m *testing.M) {
 // the `Handshake Tests` are for failures in applying the block.
 // With the help of the WAL, we can recover from it all!
 
-//------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 // WAL Tests
 
 // TODO: It would be better to verify explicitly which states we can recover from without the wal
@@ -281,7 +281,10 @@ func (w *crashingWAL) WriteSync(m walm.WALMessage) error {
 
 func (w *crashingWAL) FlushAndSync() error { return w.next.FlushAndSync() }
 
-func (w *crashingWAL) SearchForHeight(height int64, options *walm.WALSearchOptions) (rd io.ReadCloser, found bool, err error) {
+func (w *crashingWAL) SearchForHeight(
+	height int64,
+	options *walm.WALSearchOptions,
+) (rd io.ReadCloser, found bool, err error) {
 	return w.next.SearchForHeight(height, options)
 }
 
@@ -304,7 +307,7 @@ const (
 
 var mempool = mock.Mempool{}
 
-//---------------------------------------
+// ---------------------------------------
 // Test handshake/replay
 
 // 0 - all synced up
@@ -886,7 +889,13 @@ func makeBlock(state sm.State, lastBlock *types.Block, lastBlockMeta *types.Bloc
 ) (*types.Block, *types.PartSet) {
 	lastCommit := types.NewCommit(types.BlockID{}, nil)
 	if height > 1 {
-		vote, _ := types.MakeVote(lastBlock.Header.Height, lastBlockMeta.BlockID, state.Validators, privVal, lastBlock.Header.ChainID)
+		vote, _ := types.MakeVote(
+			lastBlock.Header.Height,
+			lastBlockMeta.BlockID,
+			state.Validators,
+			privVal,
+			lastBlock.Header.ChainID,
+		)
 		voteCommitSig := vote.CommitSig()
 		lastCommit = types.NewCommit(lastBlockMeta.BlockID, []*types.CommitSig{voteCommitSig})
 	}
@@ -919,7 +928,7 @@ func (app *badApp) Commit() (res abci.ResponseCommit) {
 	panic("either allHashesAreWrong or onlyLastHashIsWrong must be set")
 }
 
-//--------------------------
+// --------------------------
 // utils for making blocks
 
 func makeBlockchainFromWAL(wal walm.WAL) ([]*types.Block, []*types.Commit, error) {
@@ -1041,7 +1050,7 @@ func makeStateAndStore(config *cfg.Config, pubKey crypto.PubKey, appVersion stri
 	return stateDB, state, store
 }
 
-//----------------------------------
+// ----------------------------------
 // mock block store
 
 type mockBlockStore struct {
@@ -1077,7 +1086,7 @@ func (bs *mockBlockStore) LoadSeenCommit(height int64) *types.Commit {
 	return bs.commits[height-1]
 }
 
-//---------------------------------------
+// ---------------------------------------
 // Test handshake/init chain
 
 func TestHandshakeUpdatesValidators(t *testing.T) {

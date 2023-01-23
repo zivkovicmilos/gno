@@ -1,3 +1,4 @@
+//nolint:lll
 package rpcserver_test
 
 import (
@@ -18,11 +19,11 @@ import (
 	"github.com/gnolang/gno/pkgs/log"
 )
 
-//////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
 // HTTP REST API
 // TODO
 
-//////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
 // JSON-RPC over HTTP
 
 func testMux() *http.ServeMux {
@@ -229,7 +230,7 @@ func TestUnknownRPCPath(t *testing.T) {
 	require.Equal(t, http.StatusNotFound, res.StatusCode, "should always return 404")
 }
 
-//////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
 // JSON-RPC over WEBSOCKETS
 
 func TestWebsocketManagerHandler(t *testing.T) {
@@ -246,7 +247,14 @@ func TestWebsocketManagerHandler(t *testing.T) {
 	}
 
 	// check basic functionality works
-	req, err := types.MapToRequest(types.JSONRPCStringID("TestWebsocketManager"), "c", map[string]interface{}{"s": "a", "i": 10})
+	req, err := types.MapToRequest(
+		types.JSONRPCStringID("TestWebsocketManager"),
+		"c",
+		map[string]interface{}{
+			"s": "a",
+			"i": 10,
+		},
+	)
 	require.NoError(t, err)
 	err = c.WriteJSON(req)
 	require.NoError(t, err)

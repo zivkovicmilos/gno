@@ -448,7 +448,15 @@ func TestAnteHandlerMultiSigner(t *testing.T) {
 	checkValidTx(t, anteHandler, ctx, tx, false)
 
 	// expected seqs = [3, 2, 2]
-	tx = tu.NewTestTxWithMemo(ctx.ChainID(), msgs, privs, accnums, []uint64{3, 2, 2}, fee, "Check signers are in expected order and different account numbers and sequence numbers works")
+	tx = tu.NewTestTxWithMemo(
+		ctx.ChainID(),
+		msgs,
+		privs,
+		accnums,
+		[]uint64{3, 2, 2},
+		fee,
+		"Check signers are in expected order and different account numbers and sequence numbers works",
+	)
 	checkValidTx(t, anteHandler, ctx, tx, false)
 }
 
@@ -605,9 +613,37 @@ func TestProcessPubKey(t *testing.T) {
 	}{
 		{"no sigs, simulate off", args{acc1, std.Signature{}, false}, true},
 		{"no sigs, simulate on", args{acc1, std.Signature{}, true}, false},
-		{"no sigs, account with pub, simulate on", args{acc2, std.Signature{}, true}, false},
-		{"pubkey doesn't match addr, simulate off", args{acc1, std.Signature{PubKey: priv2.PubKey()}, false}, true},
-		{"pubkey doesn't match addr, simulate on", args{acc1, std.Signature{PubKey: priv2.PubKey()}, true}, false},
+		{
+			"no sigs, account with pub, simulate on",
+			args{
+				acc2,
+				std.Signature{},
+				true,
+			},
+			false,
+		},
+		{
+			"pubkey doesn't match addr, simulate off",
+			args{
+				acc1,
+				std.Signature{
+					PubKey: priv2.PubKey(),
+				},
+				false,
+			},
+			true,
+		},
+		{
+			"pubkey doesn't match addr, simulate on",
+			args{
+				acc1,
+				std.Signature{
+					PubKey: priv2.PubKey(),
+				},
+				true,
+			},
+			false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -641,10 +677,49 @@ func TestConsumeSignatureVerificationGas(t *testing.T) {
 		gasConsumed int64
 		shouldErr   bool
 	}{
-		{"PubKeyEd25519", args{store.NewInfiniteGasMeter(), nil, ed25519.GenPrivKey().PubKey(), params}, DefaultSigVerifyCostED25519, true},
-		{"PubKeySecp256k1", args{store.NewInfiniteGasMeter(), nil, secp256k1.GenPrivKey().PubKey(), params}, DefaultSigVerifyCostSecp256k1, false},
-		{"Multisig", args{store.NewInfiniteGasMeter(), amino.MustMarshal(multisignature1), multisigKey1, params}, expectedCost1, false},
-		{"unknown key", args{store.NewInfiniteGasMeter(), nil, nil, params}, 0, true},
+		{
+			"PubKeyEd25519",
+			args{
+				store.NewInfiniteGasMeter(),
+				nil,
+				ed25519.GenPrivKey().PubKey(),
+				params,
+			},
+			DefaultSigVerifyCostED25519,
+			true,
+		},
+		{
+			"PubKeySecp256k1",
+			args{
+				store.NewInfiniteGasMeter(),
+				nil,
+				secp256k1.GenPrivKey().PubKey(),
+				params,
+			},
+			DefaultSigVerifyCostSecp256k1,
+			false,
+		},
+		{
+			"Multisig",
+			args{
+				store.NewInfiniteGasMeter(),
+				amino.MustMarshal(multisignature1),
+				multisigKey1,
+				params,
+			},
+			expectedCost1,
+			false,
+		},
+		{
+			"unknown key",
+			args{
+				store.NewInfiniteGasMeter(),
+				nil,
+				nil,
+				params,
+			},
+			0,
+			true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -654,7 +729,16 @@ func TestConsumeSignatureVerificationGas(t *testing.T) {
 				require.False(t, res.IsOK())
 			} else {
 				require.True(t, res.IsOK())
-				require.Equal(t, tt.gasConsumed, tt.args.meter.GasConsumed(), fmt.Sprintf("%d != %d", tt.gasConsumed, tt.args.meter.GasConsumed()))
+				require.Equal(
+					t,
+					tt.gasConsumed,
+					tt.args.meter.GasConsumed(),
+					fmt.Sprintf(
+						"%d != %d",
+						tt.gasConsumed,
+						tt.args.meter.GasConsumed(),
+					),
+				)
 			}
 		})
 	}
