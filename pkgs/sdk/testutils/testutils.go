@@ -20,7 +20,6 @@ func NewTestMsg(addrs ...crypto.Address) *TestMsg {
 	}
 }
 
-// nolint
 func (msg *TestMsg) Route() string { return "TestMsg" }
 func (msg *TestMsg) Type() string  { return "Test message" }
 func (msg *TestMsg) GetSignBytes() []byte {

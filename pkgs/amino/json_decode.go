@@ -92,7 +92,7 @@ func (cdc *Codec) decodeReflectJSON(bz []byte, info *TypeInfo, rv reflect.Value,
 	case reflect.Uint64, reflect.Uint:
 		if bz[0] != '"' || bz[len(bz)-1] != '"' {
 			err = errors.New(
-				"invalid character -- Amino:JSON int/int64/uint/uint64 expects quoted values for javascript numeric support, got: %v", // nolint: lll
+				"invalid character -- Amino:JSON int/int64/uint/uint64 expects quoted values for javascript numeric support, got: %v", //nolint: lll
 				string(bz),
 			)
 			if err != nil {

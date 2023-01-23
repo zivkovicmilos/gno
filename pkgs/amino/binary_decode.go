@@ -912,7 +912,7 @@ func (cdc *Codec) decodeReflectBinaryStruct(bz []byte, info *TypeInfo, rv reflec
 			fmt.Printf("(d) -> err: %v\n", err)
 		}()
 	}
-	_n := 0 // nolint: ineffassign
+	_n := 0 //nolint: ineffassign
 
 	// NOTE: The "Struct" typ3 doesn't get read here.
 	// It's already implied, either by struct-key or list-element-type-byte.

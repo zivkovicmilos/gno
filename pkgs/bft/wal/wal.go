@@ -655,7 +655,7 @@ func (dec *WALReader) ReadMessage() (*TimedWALMessage, *MetaMessage, error) {
 	}
 
 	// decode amino sized bytes.
-	res := new(TimedWALMessage) // nolint: gosimple
+	res := new(TimedWALMessage) //nolint: gosimple
 	err = amino.UnmarshalSized(twmBytes, res)
 	if err != nil {
 		return nil, nil, DataCorruptionError{fmt.Errorf("failed to decode twmBytes: %v", err)}
