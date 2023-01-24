@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 
 	// Ignore pprof import, as the server does not
 	// handle http requests if the user doesn't enable them
@@ -32,7 +33,12 @@ func init() {
 			// curl -sK -v http://localhost:8080/debug/pprof/heap > heap.out
 			// curl -sK -v http://localhost:8080/debug/pprof/allocs > allocs.out
 			// see https://gist.github.com/slok/33dad1d0d0bae07977e6d32bcc010188.
-			http.ListenAndServe("localhost:8080", nil)
+
+			server := &http.Server{
+				Addr:              "localhost:8080",
+				ReadHeaderTimeout: 60 * time.Second,
+			}
+			server.ListenAndServe()
 		}()
 	}
 }
