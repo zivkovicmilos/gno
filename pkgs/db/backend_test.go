@@ -9,6 +9,8 @@ import (
 )
 
 func testBackendGetSetDelete(t *testing.T, backend BackendType) {
+	t.Helper()
+
 	// Default
 	db := NewDB("testdb", backend, t.TempDir())
 
@@ -46,6 +48,8 @@ func TestBackendsGetSetDelete(t *testing.T) {
 }
 
 func withDB(t *testing.T, creator dbCreator, fn func(DB)) {
+	t.Helper()
+
 	name := fmt.Sprintf("test_%x", randStr(12))
 	db, err := creator(name, t.TempDir())
 	require.Nil(t, err)
@@ -142,6 +146,8 @@ func TestGoLevelDBBackend(t *testing.T) {
 func TestDBIterator(t *testing.T) {
 	for dbType := range backends {
 		t.Run(fmt.Sprintf("%v", dbType), func(t *testing.T) {
+			t.Helper()
+
 			testDBIterator(t, dbType)
 		})
 	}

@@ -190,6 +190,8 @@ func (mockIterator) Close() {
 }
 
 func benchmarkRandomReadsWrites(b *testing.B, db DB) {
+	b.Helper()
+
 	b.StopTimer()
 
 	// create dummy data

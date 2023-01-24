@@ -50,6 +50,8 @@ func newMempoolWithAppAndConfig(cc proxy.ClientCreator, config *cfg.MempoolConfi
 }
 
 func ensureNoFire(t *testing.T, ch <-chan struct{}, timeoutMS int) {
+	t.Helper()
+
 	timer := time.NewTimer(time.Duration(timeoutMS) * time.Millisecond)
 	select {
 	case <-ch:
@@ -59,6 +61,8 @@ func ensureNoFire(t *testing.T, ch <-chan struct{}, timeoutMS int) {
 }
 
 func ensureFire(t *testing.T, ch <-chan struct{}, timeoutMS int) {
+	t.Helper()
+
 	timer := time.NewTimer(time.Duration(timeoutMS) * time.Millisecond)
 	select {
 	case <-ch:
@@ -68,6 +72,8 @@ func ensureFire(t *testing.T, ch <-chan struct{}, timeoutMS int) {
 }
 
 func checkTxs(t *testing.T, mempool Mempool, count int, peerID uint16, failOnCheckTxError bool) types.Txs {
+	t.Helper()
+
 	txs := make(types.Txs, count)
 	txInfo := TxInfo{SenderID: peerID}
 	for i := 0; i < count; i++ {
@@ -330,7 +336,7 @@ func TestSerialReap(t *testing.T) {
 		}
 	}
 
-	//----------------------------------------
+	// ----------------------------------------
 
 	// Deliver some txs.
 	deliverTxsRange(0, 100)
