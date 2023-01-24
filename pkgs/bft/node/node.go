@@ -1,10 +1,13 @@
 package node
 
+// Ignore pprof import for gosec, as profiling
+// is enabled by the user by setting a profiling address
+
 import (
 	"fmt"
 	"net"
 	"net/http"
-	_ "net/http/pprof"
+	_ "net/http/pprof" //nolint:gosec
 	"strings"
 	"time"
 

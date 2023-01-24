@@ -5,6 +5,10 @@ import (
 	"net/http"
 	"os"
 
+	// Ignore pprof import, as the server does not
+	// handle http requests if the user doesn't enable them
+	// outright by using environment variables (starts serving)
+	//nolint:gosec
 	_ "net/http/pprof"
 )
 
@@ -66,7 +70,7 @@ func (d debugging) Errorf(format string, args ...interface{}) {
 	}
 }
 
-//----------------------------------------
+// ----------------------------------------
 // Exposed errors accessors
 // File tests may access debug errors.
 
