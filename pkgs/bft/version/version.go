@@ -16,9 +16,9 @@ var (
 
 func init() {
 	// Defensive checks
-	if abciver.Version != "v1.0.0-rc.0" ||
-		bcver.Version != "v1.0.0-rc.0" ||
-		p2pver.Version != "v1.0.0-rc.0" {
+	if abciver.Version != Version ||
+		bcver.Version != Version ||
+		p2pver.Version != Version {
 		panic("bump Version")
 	}
 
