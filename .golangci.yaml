@@ -42,6 +42,10 @@ linters-settings:
   goconst:
     min-len: 3
     min-occurrences: 3
+  gosec:
+    excludes:
+      - G204 # Subprocess launched with a potential tainted input or cmd arguments
+      - G306 # Expect WriteFile permissions to be 0600 or less
 
 issues:
   whole-files: true
