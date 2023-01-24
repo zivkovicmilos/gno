@@ -38,6 +38,8 @@ func destroyTestGroup(t *testing.T, g *Group) {
 }
 
 func assertGroupInfo(t *testing.T, gInfo GroupInfo, minIndex, maxIndex int, totalSize, headSize int64) {
+	t.Helper()
+
 	assert.Equal(t, minIndex, gInfo.MinIndex)
 	assert.Equal(t, maxIndex, gInfo.MaxIndex)
 	assert.Equal(t, totalSize, gInfo.TotalSize)

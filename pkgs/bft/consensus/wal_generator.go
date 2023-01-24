@@ -139,6 +139,8 @@ func makeAddrs() (string, string, string) {
 
 // getConfig returns a config for test cases
 func getConfig(t *testing.T) *cfg.Config {
+	t.Helper()
+
 	c := cfg.ResetTestRoot(t.Name())
 
 	// and we use random ports to run in parallel

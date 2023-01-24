@@ -154,6 +154,8 @@ func TestDBIterator(t *testing.T) {
 }
 
 func testDBIterator(t *testing.T, backend BackendType) {
+	t.Helper()
+
 	name := fmt.Sprintf("test_%x", randStr(12))
 	db := NewDB(name, backend, t.TempDir())
 
@@ -207,6 +209,8 @@ func testDBIterator(t *testing.T, backend BackendType) {
 }
 
 func verifyIterator(t *testing.T, itr Iterator, expected []int64, msg string) {
+	t.Helper()
+
 	var list []int64
 	for itr.Valid() {
 		list = append(list, bytes2Int64(itr.Key()))
