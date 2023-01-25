@@ -85,7 +85,7 @@ func NewMnemonic(entropy []byte) (string, error) {
 // An error is returned if the mnemonic is invalid.
 func MnemonicToByteArray(mnemonic string) ([]byte, error) {
 	if !IsMnemonicValid(mnemonic) {
-		return nil, fmt.Errorf("Invalid mnemonic")
+		return nil, fmt.Errorf("invalid mnemonic")
 	}
 	mnemonicSlice := strings.Split(mnemonic, " ")
 
@@ -101,7 +101,7 @@ func MnemonicToByteArray(mnemonic string) ([]byte, error) {
 	for _, v := range mnemonicSlice {
 		index, found := ReverseWordMap[v]
 		if !found {
-			return nil, fmt.Errorf("Word `%v` not found in reverse map", v)
+			return nil, fmt.Errorf("word `%v` not found in reverse map", v)
 		}
 		add := big.NewInt(int64(index))
 		b = b.Mul(b, modulo)
@@ -150,7 +150,7 @@ func MnemonicToByteArray(mnemonic string) ([]byte, error) {
 	}
 	for i := range validationHex {
 		if hex[i] != validationHex[i] {
-			return nil, fmt.Errorf("Invalid byte at position %v", i)
+			return nil, fmt.Errorf("invalid byte at position %v", i)
 		}
 	}
 	return hex, nil

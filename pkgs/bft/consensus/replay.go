@@ -66,7 +66,7 @@ func (cs *ConsensusState) readReplayMessage(
 					return fmt.Errorf("RoundState mismatch. Got %v; Expected %v", m2, m)
 				}
 			case <-ticker:
-				return fmt.Errorf("Failed to read off newStepSub.")
+				return fmt.Errorf("failed to read off newStepSub")
 			}
 		}
 	case msgInfo:
