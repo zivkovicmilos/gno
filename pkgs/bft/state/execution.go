@@ -333,7 +333,7 @@ func validateValidatorUpdates(abciUpdates []abci.ValidatorUpdate,
 		// Check if validator's pubkey matches an ABCI type in the consensus params
 		pubkeyTypeURL := amino.GetTypeURL(valUpdate.PubKey)
 		if !params.IsValidPubKeyTypeURL(pubkeyTypeURL) {
-			return fmt.Errorf("Validator %v is using pubkey %s, which is unsupported for consensus",
+			return fmt.Errorf("validator %v is using pubkey %s, which is unsupported for consensus",
 				valUpdate, pubkeyTypeURL)
 		}
 	}

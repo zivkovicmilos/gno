@@ -50,7 +50,7 @@ func (b *Block) ValidateBasic() error {
 
 	newTxs := int64(len(b.Data.Txs))
 	if b.NumTxs != newTxs {
-		return fmt.Errorf("Wrong Header.NumTxs. Expected %v, got %v",
+		return fmt.Errorf("wrong Header.NumTxs. Expected %v, got %v",
 			newTxs,
 			b.NumTxs,
 		)
@@ -574,17 +574,17 @@ func (commit *Commit) ValidateBasic() error {
 		}
 		// Ensure that all votes are precommits.
 		if precommit.Type != PrecommitType {
-			return fmt.Errorf("Invalid commit vote. Expected precommit, got %v",
+			return fmt.Errorf("invalid commit vote. Expected precommit, got %v",
 				precommit.Type)
 		}
 		// Ensure that all heights are the same.
 		if precommit.Height != height {
-			return fmt.Errorf("Invalid commit precommit height. Expected %v, got %v",
+			return fmt.Errorf("invalid commit precommit height. Expected %v, got %v",
 				height, precommit.Height)
 		}
 		// Ensure that all rounds are the same.
 		if precommit.Round != round {
-			return fmt.Errorf("Invalid commit precommit round. Expected %v, got %v",
+			return fmt.Errorf("invalid commit precommit round. Expected %v, got %v",
 				round, precommit.Round)
 		}
 	}
@@ -761,10 +761,10 @@ func (blockID BlockID) Key() string {
 func (blockID BlockID) ValidateBasic() error {
 	// Hash can be empty in case of POLBlockID in Proposal.
 	if err := ValidateHash(blockID.Hash); err != nil {
-		return fmt.Errorf("Wrong Hash")
+		return fmt.Errorf("wrong Hash")
 	}
 	if err := blockID.PartsHeader.ValidateBasic(); err != nil {
-		return fmt.Errorf("Wrong PartsHeader: %v", err)
+		return fmt.Errorf("wrong PartsHeader: %v", err)
 	}
 	return nil
 }

@@ -1602,7 +1602,7 @@ func (m *VoteSetMaj23Message) ValidateBasic() error {
 		return errors.New("Invalid Type")
 	}
 	if err := m.BlockID.ValidateBasic(); err != nil {
-		return fmt.Errorf("Wrong BlockID: %v", err)
+		return fmt.Errorf("wrong BlockID: %v", err)
 	}
 	return nil
 }
@@ -1635,11 +1635,11 @@ func (m *VoteSetBitsMessage) ValidateBasic() error {
 		return errors.New("Invalid Type")
 	}
 	if err := m.BlockID.ValidateBasic(); err != nil {
-		return fmt.Errorf("Wrong BlockID: %v", err)
+		return fmt.Errorf("wrong BlockID: %v", err)
 	}
 	// NOTE: Votes.Size() can be zero if the node does not have any
 	if m.Votes.Size() > types.MaxVotesCount {
-		return fmt.Errorf("Votes bit array is too big: %d, max: %d", m.Votes.Size(), types.MaxVotesCount)
+		return fmt.Errorf("votes bit array is too big: %d, max: %d", m.Votes.Size(), types.MaxVotesCount)
 	}
 	return nil
 }
