@@ -206,7 +206,7 @@ func padByteSlice(slice []byte, length int) []byte {
 
 func validateEntropyBitSize(bitSize int) error {
 	if (bitSize%32) != 0 || bitSize < 128 || bitSize > 256 {
-		return errors.New("Entropy length must be [128, 256] and a multiple of 32")
+		return errors.New("entropy length must be [128, 256] and a multiple of 32")
 	}
 	return nil
 }
@@ -214,7 +214,7 @@ func validateEntropyBitSize(bitSize int) error {
 func validateEntropyWithChecksumBitSize(bitSize int) error {
 	if (bitSize != 128+4) && (bitSize != 160+5) && (bitSize != 192+6) && (bitSize != 224+7) && (bitSize != 256+8) {
 		return fmt.Errorf(
-			"Wrong entropy + checksum size - expected %v, got %v",
+			"wrong entropy + checksum size - expected %v, got %v",
 			int((bitSize-bitSize%32)+(bitSize-bitSize%32)/32),
 			bitSize,
 		)

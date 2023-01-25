@@ -245,7 +245,7 @@ func (pkg *Package) FullNameForType(rt reflect.Type) string {
 	}
 	t, ok := pkg.GetType(drt)
 	if !ok {
-		panic(fmt.Errorf("Unknown type %v", drt))
+		panic(fmt.Errorf("unknown type %v", drt))
 	}
 	return t.FullName(pkg)
 }
@@ -267,7 +267,7 @@ func (pkg *Package) GetDependency(gopkg string) (*Package, error) {
 			return pkg, nil
 		}
 	}
-	return nil, fmt.Errorf("Go package not declared a (in)direct dependency of %v",
+	return nil, fmt.Errorf("go package not declared a (in)direct dependency of %v",
 		pkg.GoPkgPath)
 }
 

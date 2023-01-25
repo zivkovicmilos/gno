@@ -1366,7 +1366,7 @@ type ConsensusMessage interface {
 
 func decodeMsg(bz []byte) (msg ConsensusMessage, err error) {
 	if len(bz) > maxMsgSize {
-		return msg, fmt.Errorf("Msg exceeds max size (%d > %d)", len(bz), maxMsgSize)
+		return msg, fmt.Errorf("msg exceeds max size (%d > %d)", len(bz), maxMsgSize)
 	}
 	err = amino.Unmarshal(bz, &msg)
 	return
@@ -1433,7 +1433,7 @@ func (m *NewValidBlockMessage) ValidateBasic() error {
 		return errors.New("Negative Round")
 	}
 	if err := m.BlockPartsHeader.ValidateBasic(); err != nil {
-		return fmt.Errorf("Wrong BlockPartsHeader: %v", err)
+		return fmt.Errorf("wrong BlockPartsHeader: %v", err)
 	}
 	if m.BlockParts.Size() == 0 {
 		return errors.New("Empty BlockParts")
@@ -1521,7 +1521,7 @@ func (m *BlockPartMessage) ValidateBasic() error {
 		return errors.New("Negative Round")
 	}
 	if err := m.Part.ValidateBasic(); err != nil {
-		return fmt.Errorf("Wrong Part: %v", err)
+		return fmt.Errorf("wrong Part: %v", err)
 	}
 	return nil
 }

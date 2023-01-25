@@ -323,7 +323,7 @@ func validateValidatorUpdates(abciUpdates []abci.ValidatorUpdate,
 ) error {
 	for _, valUpdate := range abciUpdates {
 		if valUpdate.Power < 0 {
-			return fmt.Errorf("Voting power can't be negative %v", valUpdate)
+			return fmt.Errorf("voting power can't be negative %v", valUpdate)
 		} else if valUpdate.Power == 0 {
 			// continue, since this is deleting the validator, and thus there is no
 			// pubkey to check
