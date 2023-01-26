@@ -186,7 +186,7 @@ func (d *decoder) Read(p []byte) (n int, err error) {
 		numCopy = copy(d.arr[:], d.in) // Copies either 0 or 1 bytes
 		numRead, d.err = d.r.Read(d.arr[numCopy:])
 		d.in = d.arr[:numCopy+numRead]
-		if errors.Is(d.err, io.EOF) && len(d.in)%2 != 0 {
+		if d.err == io.EOF && len(d.in)%2 != 0 {
 			if _, ok := fromHexChar(d.in[len(d.in)-1]); !ok {
 				d.err = InvalidByteError(d.in[len(d.in)-1])
 			} else {

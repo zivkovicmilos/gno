@@ -300,7 +300,7 @@ func TestMultiReaderFinalEOF(t *testing.T) {
 	r := io.MultiReader(bytes.NewReader(nil), byteAndEOFReader('a'))
 	buf := make([]byte, 2)
 	n, err := r.Read(buf)
-	if n != 1 || !errors.Is(err, io.EOF) {
+	if n != 1 || err != io.EOF {
 		t.Errorf("got %v, %v; want 1, EOF", n, err)
 	}
 }

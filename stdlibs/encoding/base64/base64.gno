@@ -7,7 +7,6 @@ package base64
 
 import (
 	"encoding/binary"
-	"errors"
 	"io"
 	"strconv"
 )
@@ -459,7 +458,7 @@ func (d *decoder) Read(p []byte) (n int, err error) {
 			}
 		}
 		d.err = d.readErr
-		if errors.Is(d.err, io.EOF) && d.nbuf > 0 {
+		if d.err == io.EOF && d.nbuf > 0 {
 			d.err = io.ErrUnexpectedEOF
 		}
 		return 0, d.err
