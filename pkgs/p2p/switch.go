@@ -432,7 +432,6 @@ func (sw *Switch) dialPeersAsync(netAddrs []*NetAddress) {
 
 			err := sw.DialPeerWithAddress(addr)
 			if err != nil {
-				//nolint:errorlint
 				switch err.(type) {
 				case SwitchConnectToSelfError, SwitchDuplicatePeerIDError, CurrentlyDialingOrExistingAddressError:
 					sw.Logger.Debug("Error dialing peer", "err", err)
@@ -514,7 +513,6 @@ func (sw *Switch) acceptRoutine() {
 			isPersistent: sw.isPeerPersistentFn(),
 		})
 		if err != nil {
-			//nolint:errorlint
 			switch err := err.(type) {
 			case RejectedError:
 				if err.IsSelf() {

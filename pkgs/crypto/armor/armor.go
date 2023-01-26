@@ -20,7 +20,7 @@ func EncodeArmor(blockType string, headers map[string]string, data []byte) strin
 	}
 	err = w.Close()
 	if err != nil {
-		panic(fmt.Errorf("could not encode ascii armor: %s", err))
+		panic(fmt.Errorf("could not encode ascii armor: %w", err))
 	}
 	return buf.String()
 }
