@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -17,7 +18,7 @@ func (a readAutoCloser) Read(b []byte) (n int, err error) {
 		return 0, io.EOF
 	}
 	n, err = a.r.Read(b)
-	if err == io.EOF {
+	if errors.Is(err, io.EOF) {
 		a.Close()
 	}
 	return n, err
@@ -55,7 +56,7 @@ func ReadAll(r Reader) ([]byte, error) {
 		n, err := r.Read(b[len(b):cap(b)])
 		b = b[:len(b)+n]
 		if err != nil {
-			if err == io.EOF {
+			if errors.Is(err, io.EOF) {
 				err = nil
 			}
 			return b, err

@@ -144,6 +144,7 @@ func TestPeerSetAddDuplicate(t *testing.T) {
 	for i := 0; i < n; i++ {
 		err := <-errsChan
 
+		//nolint:errorlint
 		switch err.(type) {
 		case SwitchDuplicatePeerIDError:
 			errsTally["duplicateID"]++

@@ -586,7 +586,7 @@ func (cdc *Codec) decodeReflectBinaryArray(bz []byte, info *TypeInfo, rv reflect
 			var _n int
 			_n, err = cdc.decodeReflectBinary(bz, einfo, erv, fopts, false, newoptions)
 			if slide(&bz, &n, _n) && err != nil {
-				err = fmt.Errorf("error reading array contents: %v", err)
+				err = fmt.Errorf("error reading array contents: %w", err)
 				return
 			}
 		}
@@ -663,7 +663,7 @@ func (cdc *Codec) decodeReflectBinaryArray(bz []byte, info *TypeInfo, rv reflect
 				efopts.BinFieldNum = 0 // dontcare
 				_n, err = cdc.decodeReflectBinary(ibz, einfo, erv, efopts, false, 0)
 				if slide(&ibz, &n, _n) && err != nil {
-					err = fmt.Errorf("error reading array contents: %v", err)
+					err = fmt.Errorf("error reading array contents: %w", err)
 					return
 				}
 				// Ensure that there are no more bytes left.

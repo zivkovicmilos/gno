@@ -221,7 +221,7 @@ func TestCopyNEOF(t *testing.T) {
 	}
 
 	n, err = io.CopyN(&noReadFrom{b}, strings.NewReader("foo"), 4)
-	if n != 3 || err != io.EOF {
+	if n != 3 || !errors.Is(err, io.EOF) {
 		t.Errorf("CopyN(noReadFrom, foo, 4) = %d, %v; want 3, EOF", n, err)
 	}
 
@@ -231,7 +231,7 @@ func TestCopyNEOF(t *testing.T) {
 	}
 
 	n, err = io.CopyN(b, strings.NewReader("foo"), 4) // b has read from
-	if n != 3 || err != io.EOF {
+	if n != 3 || !errors.Is(err, io.EOF) {
 		t.Errorf("CopyN(bytes.Buffer, foo, 4) = %d, %v; want 3, EOF", n, err)
 	}
 
@@ -303,7 +303,7 @@ func testReadAtLeast(t *testing.T, rb io.ReadWriter) {
 		t.Errorf("expected to have read 2 bytes, got %v", n)
 	}
 	n, err = io.ReadAtLeast(rb, buf, 2)
-	if err != io.EOF {
+	if !errors.Is(err, io.EOF) {
 		t.Errorf("expected EOF, got %v", err)
 	}
 	if n != 0 {
@@ -312,7 +312,7 @@ func testReadAtLeast(t *testing.T, rb io.ReadWriter) {
 	rb.Write([]byte("4"))
 	n, err = io.ReadAtLeast(rb, buf, 2)
 	want := io.ErrUnexpectedEOF
-	if rb, ok := rb.(*dataAndErrorBuffer); ok && rb.err != io.EOF {
+	if rb, ok := rb.(*dataAndErrorBuffer); ok && rb.!errors.Is(err, io.EOF) {
 		want = rb.err
 	}
 	if err != want {
@@ -339,7 +339,7 @@ func TestTeeReader(t *testing.T) {
 	if !bytes.Equal(wb.Bytes(), src) {
 		t.Errorf("bytes written = %q want %q", wb.Bytes(), src)
 	}
-	if n, err := r.Read(dst); n != 0 || err != io.EOF {
+	if n, err := r.Read(dst); n != 0 || !errors.Is(err, io.EOF) {
 		t.Errorf("r.Read at EOF = %d, %v want 0, EOF", n, err)
 	}
 	rb = bytes.NewBuffer(src)
@@ -409,7 +409,7 @@ func TestSectionReader_Seek(t *testing.T) {
 	}
 
 	n, err := sr.Read(make([]byte, 10))
-	if n != 0 || err != io.EOF {
+	if n != 0 || !errors.Is(err, io.EOF) {
 		t.Errorf("Read = %v, %v; want 0, EOF", n, err)
 	}
 }

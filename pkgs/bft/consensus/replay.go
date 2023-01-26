@@ -2,6 +2,7 @@ package consensus
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"hash/crc32"
 	"io"
@@ -127,7 +128,7 @@ func (cs *ConsensusState) catchupReplay(csHeight int64) error {
 	//
 	// Ignore data corruption errors in previous heights because we only care about last height
 	gr, found, err = cs.wal.SearchForHeight(csHeight, &walm.WALSearchOptions{IgnoreDataCorruptionErrors: true})
-	if err == io.EOF {
+	if errors.Is(err, io.EOF) {
 		cs.Logger.Error("Replay: wal.group.Search returned EOF", "#ENDHEIGHT", csHeight-1)
 	} else if err != nil {
 		return err
@@ -145,7 +146,7 @@ LOOP:
 	for {
 		msg, meta, err := dec.ReadMessage()
 		switch {
-		case err == io.EOF:
+		case errors.Is(err, io.EOF):
 			break LOOP
 		case walm.IsDataCorruptionError(err):
 			cs.Logger.Error("data has been corrupted in last height of consensus WAL", "err", err, "height", csHeight)
