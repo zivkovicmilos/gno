@@ -49,7 +49,7 @@ func (p *Proposal) ValidateBasic() error {
 		return errors.New("invalid Type")
 	}
 	if p.Height < 0 {
-		return errors.New("negative Height")
+		return errors.New("negative height")
 	}
 	if p.Round < 0 {
 		return errors.New("negative Round")
