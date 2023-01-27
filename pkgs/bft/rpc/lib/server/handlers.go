@@ -41,8 +41,9 @@ func RegisterRPCFuncs(mux *http.ServeMux, funcMap map[string]*RPCFunc, logger lo
 
 // RPCFunc contains the introspected type information for a function
 type RPCFunc struct {
-	f        reflect.Value  // underlying rpc function
-	args     []reflect.Type // type of each function arg
+	f    reflect.Value  // underlying rpc function
+	args []reflect.Type // type of each function arg
+
 	returns  []reflect.Type // type of each return arg
 	argNames []string       // name of each argument
 	ws       bool           // websocket only
@@ -110,12 +111,14 @@ func makeJSONRPCHandler(funcMap map[string]*RPCFunc, logger log.Logger) http.Han
 					errors.Wrap(err, "error reading request body"),
 				),
 			)
+
 			return
 		}
 		// if its an empty request (like from a browser),
 		// just display a list of functions
 		if len(b) == 0 {
 			writeListOfEndpoints(w, r, funcMap)
+
 			return
 		}
 
@@ -134,6 +137,7 @@ func makeJSONRPCHandler(funcMap map[string]*RPCFunc, logger log.Logger) http.Han
 						errors.Wrap(err, "error unmarshalling request"),
 					),
 				)
+
 				return
 			}
 			requests = []types.RPCRequest{request}
@@ -207,6 +211,7 @@ func handleInvalidJSONRPCPaths(next http.HandlerFunc) http.HandlerFunc {
 		// "/", otherwise return a 404 error
 		if r.URL.Path != "/" {
 			http.NotFound(w, r)
+
 			return
 		}
 
@@ -279,6 +284,7 @@ func jsonParamsToArgs(rpcFunc *RPCFunc, raw []byte) ([]reflect.Value, error) {
 	}
 
 	// Otherwise, bad format, we cannot parse
+
 	return nil, errors.New("unknown type for JSON params: %v. Expected map or array", err)
 }
 
@@ -311,6 +317,7 @@ func makeHTTPHandler(rpcFunc *RPCFunc, logger log.Logger) func(http.ResponseWrit
 					errors.Wrap(err, "error converting http params to arguments"),
 				),
 			)
+
 			return
 		}
 		args = append(args, fnArgs...)
@@ -321,6 +328,7 @@ func makeHTTPHandler(rpcFunc *RPCFunc, logger log.Logger) func(http.ResponseWrit
 		result, err := unreflectResult(returns)
 		if err != nil {
 			WriteRPCResponseHTTP(w, types.RPCInternalError(types.JSONRPCStringID(""), err))
+
 			return
 		}
 		WriteRPCResponseHTTP(w, types.NewRPCSuccessResponse(types.JSONRPCStringID(""), result))
@@ -373,6 +381,7 @@ func jsonStringToArg(rt reflect.Type, arg string) (reflect.Value, error) {
 		return rv, err
 	}
 	rv = rv.Elem()
+
 	return rv, nil
 }
 
@@ -385,6 +394,7 @@ func nonJSONStringToArg(rt reflect.Type, arg string) (reflect.Value, error, bool
 		case ok:
 			rv := reflect.New(rt.Elem())
 			rv.Elem().Set(rv_)
+
 			return rv, nil, true
 		default:
 			return reflect.Value{}, nil, false
@@ -426,6 +436,7 @@ func _nonJSONStringToArg(rt reflect.Type, arg string) (reflect.Value, error, boo
 		if !expectingString && !expectingByteSlice {
 			err := errors.New("got a hex string arg, but expected '%s'",
 				rt.Kind().String())
+
 			return reflect.ValueOf(nil), err, false
 		}
 
@@ -447,6 +458,7 @@ func _nonJSONStringToArg(rt reflect.Type, arg string) (reflect.Value, error, boo
 			return reflect.ValueOf(nil), err, false
 		}
 		v = v.Elem()
+
 		return reflect.ValueOf([]byte(v.String())), nil, true
 	}
 
@@ -524,6 +536,7 @@ func NewWSConnection(
 	}
 	wsc.baseConn.SetReadLimit(wsc.readLimit)
 	wsc.BaseService = *service.NewBaseService(nil, "wsConnection", wsc)
+
 	return wsc
 }
 
@@ -638,6 +651,7 @@ func (wsc *wsConnection) Context() context.Context {
 		return wsc.ctx
 	}
 	wsc.ctx, wsc.cancel = context.WithCancel(context.Background())
+
 	return wsc.ctx
 }
 
@@ -679,6 +693,7 @@ func (wsc *wsConnection) readRoutine() {
 					wsc.Logger.Error("Failed to read request", "err", err)
 				}
 				wsc.Stop()
+
 				return
 			}
 
@@ -775,6 +790,7 @@ func (wsc *wsConnection) writeRoutine() {
 			if err != nil {
 				wsc.Logger.Error("Failed to write ping", "err", err)
 				wsc.Stop()
+
 				return
 			}
 		case msg := <-wsc.writeChan:
@@ -784,6 +800,7 @@ func (wsc *wsConnection) writeRoutine() {
 			} else if err = wsc.writeMessageWithDeadline(websocket.TextMessage, jsonBytes); err != nil {
 				wsc.Logger.Error("Failed to write response", "err", err)
 				wsc.Stop()
+
 				return
 			}
 		case <-wsc.Quit():
@@ -843,6 +860,7 @@ func (wm *WebsocketManager) WebsocketHandler(w http.ResponseWriter, r *http.Requ
 	if err != nil {
 		// TODO - return http error
 		wm.logger.Error("Failed to upgrade to websocket connection", "err", err)
+
 		return
 	}
 
@@ -871,6 +889,7 @@ func unreflectResult(returns []reflect.Value) (interface{}, error) {
 	if rv.Kind() == reflect.Interface {
 		rvp := reflect.New(rv.Type())
 		rvp.Elem().Set(rv)
+
 		return rvp.Interface(), nil
 	} else {
 		return rv.Interface(), nil

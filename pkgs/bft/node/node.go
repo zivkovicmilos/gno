@@ -58,6 +58,7 @@ type DBProvider func(*DBContext) (dbm.DB, error)
 // specified in the ctx.Config.
 func DefaultDBProvider(ctx *DBContext) (dbm.DB, error) {
 	dbType := dbm.BackendType(ctx.Config.DBBackend)
+
 	return dbm.NewDB(ctx.ID, dbType, ctx.Config.DBDir()), nil
 }
 
@@ -259,6 +260,7 @@ func onlyValidatorIsUs(state sm.State, privVal types.PrivValidator) bool {
 		return false
 	}
 	addr, _ := state.Validators.GetByIndex(0)
+
 	return privVal.GetPubKey().Address() == addr
 }
 
@@ -292,6 +294,7 @@ func createBlockchainReactor(config *cfg.Config,
 	bcReactor = bc.NewBlockchainReactor(state.Copy(), blockExec, blockStore, fastSync)
 
 	bcReactor.SetLogger(logger.With("module", "blockchain"))
+
 	return bcReactor, nil
 }
 
@@ -321,6 +324,7 @@ func createConsensusReactor(config *cfg.Config,
 	consensusReactor.SetEventSwitch(evsw)
 	// services which will be publishing and/or subscribing for messages (events)
 	// consensusReactor will set it on consensusState and blockExecutor
+
 	return consensusReactor, consensusState
 }
 
@@ -382,6 +386,7 @@ func createTransport(
 	}
 
 	p2p.MultiplexTransportConnFilters(connFilters...)(transport)
+
 	return transport, peerFilters
 }
 
@@ -409,6 +414,7 @@ func createSwitch(config *cfg.Config,
 	sw.SetNodeKey(nodeKey)
 
 	p2pLogger.Info("P2P Node ID", "ID", nodeKey.ID(), "file", config.NodeKeyFile())
+
 	return sw
 }
 
@@ -475,6 +481,7 @@ func NewNode(config *cfg.Config,
 	pubKey := privValidator.GetPubKey()
 	if pubKey == nil {
 		// TODO: GetPubKey should return errors - https://github.com/gnolang/gno/pkgs/bft/issues/3602
+
 		return nil, errors.New("could not retrieve public key from private validator")
 	}
 
@@ -869,6 +876,7 @@ func makeNodeInfo(
 	nodeInfo.NetAddress = addr
 
 	err = nodeInfo.Validate()
+
 	return nodeInfo, err
 }
 

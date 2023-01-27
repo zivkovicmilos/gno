@@ -58,6 +58,7 @@ func makePathname() string {
 	}
 	// fmt.Println(p)
 	sep := string(filepath.Separator)
+
 	return strings.Replace(p, sep, "_", -1)
 }
 
@@ -84,6 +85,7 @@ func createConfig() *cfg.Config {
 	c.RPC.ListenAddress = rpc
 	c.RPC.CORSAllowedOrigins = []string{"https://tendermint.com/"}
 	// c.TxIndex.IndexTags = "app.creator,tx.height" // see kvstore application
+
 	return c
 }
 

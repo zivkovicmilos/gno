@@ -2,7 +2,7 @@ package config
 
 import "github.com/gnolang/gno/pkgs/errors"
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // MempoolConfig
 
 // MempoolConfig defines the configuration options for the Tendermint mempool
@@ -34,6 +34,7 @@ func DefaultMempoolConfig() *MempoolConfig {
 func TestMempoolConfig() *MempoolConfig {
 	cfg := DefaultMempoolConfig()
 	cfg.CacheSize = 1000
+
 	return cfg
 }
 

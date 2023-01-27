@@ -198,6 +198,7 @@ func (cs *ConsensusState) SetEventSwitch(evsw events.EventSwitch) {
 // String returns a string.
 func (cs *ConsensusState) String() string {
 	// better not to access shared variables
+
 	return fmt.Sprintf("ConsensusState") // (H:%v R:%v S:%v", cs.Height, cs.Round, cs.Step)
 }
 
@@ -205,6 +206,7 @@ func (cs *ConsensusState) String() string {
 func (cs *ConsensusState) GetConfigDeepCopy() *cnscfg.ConsensusConfig {
 	cs.mtx.RLock()
 	defer cs.mtx.RUnlock()
+
 	return amino.DeepCopy(cs.config).(*cnscfg.ConsensusConfig)
 }
 
@@ -212,6 +214,7 @@ func (cs *ConsensusState) GetConfigDeepCopy() *cnscfg.ConsensusConfig {
 func (cs *ConsensusState) GetState() sm.State {
 	cs.mtx.RLock()
 	defer cs.mtx.RUnlock()
+
 	return cs.state.Copy()
 }
 
@@ -220,6 +223,7 @@ func (cs *ConsensusState) GetState() sm.State {
 func (cs *ConsensusState) GetLastHeight() int64 {
 	cs.mtx.RLock()
 	defer cs.mtx.RUnlock()
+
 	return cs.RoundState.Height - 1
 }
 
@@ -228,6 +232,7 @@ func (cs *ConsensusState) GetRoundState() *cstypes.RoundState {
 	cs.mtx.RLock()
 	rs := cs.RoundState // copy
 	cs.mtx.RUnlock()
+
 	return &rs
 }
 
@@ -236,6 +241,7 @@ func (cs *ConsensusState) GetRoundStateDeepCopy() *cstypes.RoundState {
 	cs.mtx.RLock()
 	defer cs.mtx.RUnlock()
 	rs := amino.DeepCopy(cs.RoundState).(cstypes.RoundState)
+
 	return &rs
 }
 
@@ -243,12 +249,14 @@ func (cs *ConsensusState) GetRoundStateDeepCopy() *cstypes.RoundState {
 func (cs *ConsensusState) GetRoundStateSimple() cstypes.RoundStateSimple {
 	cs.mtx.RLock()
 	defer cs.mtx.RUnlock()
+
 	return cs.RoundState.RoundStateSimple()
 }
 
 func (cs *ConsensusState) GetHRS() cstypes.HRS {
 	cs.mtx.RLock()
 	defer cs.mtx.RUnlock()
+
 	return cs.RoundState.GetHRS()
 }
 
@@ -256,6 +264,7 @@ func (cs *ConsensusState) GetHRS() cstypes.HRS {
 func (cs *ConsensusState) GetValidators() (int64, []*types.Validator) {
 	cs.mtx.RLock()
 	defer cs.mtx.RUnlock()
+
 	return cs.state.LastBlockHeight, cs.state.Validators.Copy().Validators
 }
 
@@ -299,6 +308,7 @@ func (cs *ConsensusState) OnStart() error {
 		wal, err := cs.OpenWAL(walFile)
 		if err != nil {
 			cs.Logger.Error("Error loading ConsensusState wal", "err", err.Error())
+
 			return err
 		}
 		cs.wal = wal
@@ -377,6 +387,7 @@ func (cs *ConsensusState) OpenWAL(walFile string) (walm.WAL, error) {
 	wal, err := walm.NewWAL(walFile, maxMsgSize)
 	if err != nil {
 		cs.Logger.Error("Failed to open WAL for consensus state", "wal", walFile, "err", err)
+
 		return nil, err
 	}
 	wal.SetLogger(cs.Logger.With("wal", walFile))

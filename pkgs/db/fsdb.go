@@ -20,6 +20,7 @@ const (
 func init() {
 	registerDBCreator(FSDBBackend, func(name, dir string) (DB, error) {
 		dbPath := filepath.Join(dir, name+".db")
+
 		return NewFSDB(dbPath), nil
 	}, false)
 }
@@ -64,6 +65,7 @@ func (db *FSDB) Has(key []byte) bool {
 	key = escapeKey(key)
 
 	path := db.nameToPath(key)
+
 	return FileExists(path)
 }
 
@@ -177,6 +179,7 @@ func (db *FSDB) ReverseIterator(start, end []byte) Iterator {
 
 func (db *FSDB) nameToPath(name []byte) string {
 	n := url.PathEscape(string(name))
+
 	return filepath.Join(db.dir, n)
 }
 
@@ -216,6 +219,7 @@ func write(path string, d []byte) error {
 		return err
 	}
 	err = f.Sync()
+
 	return err
 }
 

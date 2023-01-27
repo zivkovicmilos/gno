@@ -108,6 +108,7 @@ func NewReactor(config *cfg.MempoolConfig, mempool *CListMempool) *Reactor {
 		ids:     newMempoolIDs(),
 	}
 	memR.BaseReactor = *p2p.NewBaseReactor("Reactor", memR)
+
 	return memR
 }
 
@@ -168,6 +169,7 @@ func (memR *Reactor) Receive(chID byte, src p2p.Peer, msgBytes []byte) {
 			msgBytes,
 		)
 		memR.Switch.StopPeerForError(src, err)
+
 		return
 	}
 	memR.Logger.Debug("Receive", "src", src, "chId", chID, "msg", msg)
@@ -271,6 +273,7 @@ type MempoolMessage interface{}
 
 func (memR *Reactor) decodeMsg(bz []byte) (msg MempoolMessage, err error) {
 	err = amino.Unmarshal(bz, &msg)
+
 	return
 }
 

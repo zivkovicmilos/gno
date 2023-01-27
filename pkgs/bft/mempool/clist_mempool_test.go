@@ -42,6 +42,7 @@ func newMempoolWithAppAndConfig(cc proxy.ClientCreator, config *cfg.MempoolConfi
 	}
 	mempool := NewCListMempool(config, appConnMem, 0, testMaxTxBytes)
 	mempool.SetLogger(log.TestingLogger())
+
 	return mempool, func() {
 		if config.RootDir != "" {
 			os.RemoveAll(config.RootDir)
@@ -529,6 +530,7 @@ func TestMempoolMaxPendingTxsBytes(t *testing.T) {
 func checksumIt(data []byte) string {
 	h := sha256.New()
 	h.Write(data)
+
 	return fmt.Sprintf("%x", h.Sum(nil))
 }
 
@@ -537,6 +539,7 @@ func checksumFile(t *testing.T, p string) string {
 
 	data, err := os.ReadFile(p)
 	require.Nil(t, err, "expecting successful read of %q", p)
+
 	return checksumIt(data)
 }
 

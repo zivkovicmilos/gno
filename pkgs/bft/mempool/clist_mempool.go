@@ -161,6 +161,7 @@ func (mem *CListMempool) Size() int {
 func (mem *CListMempool) MaxTxBytes() int64 {
 	mem.mtx.Lock()
 	defer mem.mtx.Unlock()
+
 	return mem.maxTxBytes
 }
 
@@ -665,6 +666,7 @@ func (cache *mapTxCache) Push(tx types.Tx) bool {
 	txHash := txKey(tx)
 	if moved, exists := cache.map_[txHash]; exists {
 		cache.list.MoveToBack(moved)
+
 		return false
 	}
 
@@ -678,6 +680,7 @@ func (cache *mapTxCache) Push(tx types.Tx) bool {
 	}
 	e := cache.list.PushBack(txHash)
 	cache.map_[txHash] = e
+
 	return true
 }
 

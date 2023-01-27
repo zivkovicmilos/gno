@@ -148,6 +148,7 @@ func (db *GoLevelDB) Stats() map[string]string {
 // Implements DB.
 func (db *GoLevelDB) NewBatch() Batch {
 	batch := new(leveldb.Batch)
+
 	return &goLevelDBBatch{db, batch}
 }
 
@@ -194,12 +195,14 @@ func (mBatch *goLevelDBBatch) Close() {}
 // Implements DB.
 func (db *GoLevelDB) Iterator(start, end []byte) Iterator {
 	itr := db.db.NewIterator(nil, nil)
+
 	return newGoLevelDBIterator(itr, start, end, false)
 }
 
 // Implements DB.
 func (db *GoLevelDB) ReverseIterator(start, end []byte) Iterator {
 	itr := db.db.NewIterator(nil, nil)
+
 	return newGoLevelDBIterator(itr, start, end, true)
 }
 
@@ -262,6 +265,7 @@ func (itr *goLevelDBIterator) Valid() bool {
 	// If source is invalid, invalid.
 	if !itr.source.Valid() {
 		itr.isInvalid = true
+
 		return false
 	}
 
@@ -273,11 +277,13 @@ func (itr *goLevelDBIterator) Valid() bool {
 	if itr.isReverse {
 		if start != nil && bytes.Compare(key, start) < 0 {
 			itr.isInvalid = true
+
 			return false
 		}
 	} else {
 		if end != nil && bytes.Compare(end, key) <= 0 {
 			itr.isInvalid = true
+
 			return false
 		}
 	}
@@ -292,6 +298,7 @@ func (itr *goLevelDBIterator) Key() []byte {
 	// See https://github.com/syndtr/goleveldb/blob/52c212e6c196a1404ea59592d3f1c227c9f034b2/leveldb/iterator/iter.go#L88
 	itr.assertNoError()
 	itr.assertIsValid()
+
 	return cp(itr.source.Key())
 }
 
@@ -301,6 +308,7 @@ func (itr *goLevelDBIterator) Value() []byte {
 	// See https://github.com/syndtr/goleveldb/blob/52c212e6c196a1404ea59592d3f1c227c9f034b2/leveldb/iterator/iter.go#L88
 	itr.assertNoError()
 	itr.assertIsValid()
+
 	return cp(itr.source.Value())
 }
 

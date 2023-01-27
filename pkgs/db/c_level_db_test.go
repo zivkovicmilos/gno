@@ -23,6 +23,7 @@ func BenchmarkRandomReadsWrites2(b *testing.B) {
 	db, err := NewCLevelDB(fmt.Sprintf("test_%x", randStr(12)), "")
 	if err != nil {
 		b.Fatal(err.Error())
+
 		return
 	}
 

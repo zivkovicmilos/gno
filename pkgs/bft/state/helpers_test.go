@@ -22,6 +22,7 @@ type paramsChangeTestCase struct {
 func newTestApp() proxy.AppConns {
 	app := &testApp{}
 	cc := proxy.NewLocalClientCreator(app)
+
 	return proxy.NewAppConns(cc)
 }
 
@@ -122,6 +123,7 @@ func makeState(nVals, height int) (sm.State, dbm.DB, map[string]types.PrivValida
 
 func makeBlock(state sm.State, height int64) *types.Block {
 	block, _ := state.MakeBlock(height, makeTxs(state.LastBlockHeight), new(types.Commit), state.Validators.GetProposer().Address)
+
 	return block
 }
 
@@ -200,6 +202,7 @@ func makeHeaderPartsResponsesParams(
 
 func randomGenesisDoc() *types.GenesisDoc {
 	pubkey := ed25519.GenPrivKey().PubKey()
+
 	return &types.GenesisDoc{
 		GenesisTime: tmtime.Now(),
 		ChainID:     "abc",
@@ -232,6 +235,7 @@ func (app *testApp) Info(req abci.RequestInfo) (resInfo abci.ResponseInfo) {
 
 func (app *testApp) BeginBlock(req abci.RequestBeginBlock) abci.ResponseBeginBlock {
 	app.CommitVotes = req.LastCommitInfo.Votes
+
 	return abci.ResponseBeginBlock{}
 }
 

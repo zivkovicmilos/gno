@@ -116,6 +116,7 @@ func TestRPCConfig() *RPCConfig {
 	cfg.ListenAddress = "tcp://0.0.0.0:36657"
 	cfg.GRPCListenAddress = "tcp://0.0.0.0:36658"
 	cfg.Unsafe = true
+
 	return cfg
 }
 

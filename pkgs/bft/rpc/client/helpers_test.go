@@ -81,5 +81,6 @@ func TestWaitForHeight(t *testing.T) {
 func MakeTxKV() ([]byte, []byte, []byte) {
 	k := []byte(random.RandStr(8))
 	v := []byte(random.RandStr(8))
+
 	return k, v, append(k, append([]byte("="), v...)...)
 }

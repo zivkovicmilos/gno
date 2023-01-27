@@ -41,6 +41,7 @@ func makeTxs(height int64) (txs []types.Tx) {
 
 func makeBlock(height int64, state sm.State, lastCommit *types.Commit) *types.Block {
 	block, _ := state.MakeBlock(height, makeTxs(height), lastCommit, state.Validators.GetProposer().Address)
+
 	return block
 }
 
@@ -88,6 +89,7 @@ func TestNewBlockStore(t *testing.T) {
 		_, _, panicErr := doFn(func() (interface{}, error) {
 			db.Set(blockStoreKey, tt.data)
 			_ = NewBlockStore(db)
+
 			return nil, nil
 		})
 		require.NotNil(t, panicErr, "#%d panicCauser: %q expected a panic", i, tt.data)
@@ -101,6 +103,7 @@ func TestNewBlockStore(t *testing.T) {
 
 func freshBlockStore() (*BlockStore, dbm.DB) {
 	db := dbm.NewMemDB()
+
 	return NewBlockStore(db), db
 }
 
@@ -284,6 +287,7 @@ func TestBlockStoreSaveLoadBlock(t *testing.T) {
 				db.Set(calcBlockCommitKey(commitHeight), []byte("foo-bogus"))
 			}
 			bCommit := bs.LoadBlockCommit(commitHeight)
+
 			return &quad{
 				block: bBlock, seenCommit: bSeenCommit, commit: bCommit,
 				meta: bBlockMeta,
@@ -332,6 +336,7 @@ func TestLoadBlockPart(t *testing.T) {
 	height, index := int64(10), 1
 	loadPart := func() (interface{}, error) {
 		part := bs.LoadBlockPart(height, index)
+
 		return part, nil
 	}
 
@@ -361,6 +366,7 @@ func TestLoadBlockMeta(t *testing.T) {
 	height := int64(10)
 	loadMeta := func() (interface{}, error) {
 		meta := bs.LoadBlockMeta(height)
+
 		return meta, nil
 	}
 
@@ -429,6 +435,7 @@ func doFn(fn func() (interface{}, error)) (res interface{}, err error, panicErr 
 	}()
 
 	res, err = fn()
+
 	return res, err, panicErr
 }
 

@@ -40,6 +40,7 @@ func idFromInterface(idInterface interface{}) (jsonrpcid, error) {
 		return JSONRPCIntID(int(id)), nil
 	default:
 		typ := reflect.TypeOf(id)
+
 		return nil, fmt.Errorf("JSON-RPC ID (%v) is of unknown type (%v)", id, typ)
 	}
 }
@@ -77,6 +78,7 @@ func (request *RPCRequest) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	request.ID = id
+
 	return nil
 }
 
@@ -107,6 +109,7 @@ func MapToRequest(id jsonrpcid, method string, params map[string]interface{}) (R
 		return RPCRequest{}, err
 	}
 	request := NewRPCRequest(id, method, payload)
+
 	return request, nil
 }
 
@@ -124,6 +127,7 @@ func ArrayToRequest(id jsonrpcid, method string, params []interface{}) (RPCReque
 		return RPCRequest{}, err
 	}
 	request := NewRPCRequest(id, method, payload)
+
 	return request, nil
 }
 
@@ -174,6 +178,7 @@ func (response *RPCResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	response.ID = id
+
 	return nil
 }
 

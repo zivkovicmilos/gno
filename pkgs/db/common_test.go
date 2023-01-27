@@ -270,6 +270,7 @@ func benchmarkRandomReadsWrites(b *testing.B, db DB) {
 func int642Bytes(i int64) []byte {
 	buf := make([]byte, 8)
 	binary.BigEndian.PutUint64(buf, uint64(i))
+
 	return buf
 }
 

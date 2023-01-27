@@ -116,6 +116,7 @@ func NewWAL(walFile string, maxSize int64, groupOptions ...func(*auto.Group)) (*
 		flushInterval: walDefaultFlushInterval,
 	}
 	wal.BaseService = *service.NewBaseService(nil, "baseWAL", wal)
+
 	return wal, nil
 }
 
@@ -144,6 +145,7 @@ func (wal *baseWAL) OnStart() error {
 	}
 	wal.flushTicker = time.NewTicker(wal.flushInterval)
 	go wal.processFlushTicks()
+
 	return nil
 }
 
@@ -193,6 +195,7 @@ func (wal *baseWAL) Write(msg WALMessage) error {
 	if err := wal.enc.Write(TimedWALMessage{tmtime.Now(), msg}); err != nil {
 		wal.Logger.Error("Error writing msg to consensus wal. WARNING: recover may not be possible for the current height",
 			"err", err, "msg", msg)
+
 		return err
 	}
 
@@ -215,6 +218,7 @@ func (wal *baseWAL) WriteMetaSync(meta MetaMessage) error {
 			"err",
 			err,
 		)
+
 		return err
 	}
 
@@ -225,6 +229,7 @@ func (wal *baseWAL) WriteMetaSync(meta MetaMessage) error {
 			"err",
 			err,
 		)
+
 		return err
 	}
 
@@ -250,6 +255,7 @@ func (wal *baseWAL) WriteSync(msg WALMessage) error {
 			"err",
 			err,
 		)
+
 		return err
 	}
 
@@ -365,6 +371,7 @@ OUTER_LOOP:
 					continue FILE_LOOP // skip corrupted line and ignore error.
 				} else {
 					dec.Close()
+
 					return nil, false, err
 				}
 			}
@@ -521,6 +528,7 @@ func (enc *WALWriter) Write(v TimedWALMessage) error {
 	line64 := base64stdnp.EncodeToString(line)
 	line64 += "\n"
 	_, err := enc.wr.Write([]byte(line64))
+
 	return err
 }
 
@@ -530,6 +538,7 @@ func (enc *WALWriter) WriteMeta(meta MetaMessage) error {
 	metaJSON := amino.MustMarshalJSON(meta)
 	metaLine := "#" + string(metaJSON) + "\n"
 	_, err := enc.wr.Write([]byte(metaLine))
+
 	return err
 }
 
@@ -538,6 +547,7 @@ func (enc *WALWriter) WriteMeta(meta MetaMessage) error {
 // IsDataCorruptionError returns true if data has been corrupted inside WAL.
 func IsDataCorruptionError(err error) bool {
 	_, ok := err.(DataCorruptionError)
+
 	return ok
 }
 
@@ -600,6 +610,7 @@ func (dec *WALReader) Close() (err error) {
 	// Close rd if it is a Closer.
 	if cl, ok := dec.rd.(io.Closer); ok {
 		err = cl.Close()
+
 		return
 	}
 
@@ -622,6 +633,7 @@ func (dec *WALReader) ReadMessage() (*TimedWALMessage, *MetaMessage, error) {
 	if line64[0] == '#' {
 		var meta MetaMessage
 		err := amino.UnmarshalJSON(line64[1:], &meta)
+
 		return nil, &meta, err
 	}
 

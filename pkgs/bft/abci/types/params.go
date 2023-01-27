@@ -18,6 +18,7 @@ func (params ConsensusParams) Hash() []byte {
 	hasher := tmhash.New()
 	bz := amino.MustMarshal(params)
 	hasher.Write(bz)
+
 	return hasher.Sum(nil)
 }
 

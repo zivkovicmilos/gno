@@ -331,6 +331,7 @@ func (pv *FilePV) signVote(chainID string, vote *types.Vote) error {
 	}
 	pv.saveSigned(height, round, step, signBytes, sig)
 	vote.Signature = sig
+
 	return nil
 }
 
@@ -373,6 +374,7 @@ func (pv *FilePV) signProposal(chainID string, proposal *types.Proposal) error {
 	}
 	pv.saveSigned(height, round, step, signBytes, sig)
 	proposal.Signature = sig
+
 	return nil
 }
 

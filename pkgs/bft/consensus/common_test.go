@@ -89,6 +89,7 @@ func (vs *validatorStub) signVote(voteType types.SignedMsgType, hash []byte, hea
 		BlockID:          types.BlockID{Hash: hash, PartsHeader: header},
 	}
 	err := vs.PrivValidator.SignVote(config.ChainID(), vote)
+
 	return vote, err
 }
 
@@ -305,6 +306,7 @@ func subscribeToVoter(cs *ConsensusState, addr crypto.Address) <-chan events.Eve
 
 func newConsensusState(state sm.State, pv types.PrivValidator, app abci.Application) *ConsensusState {
 	config := cfg.ResetTestRoot("consensus_state_test")
+
 	return newConsensusStateWithConfig(config, state, pv, app)
 }
 
@@ -315,6 +317,7 @@ func newConsensusStateWithConfig(
 	app abci.Application,
 ) *ConsensusState {
 	blockDB := dbm.NewMemDB()
+
 	return newConsensusStateWithConfigAndBlockStore(thisConfig, state, pv, app, blockDB)
 }
 

@@ -262,6 +262,7 @@ func (w *crashingWAL) Write(m walm.WALMessage) error {
 		_, file, line, _ := runtime.Caller(1)
 		w.crashCh <- WALWriteError{fmt.Sprintf("failed to write %T to WAL (fileline: %s:%d)", m, file, line)}
 		runtime.Goexit()
+
 		return nil
 	}
 

@@ -393,5 +393,6 @@ func randBytes(t *testing.T) []byte {
 	buf := make([]byte, n)
 	_, err := crand.Read(buf)
 	require.Nil(t, err)
+
 	return bytes.Replace(buf, []byte("="), []byte{100}, -1)
 }
