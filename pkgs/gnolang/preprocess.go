@@ -1263,6 +1263,7 @@ func Preprocess(store Store, ctx BlockNode, n Node) Node {
 					}
 				case *NativeType:
 					clt = cclt.GnoType(store)
+
 					goto CLT_TYPE_SWITCH
 				default:
 					panic(fmt.Sprintf(
@@ -3183,11 +3184,13 @@ func fillNameExprPath(last BlockNode, nx *NameExpr, isDefineLHS bool) {
 					if path.Type != VPBlock {
 						panic("expected block value path type")
 					}
+
 					break
 				}
 			}
 			path.Depth += uint8(i)
 			nx.Path = path
+
 			return
 		}
 	}

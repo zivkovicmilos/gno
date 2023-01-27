@@ -2337,6 +2337,7 @@ LOOP:
 	if i < path.Depth {
 		b = b.GetParent(store)
 		i++
+
 		goto LOOP
 	}
 	return b.GetPointerToInt(store, int(path.Index))

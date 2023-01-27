@@ -300,6 +300,7 @@ func (m *Machine) injectLocOnPanic() {
 				stmt := m.Stmts[i]
 				if stmt.GetLine() > 0 {
 					lastLine = stmt.GetLine()
+
 					break
 				}
 			}
@@ -315,6 +316,7 @@ func (m *Machine) injectLocOnPanic() {
 				if lastLine > 0 {
 					lastLoc.Line = lastLine
 				}
+
 				break
 			}
 		}
@@ -1865,12 +1867,14 @@ func (m *Machine) String() string {
 		switch bp := b.Parent.(type) {
 		case nil:
 			b = nil
+
 			break
 		case *Block:
 			b = bp
 		case RefValue:
 			bs = append(bs, fmt.Sprintf("            (block ref %v)", bp.ObjectID))
 			b = nil
+
 			break
 		default:
 			panic("should not happen")

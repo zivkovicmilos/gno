@@ -25,6 +25,7 @@ func newMemIterator(start, end []byte, items *list.List, ascending bool) *memIte
 			if entered {
 				break
 			}
+
 			continue
 		}
 		itemsInDomain = append(itemsInDomain, item)

@@ -50,10 +50,12 @@ func widthOf(s string) (l int) {
 	for _, r := range s {
 		if r == '\u200d' {
 			zwj = true
+
 			continue
 		}
 		if zwj {
 			zwj = false
+
 			continue
 		}
 		switch runewidth.RuneWidth(r) {
@@ -87,6 +89,7 @@ func nextCharacter(rz []rune) (s string, w int, n int) {
 			if n+1 < len(rz) {
 				s = s + string(rz[n+1])
 				n++
+
 				continue
 			} else {
 				// just continue, return invalid string s.
@@ -113,7 +116,7 @@ func nextCharacter(rz []rune) (s string, w int, n int) {
 	return
 }
 
-//----------------------------------------
+// ----------------------------------------
 
 func AbsCoord(elem Elem) (crd Coord) {
 	for elem != nil {

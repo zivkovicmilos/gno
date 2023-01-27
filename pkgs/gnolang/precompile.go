@@ -258,6 +258,7 @@ func precompileAST(fset *token.FileSet, f *ast.File, checkWhitelist bool) (ast.N
 				for _, whitelisted := range stdlibWhitelist {
 					if importPath == whitelisted {
 						valid = true
+
 						break
 					}
 				}
@@ -268,6 +269,7 @@ func precompileAST(fset *token.FileSet, f *ast.File, checkWhitelist bool) (ast.N
 				for _, whitelisted := range importPrefixWhitelist {
 					if strings.HasPrefix(importPath, whitelisted) {
 						valid = true
+
 						break
 					}
 				}

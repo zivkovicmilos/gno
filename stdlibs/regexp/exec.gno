@@ -338,14 +338,17 @@ Again:
 	case syntax.InstAlt, syntax.InstAltMatch:
 		t = m.add(q, i.Out, pos, cap_, cond, t)
 		pc = i.Arg
+
 		goto Again
 	case syntax.InstEmptyWidth:
 		if cond.match(syntax.EmptyOp(i.Arg)) {
 			pc = i.Out
+
 			goto Again
 		}
 	case syntax.InstNop:
 		pc = i.Out
+
 		goto Again
 	case syntax.InstCapture:
 		if int(i.Arg) < len(cap_) {
@@ -355,6 +358,7 @@ Again:
 			cap_[i.Arg] = opos
 		} else {
 			pc = i.Out
+
 			goto Again
 		}
 	case syntax.InstMatch, syntax.InstRune, syntax.InstRune1, syntax.InstRuneAny, syntax.InstRuneAnyNotNL:
@@ -384,7 +388,7 @@ func newOnePassMachine() *onePassMachine {
 	// m, ok := onePassPool.Get().(*onePassMachine)
 	// if !ok {
 	m := new(onePassMachine)
-	//}
+	// }
 	return m
 }
 
@@ -453,6 +457,7 @@ func (re *Regexp) doOnePass(ir io.RuneReader, ib []byte, is string, pos, ncap in
 				m.matchcap[0] = 0
 				m.matchcap[1] = pos
 			}
+
 			goto Return
 		case syntax.InstRune:
 			if !inst.MatchRune(r) {

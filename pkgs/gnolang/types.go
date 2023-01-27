@@ -1132,12 +1132,14 @@ func (ft *FuncType) Specify(store Store, argTVs []TypedValue, isVarg bool) *Func
 	for _, pf := range ft.Params {
 		if isGeneric(pf.Type) {
 			hasGenericParams = true
+
 			break
 		}
 	}
 	for _, rf := range ft.Results {
 		if isGeneric(rf.Type) {
 			hasGenericResults = true
+
 			break
 		}
 	}
