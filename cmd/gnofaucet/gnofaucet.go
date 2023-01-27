@@ -49,6 +49,7 @@ func runMain(cmd *command.Command, exec string, args []string) error {
 		for _, appItem := range mainApps {
 			cmd.Printf("  %s - %s\n", appItem.Name, appItem.Desc)
 		}
+
 		return nil
 	}
 
@@ -410,6 +411,7 @@ func sendAmountTo(
 		cmd.Println("GAS WANTED:", bres.DeliverTx.GasWanted)
 		cmd.Println("GAS USED:  ", bres.DeliverTx.GasUsed)
 	}
+
 	return nil
 }
 

@@ -79,6 +79,7 @@ func runRepl(rootDir string, verbose bool) error {
 			if goErrors.Is(err, io.EOF) {
 				return nil
 			}
+
 			return fmt.Errorf("term error: %w", err)
 		}
 		term.Restore(0, oldState)

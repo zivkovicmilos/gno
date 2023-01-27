@@ -64,5 +64,6 @@ func txImportApp(cmd *command.Command, args []string, iopts interface{}) error {
 			}
 		}
 	}
+
 	return nil
 }

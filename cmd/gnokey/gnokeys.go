@@ -278,6 +278,7 @@ func makeCallTxApp(cmd *command.Command, args []string, iopts interface{}) error
 	} else {
 		fmt.Println(string(amino.MustMarshalJSON(tx)))
 	}
+
 	return nil
 }
 
@@ -452,5 +453,6 @@ func makeSendTxApp(cmd *command.Command, args []string, iopts interface{}) error
 	} else {
 		fmt.Println(string(amino.MustMarshalJSON(tx)))
 	}
+
 	return nil
 }

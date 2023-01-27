@@ -37,6 +37,7 @@ func armorBytes(bz []byte, blockType string) string {
 		"type":    "Info",
 		"version": "0.0.0",
 	}
+
 	return armor.EncodeArmor(blockType, header, bz)
 }
 

@@ -27,6 +27,7 @@ func main() {
 		for _, appItem := range mainApps {
 			cmd.Printf("  %s - %s\n", appItem.Name, appItem.Desc)
 		}
+
 		return
 	}
 

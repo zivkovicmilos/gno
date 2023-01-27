@@ -37,6 +37,7 @@ func makeUPNPListener(intPort int, extPort int, logger log.Logger) (NAT, net.Lis
 	if err != nil {
 		return nat, nil, ext, fmt.Errorf("error establishing listener: %w", err)
 	}
+
 	return nat, listener, ext, nil
 }
 

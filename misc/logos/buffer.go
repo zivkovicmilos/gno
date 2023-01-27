@@ -180,6 +180,7 @@ func (bb *Buffer) NewView(offset Coord) View {
 	if !offset.IsNonNegative() {
 		panic("should not happen")
 	}
+
 	return View{
 		Base:   bb,
 		Offset: offset,
@@ -202,6 +203,7 @@ func (bs View) GetCell(x, y int) *Cell {
 	if bs.Bounds.Height <= y {
 		panic("should not happen")
 	}
+
 	return bs.Base.GetCell(
 		bs.Offset.X+x,
 		bs.Offset.Y+y,
@@ -246,6 +248,7 @@ func NewBufferedElemView(elem Elem, size Size) *BufferedElemView {
 	bpv.SetIsDirty(true)
 	elem.SetParent(bpv)
 	elem.SetCoord(Coord{}) // required for abs calc.
+
 	return bpv
 }
 
@@ -352,8 +355,10 @@ func (bpv *BufferedElemView) ProcessEventKey(ev *EventKey) bool {
 		if bpv.Base.ProcessEventKey(ev) {
 			return true
 		}
+
 		return false
 	}
+
 	return true // convenience for cases.
 }
 

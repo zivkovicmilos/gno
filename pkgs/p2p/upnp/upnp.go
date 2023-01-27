@@ -109,6 +109,7 @@ func Discover() (nat NAT, err error) {
 				return
 			}
 			nat = &upnpNAT{serviceURL: serviceURL, ourIP: ourIP.String(), urnDomain: urnDomain}
+
 			return
 		}
 	}
@@ -168,6 +169,7 @@ func getChildDevice(d *Device, deviceType string) *Device {
 			return &dl[i]
 		}
 	}
+
 	return nil
 }
 
@@ -178,6 +180,7 @@ func getChildService(d *Device, serviceType string) *UPNPService {
 			return &sl[i]
 		}
 	}
+
 	return nil
 }
 
@@ -200,9 +203,11 @@ func localIPv4() (net.IP, error) {
 			if v4 == nil || v4[0] == 127 { // loopback address
 				continue
 			}
+
 			return v4, nil
 		}
 	}
+
 	return nil, errors.New("cannot find local IP address")
 }
 
@@ -303,6 +308,7 @@ func soapRequest(url, function, message, domain string) (r *http.Response, err e
 
 		return
 	}
+
 	return r, err
 }
 
@@ -353,6 +359,7 @@ func (n *upnpNAT) GetExternalAddress() (addr net.IP, err error) {
 	if addr == nil {
 		err = fmt.Errorf("failed to parse IP: %v", info.externalIPAddress)
 	}
+
 	return
 }
 
@@ -390,6 +397,7 @@ func (n *upnpNAT) AddPortMapping(
 	// fmt.Println(string(body), err)
 	mappedExternalPort = externalPort
 	_ = response
+
 	return
 }
 
@@ -411,5 +419,6 @@ func (n *upnpNAT) DeletePortMapping(protocol string, externalPort, internalPort 
 	// TODO: check response to see if the port was deleted
 	// log.Println(message, response)
 	_ = response
+
 	return
 }

@@ -165,6 +165,7 @@ func (iter *prefixIterator) Value() []byte {
 	if !iter.valid {
 		panic("prefixIterator invalid, cannot call Value()")
 	}
+
 	return iter.iter.Value()
 }
 
@@ -178,6 +179,7 @@ func stripPrefix(key []byte, prefix []byte) []byte {
 	if len(key) < len(prefix) || !bytes.Equal(key[:len(prefix)], prefix) {
 		panic("should not happen")
 	}
+
 	return key[len(prefix):]
 }
 

@@ -394,6 +394,7 @@ func getPkgNameFromFileset(files *gno.FileSet) string {
 	if len(files.Files) <= 0 {
 		return ""
 	}
+
 	return string(files.Files[0].PkgName)
 }
 
@@ -402,6 +403,7 @@ func formatTestmain(t *testFuncs) (string, error) {
 	if err := testmainTmpl.Execute(&buf, t); err != nil {
 		return "", err
 	}
+
 	return buf.String(), nil
 }
 
@@ -420,6 +422,7 @@ func loadTestFuncs(pkgName string, t *testFuncs, tfiles *gno.FileSet) *testFuncs
 			}
 		}
 	}
+
 	return t
 }
 
@@ -457,6 +460,7 @@ func parseMemPackageTests(memPkg *std.MemPackage) (tset, itset *gno.FileSet) {
 				memPkg.Name, memPkg.Name, n.PkgName, mfile))
 		}
 	}
+
 	return tset, itset
 }
 

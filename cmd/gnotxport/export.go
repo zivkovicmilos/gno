@@ -110,5 +110,6 @@ func txExportApp(cmd *command.Command, args []string, iopts interface{}) error {
 			log.Printf("h=%d/%d (txs=%d)", height, end, len(txs))
 		}
 	}
+
 	return nil
 }
