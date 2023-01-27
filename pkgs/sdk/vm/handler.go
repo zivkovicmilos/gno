@@ -202,6 +202,7 @@ func (vh vmHandler) queryFile(ctx sdk.Context, req abci.RequestQuery) (res abci.
 		return
 	}
 	res.Data = []byte(result)
+
 	return
 }
 

@@ -72,6 +72,7 @@ func (p *Press) P(s string, args ...interface{}) *Press {
 // but Press doesn't treat them as newlines for the sake of indentation.
 func (p *Press) Ln() *Press {
 	p.lines = append(p.lines, newLine(p.indentPrefix, ""))
+
 	return p
 }
 
@@ -106,6 +107,7 @@ func (p *Press) I(block func(p2 *Press)) *Press {
 	p.lines = append(p.lines, ilines...)
 	// (re)introduce last line with original indent
 	p.lines = append(p.lines, newLine(p.indentPrefix, ""))
+
 	return p
 }
 
@@ -115,6 +117,7 @@ func (p *Press) Print() string {
 	for _, line := range p.lines {
 		lines = append(lines, line.String())
 	}
+
 	return strings.Join(lines, p.newlineStr)
 }
 
@@ -151,6 +154,7 @@ MAIN_LOOP:
 			}
 		}
 	}
+
 	return string(chars)
 }
 
@@ -164,6 +168,7 @@ func (p *Press) SubPress() *Press {
 	p2.indentDelim = p.indentDelim
 	p2.newlineStr = p.newlineStr
 	p2.lines = nil
+
 	return p2
 }
 

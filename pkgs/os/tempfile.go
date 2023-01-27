@@ -67,6 +67,7 @@ func randWriteFileSuffix() string {
 		// as otherwhise there would be two `-` in a row.
 		suffix = strings.Replace(suffix, "-", "0", 1)
 	}
+
 	return suffix
 }
 

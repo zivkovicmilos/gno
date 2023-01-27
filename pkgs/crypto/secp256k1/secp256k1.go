@@ -43,6 +43,7 @@ func (privKey PrivKeySecp256k1) Equals(other crypto.PrivKey) bool {
 	if otherSecp, ok := other.(PrivKeySecp256k1); ok {
 		return subtle.ConstantTimeCompare(privKey[:], otherSecp[:]) == 1
 	}
+
 	return false
 }
 
@@ -145,5 +146,6 @@ func (pubKey PubKeySecp256k1) Equals(other crypto.PubKey) bool {
 	if otherSecp, ok := other.(PubKeySecp256k1); ok {
 		return bytes.Equal(pubKey[:], otherSecp[:])
 	}
+
 	return false
 }

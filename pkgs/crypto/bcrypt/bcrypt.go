@@ -97,6 +97,7 @@ func GenerateFromPassword(salt []byte, password []byte, cost int) ([]byte, error
 	if err != nil {
 		return nil, err
 	}
+
 	return p.Hash(), nil
 }
 
@@ -130,6 +131,7 @@ func Cost(hashedPassword []byte) (int, error) {
 	if err != nil {
 		return 0, err
 	}
+
 	return p.cost, nil
 }
 
@@ -269,6 +271,7 @@ func (p *hashed) decodeVersion(sbytes []byte) (int, error) {
 		p.minor = sbytes[2]
 		n++
 	}
+
 	return n, nil
 }
 
@@ -302,5 +305,6 @@ func checkCost(cost int) error {
 	if cost < MinCost || cost > MaxCost {
 		return InvalidCostError(cost)
 	}
+
 	return nil
 }

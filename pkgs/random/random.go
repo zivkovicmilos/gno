@@ -35,6 +35,7 @@ func init() {
 func NewRand() *Rand {
 	rand := &Rand{}
 	rand.init()
+
 	return rand
 }
 

@@ -12,6 +12,7 @@ func StringInSlice(a string, list []string) bool {
 			return true
 		}
 	}
+
 	return false
 }
 
@@ -29,6 +30,7 @@ func SplitAndTrim(s, sep, cutset string) []string {
 	for i := 0; i < len(spl); i++ {
 		spl[i] = strings.Trim(spl[i], cutset)
 	}
+
 	return spl
 }
 
@@ -44,6 +46,7 @@ func IsASCIIText(s string) bool {
 			return false
 		}
 	}
+
 	return true
 }
 

@@ -48,6 +48,7 @@ func (pubKey PubKeySecp256k1) VerifyBytes(msg []byte, sigStr []byte) bool {
 	if signature.S.Cmp(secp256k1halfN) > 0 {
 		return false
 	}
+
 	return signature.Verify(crypto.Sha256(msg), pub)
 }
 

@@ -41,6 +41,7 @@ func NewFSDB(dir string) *FSDB {
 	database := &FSDB{
 		dir: dir,
 	}
+
 	return database
 }
 
@@ -56,6 +57,7 @@ func (db *FSDB) Get(key []byte) []byte {
 	} else if err != nil {
 		panic(errors.Wrap(err, "Getting key %s (0x%X)", string(key), key))
 	}
+
 	return value
 }
 

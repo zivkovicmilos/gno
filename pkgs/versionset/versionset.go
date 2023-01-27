@@ -108,5 +108,6 @@ func (pvs VersionSet) CompatibleWith(other VersionSet) (res VersionSet, err erro
 	if errs != nil {
 		return res, fmt.Errorf("VersionSet not compatible...\n%s", strings.Join(errs, "\n"))
 	}
+
 	return res, nil
 }

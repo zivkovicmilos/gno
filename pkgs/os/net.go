@@ -23,6 +23,7 @@ func ProtocolAndAddress(listenAddr string) (string, string) {
 	if len(parts) == 2 {
 		protocol, address = parts[0], parts[1]
 	}
+
 	return protocol, address
 }
 

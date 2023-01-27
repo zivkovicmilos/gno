@@ -156,6 +156,7 @@ func (bank BankKeeper) AddCoins(ctx sdk.Context, addr crypto.Address, amt std.Co
 	}
 
 	err := bank.SetCoins(ctx, addr, newCoins)
+
 	return newCoins, err
 }
 
@@ -176,6 +177,7 @@ func (bank BankKeeper) SetCoins(ctx sdk.Context, addr crypto.Address, amt std.Co
 	}
 
 	bank.acck.SetAccount(ctx, acc)
+
 	return nil
 }
 

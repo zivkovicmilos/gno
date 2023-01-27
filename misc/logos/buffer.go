@@ -39,6 +39,7 @@ func (bb *Buffer) GetCell(x, y int) *Cell {
 			"index y=%d out of bounds, height=%d",
 			y, bb.Height))
 	}
+
 	return &bb.Cells[y*bb.Width+x]
 }
 
@@ -60,6 +61,7 @@ func (bb *Buffer) Sprint() string {
 		line := strings.Join(parts, "")
 		lines = append(lines, line)
 	}
+
 	return strings.Join(lines, "\n")
 }
 
@@ -158,6 +160,7 @@ func (cc *Cell) GetTCellContent() (mainc rune, combc []rune, tstyle tcell.Style)
 			tstyle = style.WithAttrs(attrs).GetTStyle()
 		}
 	}
+
 	return
 }
 

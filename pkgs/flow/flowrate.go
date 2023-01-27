@@ -53,6 +53,7 @@ func New(sampleRate, windowSize time.Duration) *Monitor {
 		windowSize = 1 * time.Second
 	}
 	now := clock()
+
 	return &Monitor{
 		active:  true,
 		start:   now,
@@ -69,6 +70,7 @@ func (m *Monitor) Update(n int) int {
 	m.mu.Lock()
 	m.update(n)
 	m.mu.Unlock()
+
 	return n
 }
 
@@ -98,6 +100,7 @@ func (m *Monitor) Done() int64 {
 	m.tLast = 0
 	n := m.bytes
 	m.mu.Unlock()
+
 	return n
 }
 

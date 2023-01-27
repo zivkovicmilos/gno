@@ -225,6 +225,7 @@ func (app *BaseApp) Router() Router {
 		// any routes modified which would cause unexpected routing behavior.
 		panic("Router() on sealed BaseApp")
 	}
+
 	return app.router
 }
 
@@ -916,6 +917,7 @@ func (app *BaseApp) Commit() (res abci.ResponseCommit) {
 	baseStore := app.cms.GetStore(app.baseKey)
 	if baseStore == nil {
 		res.Error = ABCIError(errors.New("baseapp expects MultiStore with 'base' Store"))
+
 		return
 	}
 	headerBz := amino.MustMarshal(header)
@@ -932,6 +934,7 @@ func (app *BaseApp) Commit() (res abci.ResponseCommit) {
 
 	// return.
 	res.Data = commitID.Hash
+
 	return
 }
 

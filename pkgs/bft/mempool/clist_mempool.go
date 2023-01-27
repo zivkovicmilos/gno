@@ -102,6 +102,7 @@ func NewCListMempool(
 	for _, option := range options {
 		option(mempool)
 	}
+
 	return mempool
 }
 
@@ -482,6 +483,7 @@ func (mem *CListMempool) ReapMaxBytesMaxGas(maxDataBytes, maxGas int64) types.Tx
 		totalGas = newTotalGas
 		txs = append(txs, memTx.tx)
 	}
+
 	return txs
 }
 
@@ -503,6 +505,7 @@ func (mem *CListMempool) ReapMaxTxs(max int) types.Txs {
 		memTx := e.Value.(*mempoolTx)
 		txs = append(txs, memTx.tx)
 	}
+
 	return txs
 }
 

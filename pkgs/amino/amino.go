@@ -264,6 +264,7 @@ func (cdc *Codec) MustMarshalSized(o interface{}) []byte {
 	if err != nil {
 		panic(err)
 	}
+
 	return bz
 }
 
@@ -299,6 +300,7 @@ func (cdc *Codec) MustMarshalAnySized(o interface{}) []byte {
 	if err != nil {
 		panic(err)
 	}
+
 	return bz
 }
 
@@ -394,6 +396,7 @@ func (cdc *Codec) MarshalReflect(o interface{}) ([]byte, error) {
 	if len(bz) == 0 {
 		bz = nil
 	}
+
 	return bz, nil
 }
 

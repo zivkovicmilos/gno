@@ -203,6 +203,7 @@ func (pool *BlockPool) PeekTwoBlocks() (first *types.Block, second *types.Block)
 	if r := pool.requesters[pool.height+1]; r != nil {
 		second = r.getBlock()
 	}
+
 	return
 }
 
@@ -239,6 +240,7 @@ func (pool *BlockPool) RedoRequest(height int64) p2p.ID {
 		// RemovePeer will redo all requesters associated with this peer.
 		pool.removePeer(peerID)
 	}
+
 	return peerID
 }
 
@@ -266,6 +268,7 @@ func (pool *BlockPool) AddBlock(peerID p2p.ID, block *types.Block, blockSize int
 		if diff > maxDiffBetweenCurrentAndReceivedBlockHeight {
 			pool.sendError(errors.New("peer sent us a block we didn't expect with a height too far ahead/behind"), peerID)
 		}
+
 		return
 	}
 
