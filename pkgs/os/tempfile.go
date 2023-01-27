@@ -101,10 +101,12 @@ func WriteFileAtomic(filename string, data []byte, perm os.FileMode) (err error)
 				atomicWriteFileRand = writeFileRandReseed()
 				atomicWriteFileRandMu.Unlock()
 			}
+
 			continue
 		} else if err != nil {
 			return err
 		}
+
 		break
 	}
 	if i == atomicWriteFileMaxNumWriteAttempts {

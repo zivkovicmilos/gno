@@ -253,6 +253,7 @@ func (st *Store) Query(req abci.RequestQuery) (res abci.ResponseQuery) {
 		res.Key = key
 		if !st.VersionExists(res.Height) {
 			res.Log = errors.Wrap(iavl.ErrVersionDoesNotExist, "").Error()
+
 			break
 		}
 
@@ -260,6 +261,7 @@ func (st *Store) Query(req abci.RequestQuery) (res abci.ResponseQuery) {
 			value, proof, err := tree.GetVersionedWithProof(key, res.Height)
 			if err != nil {
 				res.Log = err.Error()
+
 				break
 			}
 			if proof == nil {

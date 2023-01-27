@@ -479,6 +479,7 @@ OUTER_LOOP:
 				if peer.Send(DataChannel, amino.MustMarshalAny(msg)) {
 					ps.SetHasProposalBlockPart(prs.Height, prs.Round, index)
 				}
+
 				continue OUTER_LOOP
 			}
 		}
@@ -499,12 +500,14 @@ OUTER_LOOP:
 				continue OUTER_LOOP
 			}
 			conR.gossipDataForCatchup(heightLogger, rs, prs, ps, peer)
+
 			continue OUTER_LOOP
 		}
 
 		// If height and round don't match, sleep.
 		if (rs.Height != prs.Height) || (rs.Round != prs.Round) {
 			time.Sleep(conR.conS.config.PeerGossipSleepDuration)
+
 			continue OUTER_LOOP
 		}
 
@@ -537,11 +540,13 @@ OUTER_LOOP:
 				logger.Debug("Sending POL", "height", prs.Height, "round", prs.Round)
 				peer.Send(DataChannel, amino.MustMarshalAny(msg))
 			}
+
 			continue OUTER_LOOP
 		}
 
 		// Nothing to do. Sleep.
 		time.Sleep(conR.conS.config.PeerGossipSleepDuration)
+
 		continue OUTER_LOOP
 	}
 }
@@ -628,6 +633,7 @@ OUTER_LOOP:
 		if prs.Height != 0 && rs.Height == prs.Height+1 {
 			if ps.PickSendVote(rs.LastCommit) {
 				logger.Debug("Picked rs.LastCommit to send", "height", prs.Height)
+
 				continue OUTER_LOOP
 			}
 		}
@@ -640,6 +646,7 @@ OUTER_LOOP:
 			commit := conR.conS.blockStore.LoadBlockCommit(prs.Height)
 			if ps.PickSendVote(commit) {
 				logger.Debug("Picked Catchup commit to send", "height", prs.Height)
+
 				continue OUTER_LOOP
 			}
 		}
@@ -656,6 +663,7 @@ OUTER_LOOP:
 		}
 
 		time.Sleep(conR.conS.config.PeerGossipSleepDuration)
+
 		continue OUTER_LOOP
 	}
 }
@@ -820,6 +828,7 @@ func (conR *ConsensusReactor) peerStatsRoutine() {
 			if peer == nil {
 				conR.Logger.Debug("Attempt to update stats for non-existent peer",
 					"peer", msg.PeerID)
+
 				continue
 			}
 			// Get peer state

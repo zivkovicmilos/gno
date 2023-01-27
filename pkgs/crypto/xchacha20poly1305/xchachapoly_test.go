@@ -38,6 +38,7 @@ func TestRandom(t *testing.T) {
 		plaintext2, err := aead.Open(nil, nonce[:], ct, ad)
 		if err != nil {
 			t.Errorf("Random #%d: Open failed", i)
+
 			continue
 		}
 

@@ -360,6 +360,7 @@ func hasSmallOrder(pubKey [32]byte) bool {
 	for _, bl := range blacklist {
 		if subtle.ConstantTimeCompare(pubKey[:], bl[:]) == 1 {
 			isSmallOrderPoint = true
+
 			break
 		}
 	}

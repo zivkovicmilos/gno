@@ -246,16 +246,19 @@ func benchmarkRandomReadsWrites(b *testing.B, db DB) {
 			if valExp == 0 {
 				if !bytes.Equal(valBytes, nil) {
 					b.Errorf("Expected %v for %v, got %X", nil, idx, valBytes)
+
 					break
 				}
 			} else {
 				if len(valBytes) != 8 {
 					b.Errorf("Expected length 8 for %v, got %X", idx, valBytes)
+
 					break
 				}
 				valGot := bytes2Int64(valBytes)
 				if valExp != valGot {
 					b.Errorf("Expected %v for %v, got %v", valExp, idx, valGot)
+
 					break
 				}
 			}

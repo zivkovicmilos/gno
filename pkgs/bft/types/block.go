@@ -723,6 +723,7 @@ func (data *Data) StringIndented(indent string) string {
 	for i, tx := range data.Txs {
 		if i == 20 {
 			txStrings[i] = fmt.Sprintf("... (%v total)", len(data.Txs))
+
 			break
 		}
 		txStrings[i] = fmt.Sprintf("%X (%d bytes)", tx.Hash(), len(tx))

@@ -230,10 +230,12 @@ func (memR *Reactor) broadcastTxRoutine(peer p2p.Peer) {
 			// will be initialized before the consensus reactor. We should wait a few
 			// milliseconds and retry.
 			time.Sleep(peerCatchupSleepIntervalMS * time.Millisecond)
+
 			continue
 		}
 		if peerState.GetHeight() < memTx.Height()-1 { // Allow for a lag of 1 block
 			time.Sleep(peerCatchupSleepIntervalMS * time.Millisecond)
+
 			continue
 		}
 
@@ -244,6 +246,7 @@ func (memR *Reactor) broadcastTxRoutine(peer p2p.Peer) {
 			success := peer.Send(MempoolChannel, amino.MustMarshalAny(msg))
 			if !success {
 				time.Sleep(peerCatchupSleepIntervalMS * time.Millisecond)
+
 				continue
 			}
 		}

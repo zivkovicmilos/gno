@@ -323,6 +323,7 @@ OUTER_LOOP:
 				} else {
 					backoff = backoff * 2 // exponential backwards
 				}
+
 				continue OUTER_LOOP
 			}
 			if index < min {
@@ -335,6 +336,7 @@ OUTER_LOOP:
 				// adjust max & binary search accordingly.
 				idxoff = 0
 				max = (min+max+1)/2 - 1
+
 				continue OUTER_LOOP
 			}
 		}
@@ -355,9 +357,11 @@ OUTER_LOOP:
 					// @index didn't have a height declaration.
 					idxoff++
 					dec.Close()
+
 					continue OUTER_LOOP
 				} else if options != nil && options.IgnoreDataCorruptionErrors && IsDataCorruptionError(err) {
 					wal.Logger.Error("Corrupted entry. Skipping...", "err", err)
+
 					continue FILE_LOOP // skip corrupted line and ignore error.
 				} else {
 					dec.Close()
@@ -393,6 +397,7 @@ OUTER_LOOP:
 						max = (min+max+1)/2 - 1
 					}
 					dec.Close()
+
 					continue OUTER_LOOP
 				} else if meta.Height == height { // found
 					wal.Logger.Info("Found", "height", height, "index", index)
@@ -407,6 +412,7 @@ OUTER_LOOP:
 							// ignore and keep reading
 							// NOTE: in the future we could binary search
 							// within a file, but for now we read sequentially.
+
 							continue FILE_LOOP
 						} else {
 							// convert to binary search with index as new min.
@@ -418,6 +424,7 @@ OUTER_LOOP:
 							min = index
 							mode = WALSearchModeBinary
 							dec.Close()
+
 							continue OUTER_LOOP
 						}
 					case WALSearchModeBinary:
@@ -427,6 +434,7 @@ OUTER_LOOP:
 							idxoff = 0
 							min = index
 							dec.Close()
+
 							continue OUTER_LOOP
 						} else { // index == max
 							// this is the last file, keep reading.

@@ -135,6 +135,7 @@ func (pkg *Package) WithTypes(objs ...interface{}) *Package {
 			} else {
 				lastType.Name = obj.(string)
 				lastType = nil // no more updating is possible.
+
 				continue
 			}
 		}

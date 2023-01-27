@@ -52,6 +52,7 @@ func (privKey PrivKeyEd25519) PubKey() crypto.PubKey {
 	for _, v := range privKeyBytes[32:] {
 		if v != 0 {
 			initialized = true
+
 			break
 		}
 	}

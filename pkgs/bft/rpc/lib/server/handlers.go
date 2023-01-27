@@ -147,6 +147,7 @@ func makeJSONRPCHandler(funcMap map[string]*RPCFunc, logger log.Logger) http.Han
 				logger.Debug(
 					"HTTPJSONRPC received a notification, skipping... (please send a non-empty ID if you want to call a method)",
 				)
+
 				continue
 			}
 			if len(r.URL.Path) > 1 {
@@ -157,11 +158,13 @@ func makeJSONRPCHandler(funcMap map[string]*RPCFunc, logger log.Logger) http.Han
 						errors.New("path %s is invalid", r.URL.Path),
 					),
 				)
+
 				continue
 			}
 			rpcFunc, ok := funcMap[request.Method]
 			if !ok || rpcFunc.ws {
 				responses = append(responses, types.RPCMethodNotFoundError(request.ID))
+
 				continue
 			}
 			ctx := &types.Context{JSONReq: &request, HTTPReq: r}
@@ -176,6 +179,7 @@ func makeJSONRPCHandler(funcMap map[string]*RPCFunc, logger log.Logger) http.Han
 							errors.Wrap(err, "error converting json params to arguments"),
 						),
 					)
+
 					continue
 				}
 				args = append(args, fnArgs...)
@@ -185,6 +189,7 @@ func makeJSONRPCHandler(funcMap map[string]*RPCFunc, logger log.Logger) http.Han
 			result, err := unreflectResult(returns)
 			if err != nil {
 				responses = append(responses, types.RPCInternalError(request.ID, err))
+
 				continue
 			}
 			responses = append(responses, types.NewRPCSuccessResponse(request.ID, result))
@@ -348,6 +353,7 @@ func httpParamsToArgs(rpcFunc *RPCFunc, r *http.Request) ([]reflect.Value, error
 		}
 		if ok {
 			values[i] = v
+
 			continue
 		}
 
@@ -680,6 +686,7 @@ func (wsc *wsConnection) readRoutine() {
 			err = json.Unmarshal(in, &request)
 			if err != nil {
 				wsc.WriteRPCResponse(types.RPCParseError(types.JSONRPCStringID(""), errors.Wrap(err, "error unmarshaling request")))
+
 				continue
 			}
 
@@ -690,6 +697,7 @@ func (wsc *wsConnection) readRoutine() {
 					"WSJSONRPC received a notification, skipping... " +
 						"(please send a non-empty ID if you want to call a method)",
 				)
+
 				continue
 			}
 
@@ -697,6 +705,7 @@ func (wsc *wsConnection) readRoutine() {
 			rpcFunc := wsc.funcMap[request.Method]
 			if rpcFunc == nil {
 				wsc.WriteRPCResponse(types.RPCMethodNotFoundError(request.ID))
+
 				continue
 			}
 
@@ -711,6 +720,7 @@ func (wsc *wsConnection) readRoutine() {
 							errors.Wrap(err, "error converting json params to arguments"),
 						),
 					)
+
 					continue
 				}
 				args = append(args, fnArgs...)
@@ -724,6 +734,7 @@ func (wsc *wsConnection) readRoutine() {
 			result, err := unreflectResult(returns)
 			if err != nil {
 				wsc.WriteRPCResponse(types.RPCInternalError(request.ID, err))
+
 				continue
 			}
 

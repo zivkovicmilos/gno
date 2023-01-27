@@ -843,6 +843,7 @@ func chopBinary(expr string) (left, op, right string, ok bool) {
 					for i := 0; i < len(op2); i++ {
 						ss.advance()
 					}
+
 					break
 					// Do not return here, we want to find the last
 					// match.  But don't consider shorter operators.

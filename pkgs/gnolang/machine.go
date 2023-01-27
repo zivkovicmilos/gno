@@ -14,7 +14,7 @@ import (
 	"github.com/gnolang/gno/pkgs/std"
 )
 
-//----------------------------------------
+// ----------------------------------------
 // Machine
 
 type Machine struct {
@@ -130,7 +130,7 @@ func (m *Machine) SetActivePackage(pv *PackageValue) {
 	}
 }
 
-//----------------------------------------
+// ----------------------------------------
 // top level Run* methods.
 
 // Upon restart, preprocess all MemPackage and save blocknodes.
@@ -163,7 +163,7 @@ func (m *Machine) PreprocessAllFilesAndSaveBlockNodes() {
 	}
 }
 
-//----------------------------------------
+// ----------------------------------------
 // top level Run* methods.
 
 // Parses files, sets the package if doesn't exist, runs files, saves mempkg
@@ -290,6 +290,7 @@ func (m *Machine) injectLocOnPanic() {
 				expr := m.Exprs[i]
 				if expr.GetLine() > 0 {
 					lastLine = expr.GetLine()
+
 					break
 				}
 			}
@@ -686,7 +687,7 @@ func (m *Machine) runDeclaration(d Decl) {
 	}
 }
 
-//----------------------------------------
+// ----------------------------------------
 // Op
 
 type Op uint8
@@ -816,7 +817,7 @@ const (
 	OpReturnCallDefers  Op = 0xD7 // TODO rename?
 )
 
-//----------------------------------------
+// ----------------------------------------
 // "CPU" steps.
 
 func (m *Machine) incrCPU(cycles int64) {
@@ -950,7 +951,7 @@ const (
 	OpCPUReturnCallDefers  = 1
 )
 
-//----------------------------------------
+// ----------------------------------------
 // main run loop.
 
 func (m *Machine) Run() {
@@ -1282,7 +1283,7 @@ func (m *Machine) Run() {
 	}
 }
 
-//----------------------------------------
+// ----------------------------------------
 // push pop methods.
 
 func (m *Machine) PushOp(op Op) {
@@ -1803,7 +1804,7 @@ func (m *Machine) Panic(ex TypedValue) {
 	m.PushOp(OpReturnCallDefers)
 }
 
-//----------------------------------------
+// ----------------------------------------
 // inspection methods
 
 func (m *Machine) Println(args ...interface{}) {
@@ -1934,7 +1935,7 @@ func (m *Machine) String() string {
 	)
 }
 
-//----------------------------------------
+// ----------------------------------------
 // utility
 
 func hasName(n Name, ns []Name) bool {

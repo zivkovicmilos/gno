@@ -419,6 +419,7 @@ func makeTestSim(t *testing.T, name string) (sim testSim) {
 	for i, vs := range newVss {
 		if vs.GetPubKey().Equals(css[0].privValidator.GetPubKey()) {
 			selfIndex = i
+
 			break
 		}
 	}
@@ -476,6 +477,7 @@ func makeTestSim(t *testing.T, name string) (sim testSim) {
 	for i, vs := range newVss {
 		if vs.GetPubKey().Equals(css[0].privValidator.GetPubKey()) {
 			selfIndex = i
+
 			break
 		}
 	}

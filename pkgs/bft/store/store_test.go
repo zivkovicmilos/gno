@@ -296,6 +296,7 @@ func TestBlockStoreSaveLoadBlock(t *testing.T) {
 			} else if got := fmt.Sprintf("%#v\n%v", panicErr, panicErr); !strings.Contains(got, subStr) {
 				t.Errorf("#%d:\n\tgotErr: %q\nwant substring: %q", i, got, subStr)
 			}
+
 			continue
 		}
 
@@ -303,6 +304,7 @@ func TestBlockStoreSaveLoadBlock(t *testing.T) {
 			if err == nil {
 				t.Errorf("#%d: got nil error", i)
 			}
+
 			continue
 		}
 
@@ -311,6 +313,7 @@ func TestBlockStoreSaveLoadBlock(t *testing.T) {
 		qua, ok := res.(*quad)
 		if !ok || qua == nil {
 			t.Errorf("#%d: got nil quad back; gotType=%T", i, res)
+
 			continue
 		}
 		if tuple.eraseSeenCommitInDB {

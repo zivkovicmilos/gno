@@ -355,6 +355,7 @@ func (pool *BlockPool) pickIncrAvailablePeer(minHeight int64) *bpPeer {
 	for _, peer := range pool.peers {
 		if peer.didTimeout {
 			pool.removePeer(peer.id)
+
 			continue
 		}
 		if peer.numPending >= maxPendingRequestsPerPeer {
@@ -600,8 +601,10 @@ OUTER_LOOP:
 			if peer == nil {
 				// log.Info("No peers available", "height", height)
 				time.Sleep(requestIntervalMS * time.Millisecond)
+
 				continue PICK_PEER_LOOP
 			}
+
 			break PICK_PEER_LOOP
 		}
 		bpr.mtx.Lock()
@@ -621,6 +624,7 @@ OUTER_LOOP:
 			case peerID := <-bpr.redoCh:
 				if peerID == bpr.peerID {
 					bpr.reset()
+
 					continue OUTER_LOOP
 				} else {
 					continue WAIT_LOOP

@@ -445,6 +445,7 @@ func waitForBlockWithUpdatedValsAndValidateIt(
 			newBlock = msg.(types.EventNewBlock).Block
 			if newBlock.LastCommit.Size() == len(updatedVals) {
 				css[j].Logger.Debug("waitForBlockWithUpdatedValsAndValidateIt: Got block", "height", newBlock.Height)
+
 				break LOOP
 			} else {
 				css[j].Logger.Debug("waitForBlockWithUpdatedValsAndValidateIt: Got block with no new validators. Skipping", "height", newBlock.Height)

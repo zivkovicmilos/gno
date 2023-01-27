@@ -54,6 +54,7 @@ func SubscribeFilteredOn(evsw EventSwitch, listenerID string, filter EventFilter
 					break LOOP
 				case <-evsw.Quit():
 					close(ch)
+
 					break LOOP
 				case <-time.After(timeout):
 					// After a minute, print a message for debugging.

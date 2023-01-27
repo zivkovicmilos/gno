@@ -7,7 +7,7 @@ import (
 	"unicode"
 )
 
-//----------------------------------------
+// ----------------------------------------
 // Constants
 
 var (
@@ -16,11 +16,11 @@ var (
 	errorType           = reflect.TypeOf(new(error)).Elem()
 )
 
-//----------------------------------------
+// ----------------------------------------
 // encode: see binary-encode.go and json-encode.go
 // decode: see binary-decode.go and json-decode.go
 
-//----------------------------------------
+// ----------------------------------------
 // Misc.
 
 // CONTRACT: by the time this is called, len(bz) >= _n
@@ -222,6 +222,7 @@ func isExported(field reflect.StructField) bool {
 	var first rune
 	for _, c := range field.Name {
 		first = c
+
 		break
 	}
 	// TODO: JAE: I'm not sure that the unicode spec

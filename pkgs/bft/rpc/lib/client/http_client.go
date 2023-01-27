@@ -453,6 +453,7 @@ func argsToJSON(args map[string]interface{}) error {
 		if isByteSlice {
 			bytes := reflect.ValueOf(v).Bytes()
 			args[k] = fmt.Sprintf("0x%X", bytes)
+
 			continue
 		}
 

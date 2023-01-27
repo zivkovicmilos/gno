@@ -66,11 +66,13 @@ func PrefixEndBytes(prefix []byte) []byte {
 	for {
 		if end[len(end)-1] != byte(255) {
 			end[len(end)-1]++
+
 			break
 		} else {
 			end = end[:len(end)-1]
 			if len(end) == 0 {
 				end = nil
+
 				break
 			}
 		}

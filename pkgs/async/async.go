@@ -6,7 +6,7 @@ import (
 	"github.com/gnolang/gno/pkgs/errors"
 )
 
-//----------------------------------------
+// ----------------------------------------
 // Routine
 
 func Routine(fn func()) <-chan struct{} {
@@ -18,7 +18,7 @@ func Routine(fn func()) <-chan struct{} {
 	return done
 }
 
-//----------------------------------------
+// ----------------------------------------
 // Task
 
 // val: the value returned after task execution.
@@ -128,7 +128,7 @@ func (trs *TaskResultSet) FirstError() error {
 	return nil
 }
 
-//----------------------------------------
+// ----------------------------------------
 // Parallel
 
 // Run tasks in parallel, with ability to abort early.
@@ -179,6 +179,7 @@ func Parallel(tasks ...Task) (trs *TaskResultSet, ok bool) {
 		abort := <-taskDoneCh
 		if abort {
 			ok = false
+
 			break
 		}
 	}

@@ -580,12 +580,14 @@ func (mem *CListMempool) recheckTxs() {
 		// check tx size
 		if int64(len(memTx.tx)) > mem.maxTxBytes {
 			mem.removeTx(memTx.tx, e, false)
+
 			continue
 		}
 		// run precheck
 		if mem.preCheck != nil {
 			if err := mem.preCheck(memTx.tx); err != nil {
 				mem.removeTx(memTx.tx, e, false)
+
 				continue
 			}
 		}

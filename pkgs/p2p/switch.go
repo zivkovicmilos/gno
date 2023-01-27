@@ -152,6 +152,7 @@ func (sw *Switch) RemoveReactor(name string, reactor Reactor) {
 		for i := 0; i < len(sw.chDescs); i++ {
 			if chDesc.ID == sw.chDescs[i].ID {
 				sw.chDescs = append(sw.chDescs[:i], sw.chDescs[i+1:]...)
+
 				break
 			}
 		}
@@ -359,6 +360,7 @@ func (sw *Switch) reconnectToPeer(addr *NetAddress) {
 		sw.Logger.Info("Error reconnecting to peer. Trying again", "tries", i, "err", err, "addr", addr)
 		// sleep a set amount
 		sw.randomSleep(reconnectInterval)
+
 		continue
 	}
 

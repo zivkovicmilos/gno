@@ -456,6 +456,7 @@ func (c *WSClient) readRoutine() {
 		err = json.Unmarshal(data, &response)
 		if err != nil {
 			c.Logger.Error("failed to parse response", "err", err, "data", string(data))
+
 			continue
 		}
 		c.Logger.Info("got response", "resp", response.Result)

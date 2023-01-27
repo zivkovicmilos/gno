@@ -326,6 +326,7 @@ FOR_LOOP:
 					// still need to clean up the rest.
 					bcR.Switch.StopPeerForError(peer2, fmt.Errorf("BlockchainReactor validation error: %w", err))
 				}
+
 				continue FOR_LOOP
 			} else {
 				bcR.pool.PopRequest()
@@ -350,6 +351,7 @@ FOR_LOOP:
 					lastHundred = time.Now()
 				}
 			}
+
 			continue FOR_LOOP
 
 		case <-bcR.Quit():

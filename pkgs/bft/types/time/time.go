@@ -49,6 +49,7 @@ func WeightedMedian(weightedTimes []*WeightedTime, totalVotingPower int64) (res 
 		if weightedTime != nil {
 			if median <= weightedTime.Weight {
 				res = weightedTime.Time
+
 				break
 			}
 			median -= weightedTime.Weight

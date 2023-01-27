@@ -437,6 +437,7 @@ FOR_LOOP:
 			c.Logger.Debug("Send Ping")
 			_n, err = amino.MarshalAnySizedWriter(c.bufConnWriter, PacketPing{})
 			if err != nil {
+
 				break SELECTION
 			}
 			c.sendMonitor.Update(int(_n))
@@ -483,6 +484,7 @@ FOR_LOOP:
 		if err != nil {
 			c.Logger.Error("Connection failed @ sendRoutine", "conn", c, "err", err)
 			c.stopForError(err)
+
 			break FOR_LOOP
 		}
 	}
@@ -596,6 +598,7 @@ FOR_LOOP:
 				}
 				c.stopForError(err)
 			}
+
 			break FOR_LOOP
 		}
 
@@ -623,6 +626,7 @@ FOR_LOOP:
 				err := fmt.Errorf("unknown channel %X", pkt.ChannelID)
 				c.Logger.Error("Connection failed @ recvRoutine", "conn", c, "err", err)
 				c.stopForError(err)
+
 				break FOR_LOOP
 			}
 
@@ -632,6 +636,7 @@ FOR_LOOP:
 					c.Logger.Error("Connection failed @ recvRoutine", "conn", c, "err", err)
 					c.stopForError(err)
 				}
+
 				break FOR_LOOP
 			}
 			if msgBytes != nil {
@@ -643,6 +648,7 @@ FOR_LOOP:
 			err := fmt.Errorf("unknown message type %v", reflect.TypeOf(packet))
 			c.Logger.Error("Connection failed @ recvRoutine", "conn", c, "err", err)
 			c.stopForError(err)
+
 			break FOR_LOOP
 		}
 	}
