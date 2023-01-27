@@ -125,6 +125,7 @@ func (fc *FuzzedConnection) fuzz() bool {
 			// XXX: can't this fail because machine precision?
 			// XXX: do we need an error?
 			fc.Close() //nolint: errcheck, gas
+
 			return true
 		case r < fc.config.ProbDropRW+fc.config.ProbDropConn+fc.config.ProbSleep:
 			time.Sleep(fc.randomDuration())
@@ -147,6 +148,7 @@ func (fc *FuzzedConnection) shouldFuzz() bool {
 	select {
 	case <-fc.start:
 		fc.active = true
+
 		return true
 	default:
 		return false

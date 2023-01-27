@@ -123,6 +123,7 @@ func (b *bitState) shouldVisit(pc uint32, pos int) bool {
 		return false
 	}
 	b.visited[n/visitedBits] |= 1 << (n & (visitedBits - 1))
+
 	return true
 }
 
@@ -336,6 +337,7 @@ func (re *Regexp) backtrack(ib []byte, is string, pos int, ncap int, dstCap []in
 		}
 		if !re.tryBacktrack(b, i, uint32(re.prog.Start), pos) {
 			freeBitState(b)
+
 			return nil
 		}
 	} else {
@@ -353,6 +355,7 @@ func (re *Regexp) backtrack(ib []byte, is string, pos int, ncap int, dstCap []in
 				advance := i.index(re, pos)
 				if advance < 0 {
 					freeBitState(b)
+
 					return nil
 				}
 				pos += advance
@@ -368,11 +371,13 @@ func (re *Regexp) backtrack(ib []byte, is string, pos int, ncap int, dstCap []in
 			_, width = i.step(pos)
 		}
 		freeBitState(b)
+
 		return nil
 	}
 
 Match:
 	dstCap = append(dstCap, b.matchcap...)
 	freeBitState(b)
+
 	return dstCap
 }

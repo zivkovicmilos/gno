@@ -179,6 +179,7 @@ func MakeGenesisStateFromFile(genDocFile string) (State, error) {
 	if err != nil {
 		return State{}, err
 	}
+
 	return MakeGenesisState(genDoc)
 }
 

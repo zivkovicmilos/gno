@@ -43,11 +43,13 @@ func NewPress() *Press {
 
 func (p *Press) SetIndentDelim(s string) *Press {
 	p.indentDelim = s
+
 	return p
 }
 
 func (p *Press) SetNewlineStr(s string) *Press {
 	p.newlineStr = s
+
 	return p
 }
 

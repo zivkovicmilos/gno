@@ -38,6 +38,7 @@ type NetAddress struct {
 // protocol from protocolHostPort if it exists.
 func NetAddressString(id ID, protocolHostPort string) string {
 	addr := removeProtocolIfDefined(protocolHostPort)
+
 	return fmt.Sprintf("%s@%s", id, addr)
 }
 
@@ -54,6 +55,7 @@ func NewNetAddress(id ID, addr net.Addr) *NetAddress {
 		} else { // in testing
 			netAddr := NewNetAddressFromIPPort("", net.IP("0.0.0.0"), 0)
 			netAddr.ID = id
+
 			return netAddr
 		}
 	}
@@ -66,6 +68,7 @@ func NewNetAddress(id ID, addr net.Addr) *NetAddress {
 	port := uint16(tcpAddr.Port)
 	na := NewNetAddressFromIPPort("", ip, port)
 	na.ID = id
+
 	return na
 }
 
@@ -115,6 +118,7 @@ func NewNetAddressFromString(idaddr string) (*NetAddress, error) {
 
 	na := NewNetAddressFromIPPort("", ip, uint16(port))
 	na.ID = id
+
 	return na, nil
 }
 
@@ -200,6 +204,7 @@ func (na *NetAddress) UnmarshalAmino(str string) (err error) {
 		return err
 	}
 	*na = *na2
+
 	return nil
 }
 

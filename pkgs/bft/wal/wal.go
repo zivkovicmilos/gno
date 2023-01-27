@@ -592,6 +592,7 @@ func (dec *WALReader) readline() ([]byte, error) {
 	if 0 < len(bz) {
 		bz = bz[:len(bz)-1]
 	}
+
 	return bz, err
 }
 

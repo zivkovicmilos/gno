@@ -229,6 +229,7 @@ func (c *MConnection) OnStart() error {
 	c.quitRecvRoutine = make(chan struct{})
 	go c.sendRoutine()
 	go c.recvRoutine()
+
 	return nil
 }
 
@@ -242,6 +243,7 @@ func (c *MConnection) stopServices() (alreadyStopped bool) {
 	select {
 	case <-c.quitSendRoutine:
 		// already quit
+
 		return true
 	default:
 	}
@@ -249,6 +251,7 @@ func (c *MConnection) stopServices() (alreadyStopped bool) {
 	select {
 	case <-c.quitRecvRoutine:
 		// already quit
+
 		return true
 	default:
 	}
@@ -261,6 +264,7 @@ func (c *MConnection) stopServices() (alreadyStopped bool) {
 	// inform the recvRouting that we are shutting down
 	close(c.quitRecvRoutine)
 	close(c.quitSendRoutine)
+
 	return false
 }
 
@@ -356,6 +360,7 @@ func (c *MConnection) Send(chID byte, msgBytes []byte) bool {
 	channel, ok := c.channelsIdx[chID]
 	if !ok {
 		c.Logger.Error(fmt.Sprintf("Cannot send bytes, unknown channel %X", chID))
+
 		return false
 	}
 
@@ -385,6 +390,7 @@ func (c *MConnection) TrySend(chID byte, msgBytes []byte) bool {
 	channel, ok := c.channelsIdx[chID]
 	if !ok {
 		c.Logger.Error(fmt.Sprintf("Cannot send bytes, unknown channel %X", chID))
+
 		return false
 	}
 
@@ -410,6 +416,7 @@ func (c *MConnection) CanSend(chID byte) bool {
 	channel, ok := c.channelsIdx[chID]
 	if !ok {
 		c.Logger.Error(fmt.Sprintf("Unknown channel %X", chID))
+
 		return false
 	}
 	return channel.canSend()
@@ -541,6 +548,7 @@ func (c *MConnection) sendPacketMsg() bool {
 	if err != nil {
 		c.Logger.Error("Failed to write PacketMsg", "err", err)
 		c.stopForError(err)
+
 		return true
 	}
 	c.sendMonitor.Update(int(_n))

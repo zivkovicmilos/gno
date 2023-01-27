@@ -274,6 +274,7 @@ func (BitCurve *BitCurve) ScalarMult(Bx, By *big.Int, scalar []byte) (*big.Int, 
 	if res != 1 {
 		return nil, nil
 	}
+
 	return x, y
 }
 

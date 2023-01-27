@@ -37,6 +37,7 @@ func NewPeer(ip net.IP) *Peer {
 	}
 	mp.BaseService = service.NewBaseService(nil, "MockPeer", mp)
 	mp.Start()
+
 	return mp
 }
 

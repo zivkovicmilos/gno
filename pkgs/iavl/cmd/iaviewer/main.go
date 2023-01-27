@@ -83,6 +83,7 @@ func ReadTree(dir string, version int) (*iavl.MutableTree, error) {
 	tree := iavl.NewMutableTree(db, DefaultCacheSize)
 	ver, err := tree.LoadVersion(int64(version))
 	fmt.Printf("Got version: %d\n", ver)
+
 	return tree, err
 }
 
@@ -92,6 +93,7 @@ func PrintKeys(tree *iavl.MutableTree) {
 		printKey := parseWeaveKey(key)
 		digest := sha256.Sum256(value)
 		fmt.Printf("  %s\n    %X\n", printKey, digest)
+
 		return false
 	})
 }

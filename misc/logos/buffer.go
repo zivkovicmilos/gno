@@ -7,7 +7,7 @@ import (
 	"github.com/gdamore/tcell/v2"
 )
 
-//----------------------------------------
+// ----------------------------------------
 // Buffer
 
 // A Buffer is a buffer area in which to draw.
@@ -82,7 +82,7 @@ func (bb *Buffer) DrawToScreen(s tcell.Screen) {
 	}
 }
 
-//----------------------------------------
+// ----------------------------------------
 // Cell
 
 // A terminal character cell.
@@ -161,7 +161,7 @@ func (cc *Cell) GetTCellContent() (mainc rune, combc []rune, tstyle tcell.Style)
 	return
 }
 
-//----------------------------------------
+// ----------------------------------------
 // View
 // analogy: "Buffer:View :: array:slice".
 
@@ -205,7 +205,7 @@ func (bs View) GetCell(x, y int) *Cell {
 	)
 }
 
-//----------------------------------------
+// ----------------------------------------
 // BufferedView
 
 // A view onto an element.
@@ -317,6 +317,7 @@ func (bpv *BufferedElemView) Render() (updated bool) {
 	// Then, render and draw elem.
 	bpv.Base.Render()
 	bpv.Base.Draw(bpv.Offset, buffer.NewView(Coord{}))
+
 	return true
 }
 

@@ -26,6 +26,7 @@ const (
 func StoreConstructor(db dbm.DB, opts types.StoreOptions) types.CommitStore {
 	tree := iavl.NewMutableTree(db, defaultIAVLCacheSize)
 	store := UnsafeNewStore(tree, opts)
+
 	return store
 }
 
@@ -123,6 +124,7 @@ func (st *Store) SetStoreOptions(opts2 types.StoreOptions) {
 // Implements Commiter.
 func (st *Store) LoadLatestVersion() error {
 	version := st.tree.LatestVersion()
+
 	return st.LoadVersion(version)
 }
 
@@ -139,9 +141,11 @@ func (st *Store) LoadVersion(ver int64) error {
 	} else {
 		if st.opts.LazyLoad {
 			_, err := st.tree.(*iavl.MutableTree).LazyLoadVersion(ver)
+
 			return err
 		} else {
 			_, err := st.tree.(*iavl.MutableTree).LoadVersion(ver)
+
 			return err
 		}
 	}
@@ -171,6 +175,7 @@ func (st *Store) Set(key, value []byte) {
 // Implements types.Store.
 func (st *Store) Get(key []byte) (value []byte) {
 	_, v := st.tree.Get(key)
+
 	return v
 }
 
@@ -237,6 +242,7 @@ func (st *Store) Query(req abci.RequestQuery) (res abci.ResponseQuery) {
 	if len(req.Data) == 0 {
 		msg := "Query cannot be zero length"
 		res.Error = serrors.ErrTxDecode(msg)
+
 		return
 	}
 
@@ -300,6 +306,7 @@ func (st *Store) Query(req abci.RequestQuery) (res abci.ResponseQuery) {
 	default:
 		msg := fmt.Sprintf("Unexpected Query path: %v", req.Path)
 		res.Error = serrors.ErrUnknownRequest(msg)
+
 		return
 	}
 
@@ -354,6 +361,7 @@ func newIAVLIterator(tree *iavl.ImmutableTree, start, end []byte, ascending bool
 	}
 	go iter.iterateRoutine()
 	go iter.initRoutine()
+
 	return iter
 }
 
@@ -391,6 +399,7 @@ func (iter *iavlIterator) Valid() bool {
 
 	validity := !iter.invalid
 	iter.mtx.Unlock()
+
 	return validity
 }
 
@@ -412,6 +421,7 @@ func (iter *iavlIterator) Key() []byte {
 
 	key := iter.key
 	iter.mtx.Unlock()
+
 	return key
 }
 
@@ -423,6 +433,7 @@ func (iter *iavlIterator) Value() []byte {
 
 	val := iter.value
 	iter.mtx.Unlock()
+
 	return val
 }
 

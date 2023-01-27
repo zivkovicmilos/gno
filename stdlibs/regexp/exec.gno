@@ -54,11 +54,13 @@ type inputs struct {
 
 func (i *inputs) newBytes(b []byte) input {
 	i.bytes.str = b
+
 	return &i.bytes
 }
 
 func (i *inputs) newString(s string) input {
 	i.string.str = s
+
 	return &i.string
 }
 
@@ -66,6 +68,7 @@ func (i *inputs) newReader(r io.RuneReader) input {
 	i.reader.r = r
 	i.reader.atEOT = false
 	i.reader.pos = 0
+
 	return &i.reader
 }
 
@@ -110,6 +113,7 @@ func (m *machine) alloc(i *syntax.Inst) *thread {
 		t.cap = make([]int, len(m.matchcap), cap(m.matchcap))
 	}
 	t.inst = i
+
 	return t
 }
 
@@ -174,6 +178,7 @@ func (f lazyFlag) match(op syntax.EmptyOp) bool {
 func (m *machine) match(i input, pos int) bool {
 	startCond := m.re.cond
 	if startCond == ^syntax.EmptyOp(0) { // impossible
+
 		return false
 	}
 	m.matched = false
@@ -238,6 +243,7 @@ func (m *machine) match(i input, pos int) bool {
 		runq, nextq = nextq, runq
 	}
 	m.clear(nextq)
+
 	return m.matched
 }
 
@@ -402,6 +408,7 @@ func freeOnePassMachine(m *onePassMachine) {
 func (re *Regexp) doOnePass(ir io.RuneReader, ib []byte, is string, pos, ncap int, dstCap []int) []int {
 	startCond := re.cond
 	if startCond == ^syntax.EmptyOp(0) { // impossible
+
 		return nil
 	}
 
@@ -510,11 +517,13 @@ func (re *Regexp) doOnePass(ir io.RuneReader, ib []byte, is string, pos, ncap in
 Return:
 	if !matched {
 		freeOnePassMachine(m)
+
 		return nil
 	}
 
 	dstCap = append(dstCap, m.matchcap...)
 	freeOnePassMachine(m)
+
 	return dstCap
 }
 
@@ -550,11 +559,13 @@ func (re *Regexp) doExecute(r io.RuneReader, b []byte, s string, pos int, ncap i
 	m.init(ncap)
 	if !m.match(i, pos) {
 		re.put(m)
+
 		return nil
 	}
 
 	dstCap = append(dstCap, m.matchcap...)
 	re.put(m)
+
 	return dstCap
 }
 

@@ -182,6 +182,7 @@ func (kb dbKeybase) List() ([]Info, error) {
 			res = append(res, info)
 		}
 	}
+
 	return res, nil
 }
 
@@ -200,6 +201,7 @@ func (kb dbKeybase) GetByName(name string) (Info, error) {
 	if len(bs) == 0 {
 		return nil, keyerror.NewErrKeyNotFound(name)
 	}
+
 	return readInfo(bs)
 }
 
@@ -273,6 +275,7 @@ func (kb dbKeybase) Verify(nameOrBech32 string, msg []byte, sig []byte) (err err
 	if !pub.VerifyBytes(msg, sig) {
 		return errors.New("invalid signature")
 	}
+
 	return nil
 }
 

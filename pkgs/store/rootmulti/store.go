@@ -93,6 +93,7 @@ func (ms *multiStore) GetCommitStore(key types.StoreKey) types.CommitStore {
 // Implements CommitMultiStore.
 func (ms *multiStore) LoadLatestVersion() error {
 	ver := getLatestVersion(ms.db)
+
 	return ms.LoadVersion(ver)
 }
 
@@ -189,6 +190,7 @@ func (ms *multiStore) Commit() types.CommitID {
 		Hash:    commitInfo.Hash(),
 	}
 	ms.lastCommitID = commitID
+
 	return commitID
 }
 
@@ -267,6 +269,7 @@ func (ms *multiStore) Query(req abci.RequestQuery) (res abci.ResponseQuery) {
 	storeName, subpath, err := parsePath(path)
 	if err != nil {
 		res.Error = err
+
 		return
 	}
 
@@ -274,6 +277,7 @@ func (ms *multiStore) Query(req abci.RequestQuery) (res abci.ResponseQuery) {
 	if store == nil {
 		msg := fmt.Sprintf("no such store: %s", storeName)
 		res.Error = serrors.ErrUnknownRequest(msg)
+
 		return
 	}
 
@@ -281,6 +285,7 @@ func (ms *multiStore) Query(req abci.RequestQuery) (res abci.ResponseQuery) {
 	if !ok {
 		msg := fmt.Sprintf("store %s doesn't support queries", storeName)
 		res.Error = serrors.ErrUnknownRequest(msg)
+
 		return
 	}
 
@@ -292,12 +297,14 @@ func (ms *multiStore) Query(req abci.RequestQuery) (res abci.ResponseQuery) {
 		return res
 	} else if res.Proof == nil || len(res.Proof.Ops) == 0 {
 		res.Error = serrors.ErrInternal("proof is unexpectedly empty; ensure height has not been pruned")
+
 		return
 	}
 
 	commitInfo, errMsg := getCommitInfo(ms.db, res.Height)
 	if errMsg != nil {
 		res.Error = serrors.ErrInternal(errMsg.Error())
+
 		return
 	}
 
@@ -318,6 +325,7 @@ func (ms *multiStore) Query(req abci.RequestQuery) (res abci.ResponseQuery) {
 func parsePath(path string) (storeName string, subpath string, err serrors.Error) {
 	if !strings.HasPrefix(path, "/") {
 		err = serrors.ErrUnknownRequest(fmt.Sprintf("invalid path: %s", path))
+
 		return
 	}
 
@@ -346,6 +354,7 @@ func (ms *multiStore) constructStore(params storeParams) (store types.CommitStor
 	// return iavl.LoadStore(db, id, ms.pruningOpts, ms.lazyLoading)
 	// return commitDBStoreAdapter{dbadapter.Store{db}}, nil
 	store = params.constructor(db, opts)
+
 	return store, nil
 }
 

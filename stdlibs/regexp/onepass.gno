@@ -180,6 +180,7 @@ func mergeRuneSets(leftRunes, rightRunes *[]rune, leftPC, rightPC uint32) ([]run
 		*newLow += 2
 		ix += 2
 		next = append(next, pc)
+
 		return true
 	}
 

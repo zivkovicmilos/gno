@@ -154,6 +154,7 @@ func MnemonicToByteArray(mnemonic string) ([]byte, error) {
 			return nil, fmt.Errorf("invalid byte at position %v", i)
 		}
 	}
+
 	return hex, nil
 }
 
@@ -164,6 +165,7 @@ func NewSeedWithErrorChecking(mnemonic string, password string) ([]byte, error) 
 	if err != nil {
 		return nil, err
 	}
+
 	return NewSeed(mnemonic, password), nil
 }
 

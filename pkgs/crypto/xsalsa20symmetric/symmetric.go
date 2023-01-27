@@ -53,5 +53,6 @@ func DecryptSymmetric(ciphertext []byte, secret []byte) (plaintext []byte, err e
 	if !ok {
 		return nil, errors.New("ciphertext decryption failed")
 	}
+
 	return plaintext, nil
 }

@@ -132,6 +132,7 @@ func (bank BankKeeper) SubtractCoins(ctx sdk.Context, addr crypto.Address, amt s
 		err := std.ErrInsufficientCoins(
 			fmt.Sprintf("insufficient account funds; %s < %s", oldCoins, amt),
 		)
+
 		return nil, err
 	}
 	err := bank.SetCoins(ctx, addr, newCoins)
@@ -178,7 +179,7 @@ func (bank BankKeeper) SetCoins(ctx sdk.Context, addr crypto.Address, amt std.Co
 	return nil
 }
 
-//----------------------------------------
+// ----------------------------------------
 // ViewKeeper
 
 // ViewKeeperI defines a module interface that facilitates read only access to

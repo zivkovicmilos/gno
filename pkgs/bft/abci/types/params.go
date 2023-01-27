@@ -11,6 +11,7 @@ func (params ValidatorParams) IsValidPubKeyTypeURL(pubKeyTypeURL string) bool {
 			return true
 		}
 	}
+
 	return false
 }
 

@@ -7,7 +7,7 @@ import (
 	"github.com/gdamore/tcell/v2"
 )
 
-//----------------------------------------
+// ----------------------------------------
 // Stack
 
 // A Stack is like a Page, but it only highlights the top
@@ -133,6 +133,7 @@ func (st *Stack) ProcessEventKey(ev *EventKey) bool {
 			st.Elems = st.Elems[:len(st.Elems)-1]
 			st.Cursor--
 			st.SetIsDirty(true)
+
 			return true
 		} else {
 			// Let the last layer stick around.

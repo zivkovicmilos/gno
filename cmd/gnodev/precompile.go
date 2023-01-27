@@ -49,6 +49,7 @@ func (p *precompileOptions) getFlags() precompileFlags {
 
 func (p *precompileOptions) isPrecompiled(pkg importPath) bool {
 	_, precompiled := p.precompiled[pkg]
+
 	return precompiled
 }
 

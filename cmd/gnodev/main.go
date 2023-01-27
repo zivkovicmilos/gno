@@ -71,6 +71,7 @@ func runMain(cmd *command.Command, exec string, args []string) error {
 		for _, appItem := range mainApps {
 			cmd.Printf("  %s - %s\n", appItem.Name, appItem.Desc)
 		}
+
 		return nil
 	}
 

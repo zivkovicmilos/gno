@@ -193,6 +193,7 @@ func createAndStartProxyAppConns(clientCreator proxy.ClientCreator, logger log.L
 	if err := proxyApp.Start(); err != nil {
 		return nil, fmt.Errorf("error starting proxy app connections: %w", err)
 	}
+
 	return proxyApp, nil
 }
 
@@ -225,6 +226,7 @@ func createAndStartIndexerService(config *cfg.Config, dbProvider DBProvider,
 	if err := indexerService.Start(); err != nil {
 		return nil, nil, err
 	}
+
 	return indexerService, txIndexer, nil
 }
 
@@ -237,6 +239,7 @@ func doHandshake(stateDB dbm.DB, state sm.State, blockStore sm.BlockStore,
 	if err := handshaker.Handshake(proxyApp); err != nil {
 		return fmt.Errorf("error during handshake: %w", err)
 	}
+
 	return nil
 }
 

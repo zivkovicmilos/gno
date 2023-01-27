@@ -319,6 +319,7 @@ func getBeginBlockLastCommitInfo(block *types.Block, stateDB dbm.DB) abci.LastCo
 		Round: int32(block.LastCommit.Round()),
 		Votes: voteInfos,
 	}
+
 	return commitInfo
 }
 
@@ -341,6 +342,7 @@ func validateValidatorUpdates(abciUpdates []abci.ValidatorUpdate,
 				valUpdate, pubkeyTypeURL)
 		}
 	}
+
 	return nil
 }
 

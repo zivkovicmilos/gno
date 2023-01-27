@@ -94,6 +94,7 @@ func (p *parser) newRegexp(op Op) *Regexp {
 		re = new(Regexp)
 	}
 	re.Op = op
+
 	return re
 }
 
@@ -137,6 +138,7 @@ func (p *parser) push(re *Regexp) *Regexp {
 	}
 
 	p.stack = append(p.stack, re)
+
 	return re
 }
 
@@ -169,11 +171,13 @@ func (p *parser) maybeConcat(r rune, flags Flags) bool {
 		re1.Rune = re1.Rune0[:1]
 		re1.Rune[0] = r
 		re1.Flags = flags
+
 		return true
 	}
 
 	p.stack = p.stack[:n-1]
 	p.reuse(re1)
+
 	return false // did not push r
 }
 
@@ -209,6 +213,7 @@ func minFoldRune(r rune) rune {
 func (p *parser) op(op Op) *Regexp {
 	re := p.newRegexp(op)
 	re.Flags = p.flags
+
 	return p.push(re)
 }
 

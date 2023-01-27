@@ -28,6 +28,7 @@ func cloneAppend(bz []byte, tail []byte) (res []byte) {
 	res = make([]byte, len(bz)+len(tail))
 	copy(res, bz)
 	copy(res[len(bz):], tail)
+
 	return
 }
 
@@ -36,6 +37,7 @@ func (s Store) key(key []byte) (res []byte) {
 		panic("nil key on Store")
 	}
 	res = cloneAppend(s.prefix, key)
+
 	return
 }
 
@@ -52,6 +54,7 @@ func (s Store) Write() {
 // Implements Store
 func (s Store) Get(key []byte) []byte {
 	res := s.parent.Get(s.key(key))
+
 	return res
 }
 
@@ -153,6 +156,7 @@ func (iter *prefixIterator) Key() (key []byte) {
 	}
 	key = iter.iter.Key()
 	key = stripPrefix(key, iter.prefix)
+
 	return
 }
 
