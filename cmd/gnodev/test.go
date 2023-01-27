@@ -47,6 +47,7 @@ func testApp(cmd *command.Command, args []string, iopts interface{}) error {
 	opts := iopts.(testOptions)
 	if len(args) < 1 {
 		cmd.ErrPrintfln("Usage: test [test flags] [packages]")
+
 		return errors.New("invalid args")
 	}
 
@@ -156,6 +157,7 @@ func testApp(cmd *command.Command, args []string, iopts interface{}) error {
 	}
 	if testErrCount > 0 || buildErrCount > 0 {
 		cmd.ErrPrintfln("FAIL")
+
 		return fmt.Errorf("FAIL: %d build errors, %d test errors", buildErrCount, testErrCount)
 	}
 
@@ -464,5 +466,6 @@ func shouldRun(filter filterMatch, path string) bool {
 	}
 	elem := strings.Split(path, "/")
 	ok, _ := filter.matches(elem, matchString)
+
 	return ok
 }

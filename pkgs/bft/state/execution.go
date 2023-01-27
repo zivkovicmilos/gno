@@ -460,5 +460,6 @@ func ExecCommitBlock(
 		return nil, err
 	}
 	// ResponseCommit has no error or log, just data
+
 	return res.Data, nil
 }

@@ -276,6 +276,7 @@ func (w *crashingWAL) WriteMetaSync(m walm.MetaMessage) error {
 	if m.Height != 0 && m.Height == w.lastBlockHeight+1 {
 		w.crashCh <- ReachedLastBlockHeightError{m.Height}
 		runtime.Goexit()
+
 		return nil
 	}
 	return w.next.WriteMetaSync(m)
@@ -928,12 +929,14 @@ func (app *badApp) Commit() (res abci.ResponseCommit) {
 	if app.onlyLastHashIsWrong {
 		if app.height == app.numBlocks {
 			res.Data = random.RandBytes(8)
+
 			return
 		}
 		res.Data = []byte{app.height}
 		return
 	} else if app.allHashesAreWrong {
 		res.Data = random.RandBytes(8)
+
 		return
 	}
 
@@ -1032,6 +1035,7 @@ func makeBlockchainFromWAL(wal walm.WAL) ([]*types.Block, []*types.Commit, error
 	}
 	blocks = append(blocks, block)
 	commits = append(commits, thisBlockCommit)
+
 	return blocks, commits, nil
 }
 
@@ -1059,6 +1063,7 @@ func makeStateAndStore(config *cfg.Config, pubKey crypto.PubKey, appVersion stri
 	state.AppVersion = appVersion
 	store := newMockBlockStore(config, state.ConsensusParams)
 	sm.SaveState(stateDB, state)
+
 	return stateDB, state, store
 }
 

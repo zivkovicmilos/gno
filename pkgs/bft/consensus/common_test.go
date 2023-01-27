@@ -355,6 +355,7 @@ func newConsensusStateWithConfigAndBlockStore(
 	evsw.SetLogger(log.TestingLogger().With("module", "events"))
 	evsw.Start()
 	cs.SetEventSwitch(evsw)
+
 	return cs
 }
 
@@ -364,6 +365,7 @@ func loadPrivValidator(config *cfg.Config) *privval.FilePV {
 	privValidatorStateFile := config.PrivValidatorStateFile()
 	privValidator := privval.LoadOrGenFilePV(privValidatorKeyFile, privValidatorStateFile)
 	privValidator.Reset()
+
 	return privValidator
 }
 
@@ -793,6 +795,7 @@ func randGenesisDoc(numValidators int, randPower bool, minPower int64) (*types.G
 func randGenesisState(numValidators int, randPower bool, minPower int64) (sm.State, []types.PrivValidator) {
 	genDoc, privValidators := randGenesisDoc(numValidators, randPower, minPower)
 	s0, _ := sm.MakeGenesisState(genDoc)
+
 	return s0, privValidators
 }
 

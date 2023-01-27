@@ -30,6 +30,7 @@ func EncryptSymmetric(plaintext []byte, secret []byte) (ciphertext []byte) {
 	ciphertext = make([]byte, nonceLen+secretbox.Overhead+len(plaintext))
 	copy(ciphertext, nonce)
 	secretbox.Seal(ciphertext[nonceLen:nonceLen], plaintext, &nonceArr, &secretArr)
+
 	return ciphertext
 }
 

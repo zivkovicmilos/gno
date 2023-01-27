@@ -47,11 +47,13 @@ func maybeDerefValue(rv reflect.Value) (drv reflect.Value, rvIsPtr bool, rvIsNil
 		rvIsPtr = true
 		if rv.IsNil() {
 			rvIsNilPtr = true
+
 			return
 		}
 		rv = rv.Elem()
 	}
 	drv = rv
+
 	return
 }
 
@@ -87,6 +89,7 @@ func isNonstructDefaultValue(rv reflect.Value) (isDefault bool) {
 			return true
 		} else {
 			erv := rv.Elem()
+
 			return isNonstructDefaultValue(erv)
 		}
 	case reflect.Bool:
@@ -131,12 +134,15 @@ func defaultValue(rt reflect.Type) (rv reflect.Value) {
 			rv = reflect.New(rt.Elem())
 			// Set to 1970, the whole point of this function.
 			rv.Elem().Set(reflect.ValueOf(emptyTime))
+
 			return rv
 		} else if ert.Kind() == reflect.Struct {
 			rv = reflect.Zero(rt)
+
 			return rv
 		} else {
 			rv = reflect.New(rt.Elem())
+
 			return rv
 		}
 	case reflect.Struct:
@@ -144,6 +150,7 @@ func defaultValue(rt reflect.Type) (rv reflect.Value) {
 			// Set to 1970, the whole point of this function.
 			rv = reflect.New(rt).Elem()
 			rv.Set(reflect.ValueOf(emptyTime))
+
 			return rv
 		} else {
 			return reflect.Zero(rt)
@@ -206,6 +213,7 @@ func toReprObject(rv reflect.Value) (rrv reflect.Value, err error) {
 		erri := mwouts[1].Interface()
 		if erri != nil {
 			err = erri.(error)
+
 			return rrv, err
 		}
 	}

@@ -39,6 +39,7 @@ func (privKey PrivKeyEd25519) Bytes() []byte {
 // incorrect signature.
 func (privKey PrivKeyEd25519) Sign(msg []byte) ([]byte, error) {
 	signatureBytes := ed25519.Sign(privKey[:], msg)
+
 	return signatureBytes, nil
 }
 
@@ -63,6 +64,7 @@ func (privKey PrivKeyEd25519) PubKey() crypto.PubKey {
 
 	var pubkeyBytes [PubKeyEd25519Size]byte
 	copy(pubkeyBytes[:], privKeyBytes[32:])
+
 	return PubKeyEd25519(pubkeyBytes)
 }
 
@@ -94,6 +96,7 @@ func genPrivKey(rand io.Reader) PrivKeyEd25519 {
 	privKey := ed25519.NewKeyFromSeed(seed)
 	var privKeyEd PrivKeyEd25519
 	copy(privKeyEd[:], privKey)
+
 	return privKeyEd
 }
 
@@ -107,6 +110,7 @@ func GenPrivKeyFromSecret(secret []byte) PrivKeyEd25519 {
 	privKey := ed25519.NewKeyFromSeed(seed)
 	var privKeyEd PrivKeyEd25519
 	copy(privKeyEd[:], privKey)
+
 	return privKeyEd
 }
 

@@ -981,6 +981,7 @@ func (ps *PeerState) ToJSON() ([]byte, error) {
 func (ps *PeerState) GetHeight() int64 {
 	ps.mtx.Lock()
 	defer ps.mtx.Unlock()
+
 	return ps.PRS.Height
 }
 
@@ -1043,6 +1044,7 @@ func (ps *PeerState) PickSendVote(votes types.VoteSetReader) bool {
 		ps.logger.Debug("Sending vote message", "ps", ps, "vote", vote)
 		if ps.peer.Send(VoteChannel, amino.MustMarshalAny(msg)) {
 			ps.SetHasVote(vote)
+
 			return true
 		}
 		return false
@@ -1379,6 +1381,7 @@ func (ps *PeerState) String() string {
 func (ps *PeerState) StringIndented(indent string) string {
 	ps.mtx.Lock()
 	defer ps.mtx.Unlock()
+
 	return fmt.Sprintf(`PeerState{
 %s  Key        %v
 %s  RoundState %v
@@ -1403,6 +1406,7 @@ func decodeMsg(bz []byte) (msg ConsensusMessage, err error) {
 		return msg, fmt.Errorf("msg exceeds max size (%d > %d)", len(bz), maxMsgSize)
 	}
 	err = amino.Unmarshal(bz, &msg)
+
 	return
 }
 
@@ -1434,6 +1438,7 @@ func (m *NewRoundStepMessage) ValidateBasic() error {
 
 	if (m.Height == 1 && m.LastCommitRound != -1) ||
 		(m.Height > 1 && m.LastCommitRound < -1) { // TODO: #2737 LastCommitRound should always be >= 0 for heights > 1
+
 		return errors.New("Invalid LastCommitRound (for 1st block: -1, for others: >= 0)")
 	}
 	return nil

@@ -35,6 +35,7 @@ func replApp(cmd *command.Command, args []string, iopts interface{}) error {
 	opts := iopts.(replOptions)
 	if len(args) > 0 {
 		cmd.ErrPrintfln("Usage: repl [flags]")
+
 		return errors.New("invalid args")
 	}
 

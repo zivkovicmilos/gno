@@ -133,6 +133,7 @@ func (info *TypeInfo) String() string {
 		buf.Write([]byte(fmt.Sprintf("Fields:%v,", info.Fields)))
 	}
 	buf.Write([]byte("}"))
+
 	return buf.String()
 }
 
@@ -201,6 +202,7 @@ func NewCodec() *Codec {
 		usePBBindings:      false,
 	}
 	cdc.registerWellKnownTypes()
+
 	return cdc
 }
 
@@ -319,6 +321,7 @@ func (cdc *Codec) Seal() *Codec {
 	defer cdc.mtx.Unlock()
 
 	cdc.sealed = true
+
 	return cdc
 }
 
@@ -330,6 +333,7 @@ func (cdc *Codec) Autoseal() *Codec {
 		panic("already sealed")
 	}
 	cdc.autoseal = true
+
 	return cdc
 }
 
@@ -382,6 +386,7 @@ func (cdc *Codec) PrintTypes(out io.Writer) error {
 		}
 	}
 	// finish table
+
 	return nil
 }
 
@@ -395,6 +400,7 @@ func getLengthStr(info *TypeInfo) string {
 		reflect.Float32, reflect.Float64,
 		reflect.Complex64, reflect.Complex128:
 		s := info.Type.Size()
+
 		return fmt.Sprintf("0x%X", s)
 	default:
 		return "variable"
@@ -487,6 +493,7 @@ func (cdc *Codec) getTypeInfoWLock(rt reflect.Type) (info *TypeInfo, err error) 
 	defer cdc.mtx.Unlock()
 
 	info, err = cdc.getTypeInfoWLocked(rt)
+
 	return info, err
 }
 

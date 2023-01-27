@@ -89,5 +89,6 @@ func MakePoWTarget(difficulty, targetBits uint) []byte {
 		prefix = append(prefix, nonZeroPrefix)
 	}
 	tailLen := int(targetBytes) - len(prefix)
+
 	return append(prefix, bytes.Repeat([]byte{0xFF}, tailLen)...)
 }

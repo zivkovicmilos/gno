@@ -39,6 +39,7 @@ func PubKeyFromBech32(bech32str string) (pubKey PubKey, err error) {
 		return PubKey(nil), err
 	} else {
 		err = amino.Unmarshal(bz, &pubKey)
+
 		return
 	}
 }

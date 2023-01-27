@@ -39,6 +39,7 @@ func (bA *CompactBitArray) Size() int {
 	}
 	// num_bits = 8*num_full_bytes + overflow_in_last_byte
 	// num_full_bytes = (len(bA.Elems)-1)
+
 	return (len(bA.Elems)-1)*8 + int(bA.ExtraBitsStored)
 }
 
@@ -91,6 +92,7 @@ func (bA *CompactBitArray) Copy() *CompactBitArray {
 	}
 	c := make([]byte, len(bA.Elems))
 	copy(c, bA.Elems)
+
 	return &CompactBitArray{
 		ExtraBitsStored: bA.ExtraBitsStored,
 		Elems:           c,
@@ -170,6 +172,7 @@ func (bA *CompactBitArray) UnmarshalJSON(bz []byte) error {
 		// into a pointer with pre-allocated BitArray.
 		bA.ExtraBitsStored = 0
 		bA.Elems = nil
+
 		return nil
 	}
 
@@ -189,6 +192,7 @@ func (bA *CompactBitArray) UnmarshalJSON(bz []byte) error {
 		}
 	}
 	*bA = *bA2
+
 	return nil
 }
 
@@ -205,6 +209,7 @@ func (bA *CompactBitArray) CompactMarshal() []byte {
 	// bytes (saving 3-4 bits) and including the offset as a full byte.
 	bz = appendUvarint(bz, uint64(size))
 	bz = append(bz, bA.Elems...)
+
 	return bz
 }
 
@@ -229,5 +234,6 @@ func CompactUnmarshal(bz []byte) (*CompactBitArray, error) {
 func appendUvarint(b []byte, x uint64) []byte {
 	var a [binary.MaxVarintLen64]byte
 	n := binary.PutUvarint(a[:], x)
+
 	return append(b, a[:n]...)
 }

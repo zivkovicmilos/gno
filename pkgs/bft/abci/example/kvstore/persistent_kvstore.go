@@ -75,6 +75,7 @@ func (app *PersistentKVStoreApplication) DeliverTx(req abci.RequestDeliverTx) ab
 	}
 
 	// otherwise, update the key-value store
+
 	return app.app.DeliverTx(req)
 }
 

@@ -29,6 +29,7 @@ func broadcastApp(cmd *command.Command, args []string, iopts interface{}) error 
 
 	if len(args) != 1 {
 		cmd.ErrPrintfln("Usage: broadcast <filename>")
+
 		return errors.New("invalid args")
 	}
 	filename := args[0]

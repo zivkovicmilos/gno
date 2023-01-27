@@ -233,6 +233,7 @@ func derivePrivateKey(privKeyBytes [32]byte, chainCode [32]byte, index uint32, h
 	data = append(data, uint32ToBytes(index)...)
 	data2, chainCode2 := i64(chainCode[:], data)
 	x := addScalars(privKeyBytes[:], data2[:])
+
 	return x, chainCode2
 }
 
@@ -244,12 +245,14 @@ func addScalars(a []byte, b []byte) [32]byte {
 	x := sInt.Mod(sInt, btcec.S256().N).Bytes()
 	x2 := [32]byte{}
 	copy(x2[32-len(x):], x)
+
 	return x2
 }
 
 func uint32ToBytes(i uint32) []byte {
 	b := [4]byte{}
 	binary.BigEndian.PutUint32(b[:], i)
+
 	return b[:]
 }
 

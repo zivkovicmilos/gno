@@ -6,7 +6,7 @@ import (
 	"github.com/gnolang/gno/pkgs/errors"
 )
 
-//----------------------------------------
+// ----------------------------------------
 // ProofOp gets converted to an instance of ProofOperator:
 
 // ProofOperator is a layer for calculating intermediate Merkle roots
@@ -22,7 +22,7 @@ type ProofOperator interface {
 	ProofOp() ProofOp
 }
 
-//----------------------------------------
+// ----------------------------------------
 // Operations on a list of ProofOperators
 
 // ProofOperators is a slice of ProofOperator(s).
@@ -66,7 +66,7 @@ func (poz ProofOperators) Verify(root []byte, keypath string, args [][]byte) (er
 	return nil
 }
 
-//----------------------------------------
+// ----------------------------------------
 // ProofRuntime - main entrypoint
 
 type OpDecoder func(ProofOp) (ProofOperator, error)
@@ -134,5 +134,6 @@ func (prt *ProofRuntime) Verify(proof *Proof, root []byte, keypath string, args 
 func DefaultProofRuntime() (prt *ProofRuntime) {
 	prt = NewProofRuntime()
 	prt.RegisterOpDecoder(ProofOpSimpleValue, SimpleValueOpDecoder)
+
 	return
 }

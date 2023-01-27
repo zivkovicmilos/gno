@@ -31,6 +31,7 @@ func NewEntropy(bitSize int) ([]byte, error) {
 
 	entropy := make([]byte, bitSize/8)
 	_, err = rand.Read(entropy)
+
 	return entropy, err
 }
 
@@ -201,6 +202,7 @@ func addChecksum(data []byte) []byte {
 
 func padByteSlice(slice []byte, length int) []byte {
 	newSlice := make([]byte, length-len(slice))
+
 	return append(newSlice, slice...) //nolint:makezero
 }
 

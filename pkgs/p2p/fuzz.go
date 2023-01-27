@@ -103,6 +103,7 @@ func (fc *FuzzedConnection) SetWriteDeadline(t time.Time) error {
 
 func (fc *FuzzedConnection) randomDuration() time.Duration {
 	maxDelayMillis := int(fc.config.MaxDelay.Nanoseconds() / 1000)
+
 	return time.Millisecond * time.Duration(random.RandInt()%maxDelayMillis) //nolint: gas
 }
 

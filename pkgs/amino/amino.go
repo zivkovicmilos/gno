@@ -254,6 +254,7 @@ func (cdc *Codec) MarshalSizedWriter(w io.Writer, o interface{}) (n int64, err e
 	}
 	_n, err = w.Write(bz) // TODO: handle overflow in 32-bit systems.
 	n = int64(_n)
+
 	return
 }
 
@@ -312,6 +313,7 @@ func (cdc *Codec) MarshalAnySizedWriter(w io.Writer, o interface{}) (n int64, er
 	}
 	_n, err = w.Write(bz) // TODO: handle overflow in 32-bit systems.
 	n = int64(_n)
+
 	return
 }
 
@@ -402,6 +404,7 @@ func (cdc *Codec) MarshalPBBindings(pbm PBMessager) ([]byte, error) {
 		return nil, err
 	}
 	bz, err := proto.Marshal(pbo)
+
 	return bz, err
 }
 

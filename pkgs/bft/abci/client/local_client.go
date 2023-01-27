@@ -47,6 +47,7 @@ func (app *localClient) Error() error {
 
 func (app *localClient) FlushAsync() *ReqRes {
 	// Do nothing
+
 	return newLocalReqRes(abci.RequestFlush{}, nil)
 }
 

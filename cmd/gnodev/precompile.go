@@ -60,6 +60,7 @@ func precompileApp(cmd *command.Command, args []string, f interface{}) error {
 	flags := f.(precompileFlags)
 	if len(args) < 1 {
 		cmd.ErrPrintfln("Usage: precompile [precompile flags] [packages]")
+
 		return errors.New("invalid args")
 	}
 

@@ -18,9 +18,11 @@ func DecodeVarint8(bz []byte) (i int8, n int, err error) {
 	}
 	if i64 < int64(math.MinInt8) || i64 > int64(math.MaxInt8) {
 		err = errors.New("EOF decoding int8")
+
 		return
 	}
 	i = int8(i64)
+
 	return
 }
 
@@ -31,9 +33,11 @@ func DecodeVarint16(bz []byte) (i int16, n int, err error) {
 	}
 	if i64 < int64(math.MinInt16) || i64 > int64(math.MaxInt16) {
 		err = errors.New("EOF decoding int16")
+
 		return
 	}
 	i = int16(i64)
+
 	return
 }
 
@@ -55,10 +59,12 @@ func DecodeInt32(bz []byte) (i int32, n int, err error) {
 	const size int = 4
 	if len(bz) < size {
 		err = errors.New("EOF decoding int32")
+
 		return
 	}
 	i = int32(binary.LittleEndian.Uint32(bz[:size]))
 	n = size
+
 	return
 }
 
@@ -66,10 +72,12 @@ func DecodeInt64(bz []byte) (i int64, n int, err error) {
 	const size int = 8
 	if len(bz) < size {
 		err = errors.New("EOF decoding int64")
+
 		return
 	}
 	i = int64(binary.LittleEndian.Uint64(bz[:size]))
 	n = size
+
 	return
 }
 
@@ -79,10 +87,12 @@ func DecodeInt64(bz []byte) (i int64, n int, err error) {
 func DecodeByte(bz []byte) (b byte, n int, err error) {
 	if len(bz) == 0 {
 		err = errors.New("EOF decoding byte")
+
 		return
 	}
 	b = bz[0]
 	n = 1
+
 	return
 }
 
@@ -93,9 +103,11 @@ func DecodeUvarint8(bz []byte) (u uint8, n int, err error) {
 	}
 	if u64 > uint64(math.MaxUint8) {
 		err = errors.New("EOF decoding uint8")
+
 		return
 	}
 	u = uint8(u64)
+
 	return
 }
 
@@ -106,9 +118,11 @@ func DecodeUvarint16(bz []byte) (u uint16, n int, err error) {
 	}
 	if u64 > uint64(math.MaxUint16) {
 		err = errors.New("EOF decoding uint16")
+
 		return
 	}
 	u = uint16(u64)
+
 	return
 }
 

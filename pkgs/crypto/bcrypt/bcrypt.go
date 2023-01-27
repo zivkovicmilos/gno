@@ -153,6 +153,7 @@ func newFromPassword(salt []byte, password []byte, cost int) (*hashed, error) {
 		return nil, err
 	}
 	p.hash = hash
+
 	return p, err
 }
 
@@ -202,6 +203,7 @@ func bcrypt(password []byte, cost int, salt []byte) ([]byte, error) {
 	// Bug compatibility with C bcrypt implementations. We only encode 23 of
 	// the 24 bytes encrypted.
 	hsh := base64Encode(cipherData[:maxCryptedHashSize])
+
 	return hsh, nil
 }
 
@@ -250,6 +252,7 @@ func (p *hashed) Hash() []byte {
 	n += encodedSaltSize
 	copy(arr[n:], p.hash)
 	n += encodedHashSize
+
 	return arr[:n]
 }
 
@@ -280,6 +283,7 @@ func (p *hashed) decodeCost(sbytes []byte) (int, error) {
 		return -1, err
 	}
 	p.cost = cost
+
 	return 3, nil
 }
 

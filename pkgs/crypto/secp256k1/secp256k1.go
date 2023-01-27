@@ -33,6 +33,7 @@ func (privKey PrivKeySecp256k1) PubKey() crypto.PubKey {
 	_, pubkeyObject := secp256k1.PrivKeyFromBytes(secp256k1.S256(), privKey[:])
 	var pubkeyBytes PubKeySecp256k1
 	copy(pubkeyBytes[:], pubkeyObject.SerializeCompressed())
+
 	return pubkeyBytes
 }
 
@@ -127,6 +128,7 @@ func (pubKey PubKeySecp256k1) Address() crypto.Address {
 
 	hasherRIPEMD160 := ripemd160.New()
 	hasherRIPEMD160.Write(sha) // does not error
+
 	return crypto.AddressFromBytes(hasherRIPEMD160.Sum(nil))
 }
 

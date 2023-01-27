@@ -94,6 +94,7 @@ func (cdc *Codec) decodeReflectBinary(bz []byte, info *TypeInfo,
 	case reflect.Interface:
 		_n, err = cdc.decodeReflectBinaryInterface(bz, info, rv, fopts, bare)
 		n += _n
+
 		return
 
 	case reflect.Array:
@@ -121,6 +122,7 @@ func (cdc *Codec) decodeReflectBinary(bz []byte, info *TypeInfo,
 	case reflect.Struct:
 		_n, err = cdc.decodeReflectBinaryStruct(bz, info, rv, fopts, bare)
 		n += _n
+
 		return
 
 	// ----------------------------------------
@@ -169,6 +171,7 @@ func (cdc *Codec) decodeReflectBinary(bz []byte, info *TypeInfo,
 			return
 		}
 		rv.SetInt(int64(num))
+
 		return
 
 	case reflect.Int8:
@@ -178,6 +181,7 @@ func (cdc *Codec) decodeReflectBinary(bz []byte, info *TypeInfo,
 			return
 		}
 		rv.SetInt(int64(num))
+
 		return
 
 	case reflect.Int:
@@ -187,6 +191,7 @@ func (cdc *Codec) decodeReflectBinary(bz []byte, info *TypeInfo,
 			return
 		}
 		rv.SetInt(num)
+
 		return
 
 	// ----------------------------------------
@@ -234,6 +239,7 @@ func (cdc *Codec) decodeReflectBinary(bz []byte, info *TypeInfo,
 			return
 		}
 		rv.SetUint(uint64(num))
+
 		return
 
 	case reflect.Uint8:
@@ -247,6 +253,7 @@ func (cdc *Codec) decodeReflectBinary(bz []byte, info *TypeInfo,
 			return
 		}
 		rv.SetUint(uint64(num))
+
 		return
 
 	case reflect.Uint:
@@ -256,6 +263,7 @@ func (cdc *Codec) decodeReflectBinary(bz []byte, info *TypeInfo,
 			return
 		}
 		rv.SetUint(num)
+
 		return
 
 	// ----------------------------------------
@@ -268,12 +276,14 @@ func (cdc *Codec) decodeReflectBinary(bz []byte, info *TypeInfo,
 			return
 		}
 		rv.SetBool(b)
+
 		return
 
 	case reflect.Float64:
 		var f float64
 		if !fopts.Unsafe {
 			err = errors.New("float support requires `amino:\"unsafe\"`")
+
 			return
 		}
 		f, _n, err = DecodeFloat64(bz)
@@ -281,12 +291,14 @@ func (cdc *Codec) decodeReflectBinary(bz []byte, info *TypeInfo,
 			return
 		}
 		rv.SetFloat(f)
+
 		return
 
 	case reflect.Float32:
 		var f float32
 		if !fopts.Unsafe {
 			err = errors.New("float support requires `amino:\"unsafe\"`")
+
 			return
 		}
 		f, _n, err = DecodeFloat32(bz)
@@ -294,6 +306,7 @@ func (cdc *Codec) decodeReflectBinary(bz []byte, info *TypeInfo,
 			return
 		}
 		rv.SetFloat(float64(f))
+
 		return
 
 	case reflect.String:
@@ -303,6 +316,7 @@ func (cdc *Codec) decodeReflectBinary(bz []byte, info *TypeInfo,
 			return
 		}
 		rv.SetString(str)
+
 		return
 
 	default:
@@ -329,6 +343,7 @@ func (cdc *Codec) decodeReflectBinaryInterface(bz []byte, iinfo *TypeInfo, rv re
 		// I've forgotten the reason a second time,
 		// but I'm pretty sure that reason exists.
 		err = errors.New("decoding to a non-nil interface is not supported yet")
+
 		return
 	}
 
@@ -341,6 +356,7 @@ func (cdc *Codec) decodeReflectBinaryInterface(bz []byte, iinfo *TypeInfo, rv re
 	// Special case if nil interface.
 	if len(bz) == 0 {
 		rv.Set(iinfo.ZeroValue)
+
 		return
 	}
 
@@ -351,6 +367,7 @@ func (cdc *Codec) decodeReflectBinaryInterface(bz []byte, iinfo *TypeInfo, rv re
 	}
 	if fnum != 1 || typ != Typ3ByteLength {
 		err = fmt.Errorf("expected Any field number 1 TypeURL, got num %v typ %v", fnum, typ)
+
 		return
 	}
 
@@ -375,6 +392,7 @@ func (cdc *Codec) decodeReflectBinaryInterface(bz []byte, iinfo *TypeInfo, rv re
 		// and not supported (will error).
 		if fnum != 2 || typ != Typ3ByteLength {
 			err = fmt.Errorf("expected Any field number 2 Value, got num %v typ %v", fnum, typ)
+
 			return
 		}
 		// Decode second field value of Value
@@ -388,6 +406,7 @@ func (cdc *Codec) decodeReflectBinaryInterface(bz []byte, iinfo *TypeInfo, rv re
 		// buf.  Ensure that all of bz was consumed.
 		if len(bz) > 0 {
 			err = errors.New("bytes left over after reading Any.")
+
 			return
 		}
 		// Increment n by length of length prefix for
@@ -417,6 +436,7 @@ func (cdc *Codec) decodeReflectBinaryAny(
 	// Invalid typeURL value is invalid.
 	if !IsASCIIText(typeURL) {
 		err = fmt.Errorf("invalid type_url string bytes %X", typeURL)
+
 		return
 	}
 
@@ -436,6 +456,7 @@ func (cdc *Codec) decodeReflectBinaryAny(
 	// nil-pointer interface values are forbidden.
 	if len(value) == 0 {
 		rv.Set(irvSet)
+
 		return
 	}
 
@@ -484,12 +505,14 @@ func (cdc *Codec) decodeReflectBinaryAny(
 	_n, err := cdc.decodeReflectBinary(value, cinfo, crv, fopts, bareValue, 0)
 	if slide(&value, &n, _n) && err != nil {
 		rv.Set(irvSet) // Helps with debugging
+
 		return
 	}
 
 	// Ensure that all of value was consumed.
 	if len(value) > 0 {
 		err = errors.New("bytes left over after reading Any.Value.")
+
 		return
 	}
 
@@ -499,6 +522,7 @@ func (cdc *Codec) decodeReflectBinaryAny(
 	// NOTE: rv.Set() should succeed because it was validated
 	// already during Register[Interface/Concrete].
 	rv.Set(irvSet)
+
 	return n, err
 }
 
@@ -532,11 +556,13 @@ func (cdc *Codec) decodeReflectBinaryByteArray(bz []byte, info *TypeInfo, rv ref
 	if len(byteslice) != length {
 		err = fmt.Errorf("mismatched byte array length: Expected %v, got %v",
 			length, len(byteslice))
+
 		return
 	}
 
 	// Copy read byteslice to rv array.
 	reflect.Copy(rv, reflect.ValueOf(byteslice))
+
 	return n, err
 }
 
