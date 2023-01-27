@@ -16,6 +16,7 @@ func TestStringWidthSlow(t *testing.T) {
 		for {
 			width1 := widthOf(string(bz))
 			width2 := widthOfSlow(string(bz))
+
 			if width1 == 0 {
 				if isRepeatedWZJ(bz) {
 					// these bytes encode one or more U+200D WZJ as UTF8.
@@ -42,9 +43,11 @@ func TestStringWidthRandom(t *testing.T) {
 		if i%(max/80) == 0 {
 			fmt.Print(".")
 		}
+
 		bz := random.RandBytes(12)
 		width1 := widthOf(string(bz))
 		width2 := widthOfSlow(string(bz))
+
 		if width1 == 0 {
 			if isRepeatedWZJ(bz) {
 				// these bytes encode one or more U+200D WZJ as UTF8.
@@ -66,6 +69,7 @@ func TestStringWidthDummy(t *testing.T) {
 	bz := []byte{0x0C, 0x5B, 0x0D, 0xCF, 0xC5, 0xE2, 0x80, 0x8D, 0xC1, 0x32, 0x69, 0x41}
 	width1 := widthOf(string(bz))
 	width2 := widthOfSlow(string(bz))
+
 	if width1 == 0 {
 		if isRepeatedWZJ(bz) {
 			// these bytes encode one or more U+200D WZJ as UTF8.
@@ -126,6 +130,7 @@ func widthOfSlow(s string) (w int) {
 		if n == 0 {
 			panic("should not happen")
 		}
+
 		w += w2
 		rz = rz[n:]
 	}

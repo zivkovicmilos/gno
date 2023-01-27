@@ -297,7 +297,9 @@ func runTestFiles(
 	}
 
 	m.RunFiles(files.Files...)
+
 	n := gno.MustParseFile("testmain.go", testmain)
+
 	m.RunFiles(n)
 
 	for _, test := range testFuncs.Tests {
@@ -490,6 +492,7 @@ func shouldRun(filter filterMatch, path string) bool {
 	if filter == nil {
 		return true
 	}
+
 	elem := strings.Split(path, "/")
 	ok, _ := filter.matches(elem, matchString)
 

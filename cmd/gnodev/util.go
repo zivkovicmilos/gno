@@ -151,10 +151,13 @@ func ResolvePath(output string, path importPath) (string, error) {
 	if err != nil {
 		return "", err
 	}
+
 	absPkgPath, err := filepath.Abs(string(path))
+
 	if err != nil {
 		return "", err
 	}
+
 	pkgPath := strings.TrimPrefix(absPkgPath, guessRootDir())
 
 	return filepath.Join(absOutput, pkgPath), nil

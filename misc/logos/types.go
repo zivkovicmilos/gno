@@ -73,7 +73,9 @@ func NewPage(s string, width int, isCode bool, style *Style) *Page {
 		Elems:  nil, // will set
 		Cursor: -1,
 	}
+
 	elems := []Elem{}
+
 	if s != "" {
 		pad := style.GetPadding()
 		ypos := 0 + pad.Top
@@ -486,6 +488,7 @@ func (tel *TextElem) Render() (updated bool) {
 			cell := tel.Buffer.GetCell(i+j, 0)
 			cell.SetValue("", 0, style, tel) // clear next cells
 		}
+
 		i += w
 	}
 
@@ -708,6 +711,7 @@ func (tt *Attrs) SetParent(p Elem) {
 	if tt.Parent != nil && tt.Parent != p {
 		panic("parent already set")
 	}
+
 	tt.Parent = p
 }
 
@@ -758,6 +762,7 @@ func (tt *Attrs) Merge(ot *Attrs) {
 	if ot.Parent != nil {
 		tt.Parent = ot.Parent
 	}
+
 	tt.AttrFlags |= ot.AttrFlags
 	tt.Other = ot.Other // TODO merge by key.
 }
@@ -997,10 +1002,12 @@ func (sz Size) SubCoord(crd Coord) Size {
 	if !crd.IsNonNegative() {
 		panic("should not happen")
 	}
+
 	sz2 := Size{
 		Width:  sz.Width - crd.X,
 		Height: sz.Height - crd.Y,
 	}
+
 	if !sz2.IsValid() {
 		panic("should not happen")
 	}
