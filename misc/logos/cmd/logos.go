@@ -82,6 +82,7 @@ func main() {
 					s.Sync()
 				default:
 					bstack.ProcessEventKey(ev)
+
 					if bstack.Render() {
 						bstack.DrawToScreen(s)
 						s.Sync()

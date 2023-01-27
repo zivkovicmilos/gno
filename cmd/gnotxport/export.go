@@ -42,6 +42,7 @@ var defaultTxExportOptions = txExportOptions{
 func txExportApp(cmd *command.Command, args []string, iopts interface{}) error {
 	opts := iopts.(txExportOptions)
 	c := client.NewHTTP(opts.Remote, "/websocket")
+
 	status, err := c.Status()
 	if err != nil {
 		panic(err)
@@ -88,10 +89,13 @@ func txExportApp(cmd *command.Command, args []string, iopts interface{}) error {
 
 			panic(err)
 		}
+
 		txs := block.Block.Data.Txs
+
 		if len(txs) == 0 {
 			continue
 		}
+
 		_, err = c.BlockResults(&height)
 		if err != nil {
 			if opts.Follow && strings.Contains(err.Error(), "") {

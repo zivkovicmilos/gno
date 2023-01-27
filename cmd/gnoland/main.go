@@ -25,6 +25,7 @@ import (
 
 func main() {
 	args := os.Args[1:]
+
 	err := runMain(args)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())
@@ -112,7 +113,9 @@ func runMain(args []string) error {
 	if err != nil {
 		return fmt.Errorf("error in creating new app: %w", err)
 	}
+
 	cfg.LocalApp = gnoApp
+
 	gnoNode, err := node.DefaultNewNode(cfg, logger)
 	if err != nil {
 		return fmt.Errorf("error in creating node: %w", err)

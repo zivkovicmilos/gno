@@ -19,10 +19,12 @@ func runFileTest(t *testing.T, path string, nativeLibs bool) {
 	t.Helper()
 
 	var logger loggerFunc
+
 	if gno.IsDebug() && testing.Verbose() {
 		logger = t.Log
 	}
 	err := RunFileTest("..", path, nativeLibs, logger)
+
 	if err != nil {
 		t.Fatalf("got error: %v", err)
 	}
@@ -36,10 +38,12 @@ func TestFiles1(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	for _, file := range files {
 		if filepath.Ext(file.Name()) != ".gno" {
 			continue
 		}
+
 		if testing.Short() && strings.Contains(file.Name(), "_long") {
 			t.Log(fmt.Sprintf("skipping test %s in short mode.", file.Name()))
 
@@ -55,14 +59,17 @@ func TestFiles1(t *testing.T) {
 // Like TestFiles1(), but with more full-gno stdlib packages.
 func TestFiles2(t *testing.T) {
 	baseDir := filepath.Join(".", "files2")
+
 	files, err := ioutil.ReadDir(baseDir)
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	for _, file := range files {
 		if filepath.Ext(file.Name()) != ".gno" {
 			continue
 		}
+
 		if testing.Short() && strings.Contains(file.Name(), "_long") {
 			t.Log(fmt.Sprintf("skipping test %s in short mode.", file.Name()))
 

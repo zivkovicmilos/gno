@@ -162,6 +162,7 @@ func serveApp(cmd *command.Command, args []string, iopts interface{}) error {
 	if err != nil {
 		return errors.Wrap(err, "querying")
 	}
+
 	if qres.Response.Error != nil {
 		fmt.Printf("Log: %s\n",
 			qres.Response.Log)
@@ -187,6 +188,7 @@ func serveApp(cmd *command.Command, args []string, iopts interface{}) error {
 	} else {
 		pass, err = cmd.GetPassword("Enter password.", opts.InsecurePasswordStdin)
 	}
+
 	if err != nil {
 		return err
 	}
@@ -396,6 +398,7 @@ func sendAmountTo(
 			}
 		}
 	}
+
 	if !found {
 		return errors.New("addr %v (%s) not in signer set",
 			fromAddr, name)

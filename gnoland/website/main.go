@@ -387,6 +387,7 @@ func makeRequest(qpath string, data []byte) (res *abci.ResponseQuery, err error)
 	cli := client.NewHTTP(remote, "/websocket")
 	qres, err := cli.ABCIQueryWithOptions(
 		qpath, data, opts2)
+
 	if err != nil {
 		return nil, err
 	}

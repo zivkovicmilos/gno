@@ -25,6 +25,7 @@ func TestStringWidthSlow(t *testing.T) {
 			} else {
 				require.True(t, 0 < width1, "got zero width for bytes %X", bz)
 			}
+
 			require.Equal(t, width1, width2)
 			if !incBuffer(bz) {
 				break
@@ -52,6 +53,7 @@ func TestStringWidthRandom(t *testing.T) {
 		} else {
 			require.True(t, 0 < width1, "got zero width for bytes %X", bz)
 		}
+
 		require.Equal(t, width2, width1,
 			"want %d but got %d the slow way: %X",
 			width1, width2, bz)
@@ -72,6 +74,7 @@ func TestStringWidthDummy(t *testing.T) {
 	} else {
 		require.True(t, 0 < width1, "got zero width for bytes %X", bz)
 	}
+
 	require.Equal(t, width2, width1,
 		"want %d but got %d the slow way: %X",
 		width1, width2, bz)

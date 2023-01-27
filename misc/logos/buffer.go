@@ -34,6 +34,7 @@ func (bb *Buffer) GetCell(x, y int) *Cell {
 			"index x=%d out of bounds, width=%d",
 			x, bb.Width))
 	}
+
 	if bb.Height <= y {
 		panic(fmt.Sprintf(
 			"index y=%d out of bounds, height=%d",
@@ -111,7 +112,9 @@ func (cc *Cell) SetValueFromCell(c2 *Cell) {
 	if c2.Style != nil {
 		cc.Style = c2.Style
 	}
+
 	cc.Attrs.Merge(c2.GetAttrs())
+
 	if c2.Ref != nil {
 		cc.Ref = c2.Ref
 	}
@@ -120,9 +123,11 @@ func (cc *Cell) SetValueFromCell(c2 *Cell) {
 func (cc *Cell) SetValue(chs string, w int, st *Style, el Elem) {
 	cc.Character = chs
 	cc.Width = w
+
 	if st != nil {
 		cc.Style = st
 	}
+
 	if el != nil {
 		cc.Attrs.Merge(el.GetAttrs())
 		cc.Ref = el

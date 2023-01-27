@@ -83,6 +83,7 @@ func runRepl(rootDir string, verbose bool) error {
 
 			return fmt.Errorf("term error: %w", err)
 		}
+
 		term.Restore(0, oldState)
 
 		funcName := fmt.Sprintf("repl_%d", i)

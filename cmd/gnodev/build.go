@@ -34,6 +34,7 @@ func buildApp(cmd *command.Command, args []string, iopts interface{}) error {
 	}
 
 	errCount := 0
+
 	for _, pkgPath := range paths {
 		err = goBuildFileOrPkg(pkgPath, opts)
 		if err != nil {

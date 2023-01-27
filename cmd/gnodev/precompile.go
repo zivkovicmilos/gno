@@ -95,6 +95,7 @@ func precompilePkg(pkgPath importPath, opts *precompileOptions) error {
 	if opts.isPrecompiled(pkgPath) {
 		return nil
 	}
+
 	opts.markAsPrecompiled(pkgPath)
 
 	files, err := filepath.Glob(filepath.Join(string(pkgPath), "*.gno"))

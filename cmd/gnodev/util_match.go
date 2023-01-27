@@ -138,6 +138,7 @@ func splitRegexp(s string) filterMatch {
 // space.
 func rewrite(s string) string {
 	b := []byte{}
+
 	for _, r := range s {
 		switch {
 		case isSpace(r):

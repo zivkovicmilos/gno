@@ -68,16 +68,19 @@ func RunFileTest(rootDir string, path string, nativeLibs bool, logger loggerFunc
 	if pkgPath == "" {
 		pkgPath = "main"
 	}
+
 	pkgName := DefaultPkgName(pkgPath)
 	stdin := new(bytes.Buffer)
 	stdout := new(bytes.Buffer)
 	stderr := new(bytes.Buffer)
 	filesPath := "./files2"
 	mode := ImportModeStdlibsPreferred
+
 	if nativeLibs {
 		filesPath = "./files"
 		mode = ImportModeNativePreferred
 	}
+
 	store := TestStore(rootDir, filesPath, stdin, stdout, stderr, mode)
 	store.SetLogStoreOps(true)
 	m := testMachineCustom(store, pkgPath, stdout, maxAlloc, send)
@@ -305,6 +308,7 @@ func RunFileTest(rootDir string, path string, nativeLibs bool, logger loggerFunc
 		if logger != nil {
 			logger("last state: \n", m.String())
 		}
+
 		panic(fmt.Sprintf("fail on %s: machine not empty after main: %v", path, err))
 	}
 
@@ -313,13 +317,16 @@ func RunFileTest(rootDir string, path string, nativeLibs bool, logger loggerFunc
 
 func wantedFromComment(p string) (directives []string, pkgPath, res, err, rops string, maxAlloc int64, send std.Coins) {
 	fset := token.NewFileSet()
+
 	f, err2 := parser.ParseFile(fset, p, nil, parser.ParseComments)
 	if err2 != nil {
 		panic(err2)
 	}
+
 	if len(f.Comments) == 0 {
 		return
 	}
+
 	for _, comments := range f.Comments {
 		text := comments.Text()
 		if strings.HasPrefix(text, "PKGPATH:") {
@@ -369,6 +376,7 @@ func replaceWantedInPlace(path string, directive string, output string) {
 	isReplacing := false
 	wroteDirective := false
 	newlines := []string(nil)
+
 	for _, line := range lines {
 		if line == "// "+directive+":" {
 			if wroteDirective {
@@ -397,6 +405,7 @@ func replaceWantedInPlace(path string, directive string, output string) {
 
 		newlines = append(newlines, line)
 	}
+
 	osm.MustWriteFile(path, []byte(strings.Join(newlines, "\n")), 0o644)
 }
 
@@ -456,6 +465,7 @@ func (tb *testBanker) SendCoins(from, to crypto.Bech32Address, amt std.Coins) {
 			"source address %s does not exist",
 			from.String()))
 	}
+
 	if !fcoins.IsAllGTE(amt) {
 		panic(fmt.Sprintf(
 			"source address %s has %s; cannot send %s",

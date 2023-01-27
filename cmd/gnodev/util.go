@@ -22,6 +22,7 @@ func isGnoFile(f fs.DirEntry) bool {
 
 func gnoFilesFromArgs(args []string) ([]string, error) {
 	paths := []string{}
+
 	for _, arg := range args {
 		info, err := os.Stat(arg)
 		if err != nil {
@@ -54,6 +55,7 @@ func gnoFilesFromArgs(args []string) ([]string, error) {
 
 func gnoPackagesFromArgs(args []string) ([]string, error) {
 	paths := []string{}
+
 	for _, arg := range args {
 		info, err := os.Stat(arg)
 		if err != nil {

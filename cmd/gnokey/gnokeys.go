@@ -23,6 +23,7 @@ func main() {
 	args := os.Args[1:]
 	// extend default crypto/keys/client with maketx.
 	client.AddApp(makeTxApp, "maketx", "compose a tx document to sign", nil)
+
 	err := client.RunMain(cmd, exec, args)
 	if err != nil {
 		cmd.ErrPrintfln("%s", err.Error())
@@ -162,6 +163,7 @@ func makeAddPackageTxApp(cmd *command.Command, args []string, iopts interface{})
 
 	// parse gas wanted & fee.
 	gaswanted := opts.GasWanted
+
 	gasfee, err := std.ParseCoin(opts.GasFee)
 	if err != nil {
 		panic(err)
@@ -241,14 +243,17 @@ func makeCallTxApp(cmd *command.Command, args []string, iopts interface{}) error
 
 	// read account pubkey.
 	nameOrBech32 := args[0]
+
 	kb, err := keys.NewKeyBaseFromDir(opts.Home)
 	if err != nil {
 		return err
 	}
+
 	info, err := kb.GetByNameOrAddress(nameOrBech32)
 	if err != nil {
 		return err
 	}
+
 	caller := info.GetAddress()
 	// info.GetPubKey()
 
@@ -305,6 +310,7 @@ func signAndBroadcast(
 	if err != nil {
 		return err
 	}
+
 	info, err := kb.GetByNameOrAddress(nameOrBech32)
 	if err != nil {
 		return err
