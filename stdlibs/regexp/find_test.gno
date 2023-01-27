@@ -247,6 +247,7 @@ func TestFindAll(t *testing.T) {
 		case test.matches != nil && result != nil:
 			if len(test.matches) != len(result) {
 				t.Errorf("expected %d matches; got %d: %s", len(test.matches), len(result), test)
+
 				continue
 			}
 			for k, e := range test.matches {
@@ -276,6 +277,7 @@ func TestFindAllString(t *testing.T) {
 		case test.matches != nil && result != nil:
 			if len(test.matches) != len(result) {
 				t.Errorf("expected %d matches; got %d: %s", len(test.matches), len(result), test)
+
 				continue
 			}
 			for k, e := range test.matches {

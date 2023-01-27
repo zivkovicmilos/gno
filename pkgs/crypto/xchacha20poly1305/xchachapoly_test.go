@@ -44,6 +44,7 @@ func TestRandom(t *testing.T) {
 
 		if !bytes.Equal(plaintext, plaintext2) {
 			t.Errorf("Random #%d: plaintext's don't match: got %x vs %x", i, plaintext2, plaintext)
+
 			continue
 		}
 

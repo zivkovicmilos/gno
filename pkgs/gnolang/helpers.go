@@ -484,6 +484,7 @@ func A(args ...interface{}) *AssignStmt {
 			case "=", ":=", "+=", "-=", "*=", "/=", "%=",
 				"&=", "|=", "^=", "<<=", ">>=", "&^=":
 				setOp(Op2Word(s))
+
 				continue
 			default:
 				arg = X(s)

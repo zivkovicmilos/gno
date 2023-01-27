@@ -252,6 +252,7 @@ func (re *Regexp) tryBacktrack(b *bitState, i input, pc uint32, pos int) bool {
 			if arg {
 				// Finished inst.Out; restore the old value.
 				b.cap[inst.Arg] = pos
+
 				continue
 			} else {
 				if inst.Arg < uint32(len(b.cap)) {

@@ -367,6 +367,7 @@ func replaceWantedInPlace(path string, directive string, output string) {
 		if line == "// "+directive+":" {
 			if wroteDirective {
 				isReplacing = true
+
 				continue
 			} else {
 				wroteDirective = true
@@ -377,6 +378,7 @@ func replaceWantedInPlace(path string, directive string, output string) {
 					newlines = append(newlines,
 						strings.TrimRight("// "+outline, " "))
 				}
+
 				continue
 			}
 		} else if isReplacing {

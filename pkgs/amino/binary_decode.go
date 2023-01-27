@@ -634,6 +634,7 @@ func (cdc *Codec) decodeReflectBinaryArray(bz []byte, info *TypeInfo, rv reflect
 
 				slide(&bz, &n, 1)
 				erv.Set(defaultValue(erv.Type()))
+
 				continue
 			}
 			// Special case: nested lists.
@@ -845,6 +846,7 @@ func (cdc *Codec) decodeReflectBinarySlice(bz []byte, info *TypeInfo, rv reflect
 				slide(&bz, &n, 1)
 				erv.Set(defaultValue(erv.Type()))
 				srv = reflect.Append(srv, erv)
+
 				continue
 			}
 			// Special case: nested lists.
@@ -934,6 +936,7 @@ func (cdc *Codec) decodeReflectBinaryStruct(bz []byte, info *TypeInfo, rv reflec
 		// We're done if we've consumed all of bz.
 		if len(bz) == 0 {
 			frv.Set(defaultValue(frv.Type()))
+
 			continue
 		}
 
@@ -963,6 +966,7 @@ func (cdc *Codec) decodeReflectBinaryStruct(bz []byte, info *TypeInfo, rv reflec
 			if field.BinFieldNum < fnum {
 				// Set zero field value.
 				frv.Set(defaultValue(frv.Type()))
+
 				continue // before sliding...
 			}
 			if slide(&bz, &n, _n) && err != nil {

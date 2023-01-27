@@ -237,7 +237,7 @@ func (re *Regexp) get() *machine {
 	// m, ok := matchPool[re.mpool].Get().(*machine)
 	// if !ok {
 	m := new(machine)
-	//}
+	// }
 	m.re = re
 	m.p = re.prog
 	if cap(m.matchcap) < re.matchcap {
@@ -1007,6 +1007,7 @@ func extract(str string) (name string, num int, rest string, ok bool) {
 	for i := 0; i < len(name); i++ {
 		if name[i] < '0' || '9' < name[i] || num >= 1e8 {
 			num = -1
+
 			break
 		}
 		num = num*10 + int(name[i]) - '0'

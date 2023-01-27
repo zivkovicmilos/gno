@@ -967,6 +967,7 @@ func (m *Machine) Run() {
 			return
 		case OpNoop:
 			m.incrCPU(OpCPUNoop)
+
 			continue
 		case OpExec:
 			m.incrCPU(OpCPUExec)

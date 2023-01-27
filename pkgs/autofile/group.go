@@ -264,6 +264,7 @@ func (g *Group) ensureTotalSizeLimit() {
 		if err != nil {
 			g.Logger.Error("Failed to fetch info for file", "file", pathToRemove)
 			g.info.MinIndex = index + 1 // bump MinIndex.
+
 			continue
 		}
 		err = os.Remove(pathToRemove)
@@ -358,6 +359,7 @@ func (g *Group) readGroupInfo() GroupInfo {
 			fileSize := fileInfo.Size()
 			totalSize += fileSize
 			headSize = fileSize
+
 			continue
 		} else if strings.HasPrefix(fileInfo.Name(), headBase) {
 			fileSize := fileInfo.Size()

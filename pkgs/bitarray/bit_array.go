@@ -265,6 +265,7 @@ func (bA *BitArray) getTrueIndices() []int {
 		elem := bA.Elems[i]
 		if elem == 0 {
 			curBit += 64
+
 			continue
 		}
 		for j := 0; j < 64; j++ {

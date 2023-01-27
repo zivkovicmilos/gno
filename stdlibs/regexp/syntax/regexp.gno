@@ -134,6 +134,7 @@ func writeRegexp(b *strings.Builder, re *Regexp) {
 	case OpCharClass:
 		if len(re.Rune)%2 != 0 {
 			b.WriteString(`[invalid char class]`)
+
 			break
 		}
 		b.WriteRune('[')
@@ -281,6 +282,7 @@ func escape(b *strings.Builder, r rune, force bool) {
 				b.WriteRune('0')
 			}
 			b.WriteString(s)
+
 			break
 		}
 		b.WriteString(`\x{`)

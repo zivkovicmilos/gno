@@ -204,6 +204,7 @@ func (iter *cacheMergeIterator) skipUntilExistsOrInvalid() bool {
 			if valueC == nil {
 				iter.parent.Next()
 				iter.cache.Next()
+
 				continue
 			}
 			// Cache is not a delete.
@@ -216,6 +217,7 @@ func (iter *cacheMergeIterator) skipUntilExistsOrInvalid() bool {
 			valueC := iter.cache.Value()
 			if valueC == nil {
 				iter.skipCacheDeletes(keyP)
+
 				continue
 			}
 			// Cache is not a delete.

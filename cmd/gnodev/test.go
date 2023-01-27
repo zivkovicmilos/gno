@@ -99,6 +99,7 @@ func testApp(cmd *command.Command, args []string, iopts interface{}) error {
 				cmd.ErrPrintfln("FAIL    %s", pkgPath)
 				cmd.ErrPrintln("FAIL")
 				buildErrCount++
+
 				continue
 			}
 
@@ -116,6 +117,7 @@ func testApp(cmd *command.Command, args []string, iopts interface{}) error {
 				cmd.ErrPrintfln("FAIL    %s", pkgPath)
 				cmd.ErrPrintln("FAIL")
 				buildErrCount++
+
 				continue
 			}
 		}
@@ -130,6 +132,7 @@ func testApp(cmd *command.Command, args []string, iopts interface{}) error {
 		}
 		if len(unittestFiles) == 0 && len(filetestFiles) == 0 {
 			cmd.ErrPrintfln("?       %s \t[no test files]", pkgPath)
+
 			continue
 		}
 
@@ -242,6 +245,7 @@ func gnoTestPkg(cmd *command.Command, pkgPath string, unittestFiles, filetestFil
 					}
 					fmt.Fprintln(os.Stderr, stdouterr)
 				}
+
 				continue
 			}
 
@@ -298,6 +302,7 @@ func runTestFiles(
 			err := errors.New("failed to execute unit test: %q", test.Name)
 			errs = multierr.Append(errs, err)
 			cmd.ErrPrintfln("--- FAIL: %s (%v)", test.Name, duration)
+
 			continue
 		}
 
@@ -307,6 +312,7 @@ func runTestFiles(
 		if err != nil {
 			errs = multierr.Append(errs, err)
 			cmd.ErrPrintfln("--- FAIL: %s (%s)", test.Name, dstr)
+
 			continue
 		}
 

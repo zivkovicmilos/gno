@@ -107,17 +107,20 @@ func PrecompileAndCheckMempkg(mempkg *std.MemPackage) error {
 		res, err := Precompile(mfile.Body, "gno,tmp", mfile.Name)
 		if err != nil {
 			errs = multierr.Append(errs, err)
+
 			continue
 		}
 		tmpFile := filepath.Join(tmpDir, mfile.Name)
 		err = os.WriteFile(tmpFile, []byte(res.Translated), 0o644)
 		if err != nil {
 			errs = multierr.Append(errs, err)
+
 			continue
 		}
 		err = PrecompileVerifyFile(tmpFile, gofmt)
 		if err != nil {
 			errs = multierr.Append(errs, err)
+
 			continue
 		}
 	}
@@ -125,6 +128,7 @@ func PrecompileAndCheckMempkg(mempkg *std.MemPackage) error {
 	if errs != nil {
 		return fmt.Errorf("precompile package: %w", errs)
 	}
+
 	return nil
 }
 

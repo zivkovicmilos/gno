@@ -1218,6 +1218,7 @@ func (ft *FuncType) Specify(store Store, argTVs []TypedValue, isVarg bool) *Func
 					Type: pt,
 				}
 			}
+
 			continue
 		}
 		// default case.

@@ -100,6 +100,7 @@ func (cdc *Codec) decodeReflectJSON(bz []byte, info *TypeInfo, rv reflect.Value,
 			}
 		}
 		bz = bz[1 : len(bz)-1]
+
 		fallthrough
 	case reflect.Int32, reflect.Int16, reflect.Int8,
 		reflect.Uint32, reflect.Uint16, reflect.Uint8:
@@ -112,6 +113,7 @@ func (cdc *Codec) decodeReflectJSON(bz []byte, info *TypeInfo, rv reflect.Value,
 		if !fopts.Unsafe {
 			return errors.New("amino:JSON float* support requires `amino:\"unsafe\"`")
 		}
+
 		fallthrough
 	case reflect.Bool, reflect.String:
 		err = invokeStdlibJSONUnmarshal(bz, rv, fopts)

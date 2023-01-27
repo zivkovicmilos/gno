@@ -165,6 +165,7 @@ func (m *Machine) doOpExec(op Op) {
 			bs.NumExprs = len(m.Exprs)
 			bs.NumStmts = len(m.Stmts)
 			bs.NextBodyIndex++
+
 			fallthrough
 		case -1: // assign list element.
 			if bs.Key != nil {
@@ -197,6 +198,7 @@ func (m *Machine) doOpExec(op Op) {
 				}
 			}
 			bs.NextBodyIndex++
+
 			fallthrough
 		default:
 			// NOTE: duplicated for OpRangeIterMap,
@@ -262,6 +264,7 @@ func (m *Machine) doOpExec(op Op) {
 			bs.NumExprs = len(m.Exprs)
 			bs.NumStmts = len(m.Stmts)
 			bs.NextBodyIndex++
+
 			fallthrough
 		case -1: // assign list element.
 			if bs.Key != nil {
@@ -292,6 +295,7 @@ func (m *Machine) doOpExec(op Op) {
 				}
 			}
 			bs.NextBodyIndex++
+
 			fallthrough
 		default:
 			// NOTE: duplicated for OpRangeIterMap,
@@ -356,6 +360,7 @@ func (m *Machine) doOpExec(op Op) {
 			bs.NumExprs = len(m.Exprs)
 			bs.NumStmts = len(m.Stmts)
 			bs.NextBodyIndex++
+
 			fallthrough
 		case -1: // assign list element.
 			next := bs.NextItem
@@ -386,6 +391,7 @@ func (m *Machine) doOpExec(op Op) {
 				}
 			}
 			bs.NextBodyIndex++
+
 			fallthrough
 		default:
 			// NOTE: duplicated for OpRangeIter,

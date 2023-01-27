@@ -266,6 +266,7 @@ func (m *machine) step(runq, nextq *queue, pos, nextPos int, c rune, nextCond *l
 		}
 		if longest && m.matched && len(t.cap) > 0 && m.matchcap[0] < t.cap[0] {
 			m.pool = append(m.pool, t)
+
 			continue
 		}
 		i := t.inst
@@ -476,6 +477,7 @@ func (re *Regexp) doOnePass(ir io.RuneReader, ib []byte, is string, pos, ncap in
 		// peek at the input rune to see which branch of the Alt to take
 		case syntax.InstAlt, syntax.InstAltMatch:
 			pc = int(onePassNext(&inst, r))
+
 			continue
 		case syntax.InstFail:
 			goto Return
@@ -485,11 +487,13 @@ func (re *Regexp) doOnePass(ir io.RuneReader, ib []byte, is string, pos, ncap in
 			if !flag.match(syntax.EmptyOp(inst.Arg)) {
 				goto Return
 			}
+
 			continue
 		case syntax.InstCapture:
 			if int(inst.Arg) < len(m.matchcap) {
 				m.matchcap[inst.Arg] = pos
 			}
+
 			continue
 		}
 		if width == 0 {
