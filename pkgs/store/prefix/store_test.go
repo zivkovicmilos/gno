@@ -47,6 +47,7 @@ func setRandomKVPairs(store types.Store) []kvpair {
 	for _, kvp := range kvps {
 		store.Set(kvp.key, kvp.value)
 	}
+
 	return kvps
 }
 

@@ -311,6 +311,7 @@ func (na *NetAddress) ReachabilityTo(o *NetAddress) int {
 		case o.IP.To4() != nil:
 			return Ipv4
 		default: // ipv6
+
 			return Ipv6_weak
 		}
 	case na.IP.To4() != nil:

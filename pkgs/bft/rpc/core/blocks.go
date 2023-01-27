@@ -124,6 +124,7 @@ func filterMinMax(height, min, max, limit int64) (int64, int64, error) {
 	if min > max {
 		return min, max, fmt.Errorf("min height %d can't be greater than max height %d", min, max)
 	}
+
 	return min, max, nil
 }
 
@@ -419,6 +420,7 @@ func BlockResults(ctx *rpctypes.Context, heightPtr *int64) (*ctypes.ResultBlockR
 		Height:  height,
 		Results: results,
 	}
+
 	return res, nil
 }
 

@@ -137,6 +137,7 @@ func DecodeUvarint32(bz []byte) (u uint32, n int, err error) {
 		return
 	}
 	u = uint32(u64)
+
 	return
 }
 
@@ -158,10 +159,12 @@ func DecodeUint32(bz []byte) (u uint32, n int, err error) {
 	const size int = 4
 	if len(bz) < size {
 		err = errors.New("EOF decoding uint32")
+
 		return
 	}
 	u = binary.LittleEndian.Uint32(bz[:size])
 	n = size
+
 	return
 }
 
@@ -169,10 +172,12 @@ func DecodeUint64(bz []byte) (u uint64, n int, err error) {
 	const size int = 8
 	if len(bz) < size {
 		err = errors.New("EOF decoding uint64")
+
 		return
 	}
 	u = binary.LittleEndian.Uint64(bz[:size])
 	n = size
+
 	return
 }
 
@@ -183,6 +188,7 @@ func DecodeBool(bz []byte) (b bool, n int, err error) {
 	const size int = 1
 	if len(bz) < size {
 		err = errors.New("EOF decoding bool")
+
 		return
 	}
 	switch bz[0] {
@@ -194,6 +200,7 @@ func DecodeBool(bz []byte) (b bool, n int, err error) {
 		err = errors.New("invalid bool")
 	}
 	n = size
+
 	return
 }
 
@@ -202,11 +209,13 @@ func DecodeFloat32(bz []byte) (f float32, n int, err error) {
 	const size int = 4
 	if len(bz) < size {
 		err = errors.New("EOF decoding float32")
+
 		return
 	}
 	i := binary.LittleEndian.Uint32(bz[:size])
 	f = math.Float32frombits(i)
 	n = size
+
 	return
 }
 
@@ -215,11 +224,13 @@ func DecodeFloat64(bz []byte) (f float64, n int, err error) {
 	const size int = 8
 	if len(bz) < size {
 		err = errors.New("EOF decoding float64")
+
 		return
 	}
 	i := binary.LittleEndian.Uint64(bz[:size])
 	f = math.Float64frombits(i)
 	n = size
+
 	return
 }
 
@@ -258,6 +269,7 @@ func DecodeTime(bz []byte) (t time.Time, n int, err error) {
 	t = time.Unix(s, int64(ns))
 	// Strip timezone and monotonic for deep equality.
 	t = t.UTC().Truncate(0)
+
 	return
 }
 
@@ -292,6 +304,7 @@ func DecodeDuration(bz []byte) (d time.Duration, n int, err error) {
 	}
 	// Construct Duration.
 	d = time.Duration(s*1e9 + int64(ns))
+
 	return
 }
 
@@ -318,9 +331,11 @@ func decodeSeconds(bz *[]byte) (int64, int, error) {
 		// if seconds where negative before casting them to uint64, we yield
 		// the original signed value:
 		res := int64(sec)
+
 		return res, n, err
 	case fieldNum == 2 && typ == Typ3Varint:
 		// skip: do not slide, no error, will read again
+
 		return 0, n, nil
 	default:
 		return 0, n, fmt.Errorf("expected field number 1 <Varint> or field number 2 <Varint> , got %v", fieldNum)
@@ -368,15 +383,18 @@ func DecodeByteSlice(bz []byte) (bz2 []byte, n int, err error) {
 	}
 	if int(count) < 0 {
 		err = fmt.Errorf("invalid negative length %v decoding []byte", count)
+
 		return
 	}
 	if len(bz) < int(count) {
 		err = fmt.Errorf("insufficient bytes decoding []byte of length %v: %X", count, bz)
+
 		return
 	}
 	bz2 = make([]byte, count)
 	copy(bz2, bz[0:count])
 	n += int(count)
+
 	return
 }
 
@@ -384,5 +402,6 @@ func DecodeString(bz []byte) (s string, n int, err error) {
 	var bz2 []byte
 	bz2, n, err = DecodeByteSlice(bz)
 	s = string(bz2)
+
 	return
 }

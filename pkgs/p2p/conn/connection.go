@@ -553,6 +553,7 @@ func (c *MConnection) sendPacketMsg() bool {
 	}
 	c.sendMonitor.Update(int(_n))
 	c.flushTimer.Set()
+
 	return false
 }
 
@@ -740,6 +741,7 @@ func (chDesc ChannelDescriptor) FillDefaults() (filled ChannelDescriptor) {
 		chDesc.RecvMessageCapacity = defaultRecvMessageCapacity
 	}
 	filled = chDesc
+
 	return
 }
 
@@ -784,6 +786,7 @@ func (ch *Channel) sendBytes(bytes []byte) bool {
 	select {
 	case ch.sendQueue <- bytes:
 		atomic.AddInt32(&ch.sendQueueSize, 1)
+
 		return true
 	case <-time.After(defaultSendTimeout):
 		return false
@@ -797,6 +800,7 @@ func (ch *Channel) trySendBytes(bytes []byte) bool {
 	select {
 	case ch.sendQueue <- bytes:
 		atomic.AddInt32(&ch.sendQueueSize, 1)
+
 		return true
 	default:
 		return false
@@ -851,6 +855,7 @@ func (ch *Channel) writePacketMsgTo(w io.Writer) (n int64, err error) {
 	packet := ch.nextPacketMsg()
 	n, err = amino.MarshalAnySizedWriter(w, packet)
 	atomic.AddInt64(&ch.recentlySent, n)
+
 	return
 }
 
@@ -872,6 +877,7 @@ func (ch *Channel) recvPacketMsg(packet PacketMsg) ([]byte, error) {
 		//   suggests this could be a memory leak, but we might as well keep the memory for the channel until it closes,
 		//	at which point the recving slice stops being used and should be garbage collected
 		ch.recving = ch.recving[:0] // make([]byte, 0, ch.desc.RecvBufferCapacity)
+
 		return msgBytes, nil
 	}
 	return nil, nil

@@ -488,6 +488,7 @@ func (cdc *Codec) encodeReflectBinaryByteSlice(w io.Writer, info *TypeInfo, rv r
 	// Write byte-length prefixed byte-slice.
 	byteslice := rv.Bytes()
 	err = EncodeByteSlice(w, byteslice)
+
 	return
 }
 
@@ -555,6 +556,7 @@ func encodeFieldNumberAndTyp3(w io.Writer, num uint32, typ Typ3) (err error) {
 	var buf [10]byte
 	n := binary.PutUvarint(buf[:], value64)
 	_, err = w.Write(buf[0:n])
+
 	return
 }
 

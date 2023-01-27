@@ -491,6 +491,7 @@ func BenchmarkWriteSecretConnection(b *testing.B) {
 		_, err := fooSecConn.Write(fooWriteBytes[idx])
 		if err != nil {
 			b.Errorf("Failed to write to fooSecConn: %v", err)
+
 			return
 		}
 	}
@@ -525,6 +526,7 @@ func BenchmarkReadSecretConnection(b *testing.B) {
 			_, err := fooSecConn.Write(fooWriteBytes[idx])
 			if err != nil {
 				b.Errorf("Failed to write to fooSecConn: %v, %v,%v", err, i, b.N)
+
 				return
 			}
 		}

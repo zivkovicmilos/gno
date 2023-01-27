@@ -281,6 +281,7 @@ func (g *Group) ensureTotalSizeLimit() {
 		err = os.Remove(pathToRemove)
 		if err != nil {
 			g.Logger.Error("Failed to remove path", "path", pathToRemove)
+
 			return
 		}
 		g.info.MinIndex = index + 1 // bump MinIndex.

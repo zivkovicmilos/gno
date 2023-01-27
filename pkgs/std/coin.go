@@ -209,6 +209,7 @@ func (coins *Coins) UnmarshalAmino(coinsstr string) (err error) {
 		return err
 	}
 	*coins = coins2
+
 	return nil
 }
 
@@ -291,6 +292,7 @@ func (coins Coins) AddUnsafe(coinsB Coins) Coins {
 		if indexA == lenA {
 			if indexB == lenB {
 				// return nil coins if both sets are empty
+
 				return sum
 			}
 
@@ -367,6 +369,7 @@ func (coins Coins) Sub(coinsB Coins) Coins {
 // negative coin amount was returned.
 func (coins Coins) SubUnsafe(coinsB Coins) Coins {
 	res := coins.AddUnsafe(coinsB.negative())
+
 	return res
 }
 
@@ -611,6 +614,7 @@ var _ sort.Interface = Coins{}
 // Sort is a helper function to sort the set of coins inplace
 func (coins Coins) Sort() Coins {
 	sort.Sort(coins)
+
 	return coins
 }
 

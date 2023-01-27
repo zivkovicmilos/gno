@@ -211,6 +211,7 @@ func (pkg *Package) WithP3ImportPath(path string) *Package {
 // This file will get imported instead of the default "types.proto" if this package is a dependency.
 func (pkg *Package) WithP3SchemaFile(file string) *Package {
 	pkg.P3SchemaFile = file
+
 	return pkg
 }
 
@@ -224,6 +225,7 @@ func (pkg *Package) GetType(rt reflect.Type) (t Type, ok bool) {
 			return *t, true
 		}
 	}
+
 	return Type{}, false
 }
 
@@ -233,6 +235,7 @@ func (pkg *Package) HasName(name string) (exists bool) {
 			return true
 		}
 	}
+
 	return false
 }
 

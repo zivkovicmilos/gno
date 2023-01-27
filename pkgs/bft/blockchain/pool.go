@@ -376,6 +376,7 @@ func (pool *BlockPool) pickIncrAvailablePeer(minHeight int64) *bpPeer {
 
 		return peer
 	}
+
 	return nil
 }
 
@@ -434,6 +435,7 @@ func (pool *BlockPool) debug() string {
 			str += fmt.Sprintf("B?(%v) ", pool.requesters[h].block != nil)
 		}
 	}
+
 	return str
 }
 

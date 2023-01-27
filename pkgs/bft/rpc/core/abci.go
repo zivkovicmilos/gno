@@ -110,5 +110,6 @@ func ABCIInfo(ctx *rpctypes.Context) (*ctypes.ResultABCIInfo, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return &ctypes.ResultABCIInfo{Response: resInfo}, nil
 }

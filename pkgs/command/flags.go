@@ -24,6 +24,7 @@ func applyFlags(ptr interface{}, flags map[string]interface{}) error {
 		panic("expected pointer kind to option")
 	}
 	rv := prv.Elem()
+
 	return applyFlagsReflect(rv, flags)
 }
 
@@ -78,9 +79,11 @@ func applyFlagReflect(rv reflect.Value, fname string, fvalue interface{}) (bool,
 			)
 		} else if ffn == fname {
 			frv := rv.Field(i)
+
 			return true, applyFlagToFieldReflect(frv, fvalue)
 		}
 	}
+
 	return false, nil
 }
 
@@ -112,6 +115,7 @@ func applyFlagToFieldReflectString(frv reflect.Value, fvalue string) error {
 			frv.Set(reflect.New(frt.Elem()))
 		}
 		err := applyFlagToFieldReflectString(frv.Elem(), fvalue)
+
 		return err
 	case reflect.Array:
 		ert := frt.Elem()
@@ -123,6 +127,7 @@ func applyFlagToFieldReflectString(frv reflect.Value, fvalue string) error {
 				// return errors.Wrap(err, "invalid hex")
 			}
 			frv.SetBytes(bz)
+
 			return nil
 		} else {
 			parts := strings.Split(fvalue, ",")

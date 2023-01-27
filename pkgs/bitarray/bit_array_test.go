@@ -189,6 +189,7 @@ func TestEmptyFull(t *testing.T) {
 func TestUpdateNeverPanics(t *testing.T) {
 	newRandBitArray := func(n int) *BitArray {
 		ba, _ := randBitArray(n)
+
 		return ba
 	}
 	pairs := []struct {
