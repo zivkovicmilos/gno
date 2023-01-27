@@ -25,6 +25,7 @@ func newSimpleStruct() SimpleStruct {
 		Bytes:  []byte("goodbye"),
 		Time:   time.Now().UTC().Truncate(time.Millisecond), // strip monotonic and timezone.
 	}
+
 	return s
 }
 

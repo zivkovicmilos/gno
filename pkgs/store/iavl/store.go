@@ -49,6 +49,7 @@ func UnsafeNewStore(tree *iavl.MutableTree, opts types.StoreOptions) *Store {
 		tree: tree,
 		opts: opts,
 	}
+
 	return st
 }
 

@@ -133,6 +133,7 @@ func (app *BaseApp) LoadLatestVersion() error {
 	if err != nil {
 		return err
 	}
+
 	return app.initFromMainStore()
 }
 
@@ -144,6 +145,7 @@ func (app *BaseApp) LoadVersion(version int64) error {
 	if err != nil {
 		return err
 	}
+
 	return app.initFromMainStore()
 }
 

@@ -106,6 +106,7 @@ func (trs *TaskResultSet) Wait() *TaskResultSet {
 		// We already wrote it.
 		// }
 	}
+
 	return trs
 }
 
@@ -117,6 +118,7 @@ func (trs *TaskResultSet) FirstValue() interface{} {
 			return result.Value
 		}
 	}
+
 	return nil
 }
 
@@ -128,6 +130,7 @@ func (trs *TaskResultSet) FirstError() error {
 			return result.Error
 		}
 	}
+
 	return nil
 }
 

@@ -92,6 +92,7 @@ func checkTxs(t *testing.T, mempool Mempool, count int, peerID uint16, failOnChe
 			}
 		}
 	}
+
 	return txs
 }
 
@@ -552,5 +553,6 @@ func abciResponses(n int, err abci.Error) []abci.ResponseDeliverTx {
 			},
 		})
 	}
+
 	return responses
 }

@@ -316,6 +316,7 @@ func (kb dbKeybase) Export(nameOrBech32 string) (astr string, err error) {
 	if bz == nil {
 		return "", fmt.Errorf("no key to export with name %s", nameOrBech32)
 	}
+
 	return armor.ArmorInfoBytes(bz), nil
 }
 
@@ -327,6 +328,7 @@ func (kb dbKeybase) ExportPubKey(nameOrBech32 string) (astr string, err error) {
 	if err != nil {
 		return "", errors.Wrap(err, "getting info for name %s", nameOrBech32)
 	}
+
 	return armor.ArmorPubKeyBytes(info.GetPubKey().Bytes()), nil
 }
 

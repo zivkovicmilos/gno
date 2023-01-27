@@ -217,6 +217,7 @@ func (r *Rand) Bytes(n int) []byte {
 	for i := 0; i < len(bs); i++ {
 		bs[i] = byte(r.Int() & 0xFF)
 	}
+
 	return bs
 }
 
@@ -256,5 +257,6 @@ func cRandBytes(numBytes int) []byte {
 	if err != nil {
 		panic(err)
 	}
+
 	return b
 }

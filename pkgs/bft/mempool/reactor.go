@@ -69,6 +69,7 @@ func (ids *mempoolIDs) nextPeerID() uint16 {
 	}
 	curID := ids.nextID
 	ids.nextID++
+
 	return curID
 }
 
@@ -123,6 +124,7 @@ func (memR *Reactor) OnStart() error {
 	if !memR.config.Broadcast {
 		memR.Logger.Info("Tx broadcasting is disabled")
 	}
+
 	return nil
 }
 

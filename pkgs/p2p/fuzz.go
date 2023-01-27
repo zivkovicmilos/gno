@@ -68,6 +68,7 @@ func (fc *FuzzedConnection) Read(data []byte) (n int, err error) {
 	if fc.fuzz() {
 		return 0, nil
 	}
+
 	return fc.conn.Read(data)
 }
 
@@ -76,6 +77,7 @@ func (fc *FuzzedConnection) Write(data []byte) (n int, err error) {
 	if fc.fuzz() {
 		return 0, nil
 	}
+
 	return fc.conn.Write(data)
 }
 
@@ -134,6 +136,7 @@ func (fc *FuzzedConnection) fuzz() bool {
 		// sleep a bit
 		time.Sleep(fc.randomDuration())
 	}
+
 	return false
 }
 

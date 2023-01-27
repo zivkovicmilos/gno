@@ -155,6 +155,7 @@ func NewTendermint(app abci.Application, opts *Options) *nm.Node {
 	if err != nil {
 		panic(err)
 	}
+
 	return node
 }
 

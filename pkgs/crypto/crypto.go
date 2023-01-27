@@ -39,6 +39,7 @@ func MustAddressFromString(str string) (addr Address) {
 	if err != nil {
 		panic(fmt.Errorf("invalid address string representation: %v, error: %w", str, err))
 	}
+
 	return
 }
 

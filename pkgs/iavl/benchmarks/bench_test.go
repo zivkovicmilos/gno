@@ -85,6 +85,7 @@ func runInsert(b *testing.B, t *iavl.MutableTree, keyLen, dataLen, blockSize int
 			t.SaveVersion()
 		}
 	}
+
 	return t
 }
 
@@ -99,6 +100,7 @@ func runUpdate(b *testing.B, t *iavl.MutableTree, dataLen, blockSize int, keys [
 			commitTree(b, t)
 		}
 	}
+
 	return t
 }
 
@@ -116,6 +118,7 @@ func runDelete(b *testing.B, t *iavl.MutableTree, blockSize int, keys [][]byte) 
 			commitTree(b, t)
 		}
 	}
+
 	return t
 }
 

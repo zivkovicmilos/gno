@@ -32,6 +32,7 @@ func parseFlags() (headPath string, chopSize int64, limitSize int64, sync bool, 
 	flagSet.Parse(os.Args[1:])
 	chopSize = parseBytesize(chopSizeStr)
 	limitSize = parseBytesize(limitSizeStr)
+
 	return
 }
 

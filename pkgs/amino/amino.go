@@ -417,6 +417,7 @@ func (cdc *Codec) MustMarshal(o interface{}) []byte {
 	if err != nil {
 		panic(err)
 	}
+
 	return bz
 }
 
@@ -464,6 +465,7 @@ func (cdc *Codec) MustMarshalAny(o interface{}) []byte {
 	if err != nil {
 		panic(err)
 	}
+
 	return bz
 }
 

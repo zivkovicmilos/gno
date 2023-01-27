@@ -11,12 +11,14 @@ import (
 func Wrap(cause interface{}, format string, args ...interface{}) Error {
 	if causeCmnError, ok := cause.(*cmnError); ok { //nolint:gocritic
 		msg := fmt.Sprintf(format, args...)
+
 		return causeCmnError.Stacktrace().Trace(1, msg)
 	} else if cause == nil {
 		return newCmnError(FmtError{format, args}).Stacktrace()
 	} else {
 		// NOTE: causeCmnError is a typed nil here.
 		msg := fmt.Sprintf(format, args...)
+
 		return newCmnError(cause).Stacktrace().Trace(1, msg)
 	}
 }
@@ -64,6 +66,7 @@ type Error interface {
 // The Error's Data will be a FmtError type.
 func New(format string, args ...interface{}) Error {
 	err := FmtError{format, args}
+
 	return newCmnError(err)
 }
 

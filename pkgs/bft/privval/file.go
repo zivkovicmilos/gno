@@ -112,12 +112,15 @@ func (lss *FilePVLastSignState) CheckHRS(height int64, round int, step int8) (bo
 					if lss.Signature == nil {
 						panic("pv: Signature is nil but SignBytes is not!")
 					}
+
 					return true, nil
 				}
+
 				return false, errors.New("no SignBytes found")
 			}
 		}
 	}
+
 	return false, nil
 }
 
@@ -228,6 +231,7 @@ func LoadOrGenFilePV(keyFilePath, stateFilePath string) *FilePV {
 		pv = GenFilePV(keyFilePath, stateFilePath)
 		pv.Save()
 	}
+
 	return pv
 }
 
@@ -321,6 +325,7 @@ func (pv *FilePV) signVote(chainID string, vote *types.Vote) error {
 		} else {
 			err = fmt.Errorf("conflicting data")
 		}
+
 		return err
 	}
 
@@ -364,6 +369,7 @@ func (pv *FilePV) signProposal(chainID string, proposal *types.Proposal) error {
 		} else {
 			err = fmt.Errorf("conflicting data")
 		}
+
 		return err
 	}
 

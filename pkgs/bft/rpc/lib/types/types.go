@@ -302,6 +302,7 @@ func (ctx *Context) Context() context.Context {
 	} else if ctx.WSConn != nil {
 		return ctx.WSConn.Context()
 	}
+
 	return context.Background()
 }
 
@@ -316,5 +317,6 @@ func SocketType(listenAddr string) string {
 	if len(strings.Split(listenAddr, ":")) >= 2 {
 		socketType = "tcp"
 	}
+
 	return socketType
 }

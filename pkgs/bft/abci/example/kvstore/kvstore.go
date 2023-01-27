@@ -125,6 +125,7 @@ func (app *KVStoreApplication) Query(reqQuery abci.RequestQuery) (resQuery abci.
 		} else {
 			resQuery.Log = "does not exist"
 		}
+
 		return
 	} else {
 		resQuery.Key = reqQuery.Data
@@ -135,6 +136,7 @@ func (app *KVStoreApplication) Query(reqQuery abci.RequestQuery) (resQuery abci.
 		} else {
 			resQuery.Log = "does not exist"
 		}
+
 		return
 	}
 }

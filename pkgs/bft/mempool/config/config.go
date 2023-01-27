@@ -60,5 +60,6 @@ func (cfg *MempoolConfig) ValidateBasic() error {
 	if cfg.CacheSize < 0 {
 		return errors.New("cache_size can't be negative")
 	}
+
 	return nil
 }

@@ -46,6 +46,7 @@ func (iter *cacheMergeIterator) Domain() (start, end []byte) {
 	} else {
 		end = endP
 	}
+
 	return start, end
 }
 
@@ -158,6 +159,7 @@ func (iter *cacheMergeIterator) compare(a, b []byte) int {
 	if iter.ascending {
 		return bytes.Compare(a, b)
 	}
+
 	return bytes.Compare(a, b) * -1
 }
 

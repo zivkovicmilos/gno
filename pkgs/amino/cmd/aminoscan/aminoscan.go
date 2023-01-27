@@ -77,6 +77,7 @@ func scanAny(typ amino.Typ3, bz []byte, indent string) (s string, n int, err err
 	default:
 		panic("should not happen")
 	}
+
 	return
 }
 
@@ -165,6 +166,7 @@ func scanByteLength(bz []byte, indent string) (s string, n int, err error) {
 			Green("("+strconv.Quote(string(contents))+" in ASCII)"),
 		)
 	}
+
 	return
 }
 
@@ -202,17 +204,20 @@ func scanFieldKey(bz []byte, indent string) (s string, typ amino.Typ3, n int, er
 	number := uint32(u64 >> 3)
 	s = fmt.Sprintf("%X", bz[:n])
 	fmt.Printf("%s%s @%v %v\n", indent, s, number, typ)
+
 	return
 }
 
 func scan4Byte(bz []byte, indent string) (s string, n int, err error) {
 	if len(bz) < 4 {
 		err = errors.New("while reading 8byte field, EOF was encountered")
+
 		return
 	}
 	n = 4
 	s = Blue(fmt.Sprintf("%X", bz[:4]))
 	fmt.Printf("%s%s\n", indent, s)
+
 	return
 }
 
@@ -317,11 +322,13 @@ func slide(bzPtr *[]byte, n *int, _n int) bool {
 	}
 	*bzPtr = (*bzPtr)[_n:]
 	*n += _n
+
 	return true
 }
 
 func concat(sPtr *string, _s string) bool {
 	*sPtr += _s
+
 	return true
 }
 
@@ -330,5 +337,6 @@ func hexDecode(s string) []byte {
 	if err != nil {
 		panic(err)
 	}
+
 	return bz
 }

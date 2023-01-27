@@ -59,6 +59,7 @@ func mempoolLogger() log.Logger {
 				}
 			}
 		}
+
 		return colors.None
 	})
 }

@@ -65,6 +65,7 @@ func newRPCFunc(f interface{}, args string, ws bool) *RPCFunc {
 	if args != "" {
 		argNames = strings.Split(args, ",")
 	}
+
 	return &RPCFunc{
 		f:        reflect.ValueOf(f),
 		args:     funcArgTypes(f),
@@ -82,6 +83,7 @@ func funcArgTypes(f interface{}) []reflect.Type {
 	for i := 0; i < n; i++ {
 		typez[i] = t.In(i)
 	}
+
 	return typez
 }
 
@@ -93,6 +95,7 @@ func funcReturnTypes(f interface{}) []reflect.Type {
 	for i := 0; i < n; i++ {
 		typez[i] = t.Out(i)
 	}
+
 	return typez
 }
 
@@ -284,7 +287,6 @@ func jsonParamsToArgs(rpcFunc *RPCFunc, raw []byte) ([]reflect.Value, error) {
 	}
 
 	// Otherwise, bad format, we cannot parse
-
 	return nil, errors.New("unknown type for JSON params: %v. Expected map or array", err)
 }
 

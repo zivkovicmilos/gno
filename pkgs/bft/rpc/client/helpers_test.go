@@ -55,6 +55,7 @@ func TestWaitForHeight(t *testing.T) {
 	myWaiter := func(delta int64) error {
 		// update the height for the next call
 		m.Call.Response = &ctypes.ResultStatus{SyncInfo: ctypes.SyncInfo{LatestBlockHeight: 15}}
+
 		return client.DefaultWaitStrategy(delta)
 	}
 

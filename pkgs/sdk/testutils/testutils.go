@@ -27,6 +27,7 @@ func (msg *TestMsg) GetSignBytes() []byte {
 	if err != nil {
 		panic(err)
 	}
+
 	return std.MustSortJSON(bz)
 }
 func (msg *TestMsg) ValidateBasic() error { return nil }

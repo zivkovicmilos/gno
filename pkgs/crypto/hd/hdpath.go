@@ -125,6 +125,7 @@ func hardenedInt(field string) (uint32, error) {
 	if i < 0 {
 		return 0, fmt.Errorf("fields must not be negative. got %d", i)
 	}
+
 	return uint32(i), nil
 }
 
@@ -145,6 +146,7 @@ func (p BIP44Params) DerivationPath() []uint32 {
 	if p.Change {
 		change = 1
 	}
+
 	return []uint32{
 		p.Purpose,
 		p.CoinType,

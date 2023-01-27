@@ -25,6 +25,7 @@ func (proof *MultiStoreProof) ComputeRootHash() []byte {
 		Version:    -1, // TODO: Not needed; improve code.
 		StoreInfos: proof.StoreInfos,
 	}
+
 	return ci.Hash()
 }
 

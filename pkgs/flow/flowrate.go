@@ -162,6 +162,7 @@ func (m *Monitor) Status() Status {
 		}
 	}
 	m.mu.Unlock()
+
 	return s
 }
 
@@ -204,6 +205,7 @@ func (m *Monitor) Limit(want int, rate int64, block bool) (n int) {
 	if limit < 0 {
 		limit = 0
 	}
+
 	return int(limit)
 }
 
@@ -245,6 +247,7 @@ func (m *Monitor) update(n int) (now time.Duration) {
 		}
 		m.reset(now)
 	}
+
 	return
 }
 

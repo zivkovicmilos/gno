@@ -48,6 +48,7 @@ func (coin *Coin) UnmarshalAmino(coinstr string) (err error) {
 		return err
 	}
 	*coin = coin2
+
 	return nil
 }
 
@@ -79,6 +80,7 @@ func (coin Coin) IsValid() bool {
 	if err := validate(coin.Denom, coin.Amount); err != nil {
 		return false
 	}
+
 	return true
 }
 

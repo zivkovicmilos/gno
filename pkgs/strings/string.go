@@ -63,6 +63,7 @@ func ASCIITrim(s string) string {
 			panic(fmt.Sprintf("non-ASCII (non-tab) char 0x%X", b))
 		}
 	}
+
 	return string(r)
 }
 
@@ -76,5 +77,6 @@ func StringSliceEqual(a, b []string) bool {
 			return false
 		}
 	}
+
 	return true
 }

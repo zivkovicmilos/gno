@@ -13,6 +13,7 @@ func AddressToBech32(addr Address) string {
 	if err != nil {
 		panic(err)
 	}
+
 	return bech32Addr
 }
 
@@ -30,6 +31,7 @@ func PubKeyToBech32(pub PubKey) string {
 	if err != nil {
 		panic(err)
 	}
+
 	return bech32PubKey
 }
 

@@ -33,8 +33,10 @@ func LoadOrGenNodeKey(filePath string) (*NodeKey, error) {
 		if err != nil {
 			return nil, err
 		}
+
 		return nodeKey, nil
 	}
+
 	return genNodeKey(filePath)
 }
 
@@ -48,6 +50,7 @@ func LoadNodeKey(filePath string) (*NodeKey, error) {
 	if err != nil {
 		return nil, fmt.Errorf("Error reading NodeKey from %v: %w", filePath, err)
 	}
+
 	return nodeKey, nil
 }
 

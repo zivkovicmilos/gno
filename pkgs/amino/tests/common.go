@@ -212,6 +212,7 @@ func (am AminoMarshalerStruct1) MarshalAmino() (ReprStruct1, error) {
 func (am *AminoMarshalerStruct1) UnmarshalAmino(rs ReprStruct1) error {
 	am.A = int32(rs.C)
 	am.B = int32(rs.D)
+
 	return nil
 }
 
@@ -233,6 +234,7 @@ func (goo ReprElem2) get(key string) (value interface{}) {
 	if goo.Key != key {
 		panic(fmt.Sprintf("wanted %v but is %v", key, goo.Key))
 	}
+
 	return goo.Value
 }
 
@@ -246,6 +248,7 @@ func (am AminoMarshalerStruct2) MarshalAmino() ([]ReprElem2, error) {
 func (am *AminoMarshalerStruct2) UnmarshalAmino(repr []ReprElem2) error {
 	am.a = repr[0].get("a").(string)
 	am.B = repr[1].get("B").(int32)
+
 	return nil
 }
 
@@ -263,6 +266,7 @@ func (am AminoMarshalerStruct3) MarshalAmino() (int32, error) {
 
 func (am *AminoMarshalerStruct3) UnmarshalAmino(i int32) error {
 	am.A = i
+
 	return nil
 }
 

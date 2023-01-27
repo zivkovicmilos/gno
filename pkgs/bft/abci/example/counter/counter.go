@@ -93,6 +93,7 @@ func (app *CounterApplication) CheckTx(req abci.RequestCheckTx) abci.ResponseChe
 			}
 		}
 	}
+
 	return abci.ResponseCheckTx{}
 }
 

@@ -84,12 +84,14 @@ func NewPackage(gopkgPath string, p3pkgName string, dirName string) *Package {
 			P3ImportPath: filepath.Join(gopkgPath, gopkgName+".proto"),
 			P3SchemaFile: filepath.Join(dirName, gopkgName+".proto"),
 		}
+
 		return pkg
 	} else {
 		pkg := &Package{
 			Dependencies: nil,
 			Types:        nil,
 		}
+
 		return pkg
 	}
 }
@@ -192,6 +194,7 @@ func (pkg *Package) WithTypes(objs ...interface{}) *Package {
 		}
 		pkg.Types = append(pkg.Types, lastType)
 	}
+
 	return pkg
 }
 
@@ -201,6 +204,7 @@ func (pkg *Package) WithTypes(objs ...interface{}) *Package {
 // path is .P3SchemaFile.
 func (pkg *Package) WithP3ImportPath(path string) *Package {
 	pkg.P3ImportPath = path
+
 	return pkg
 }
 

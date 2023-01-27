@@ -63,6 +63,7 @@ func (poz ProofOperators) Verify(root []byte, keypath string, args [][]byte) (er
 	if len(keys) != 0 {
 		return errors.New("Keypath not consumed all")
 	}
+
 	return nil
 }
 
@@ -94,6 +95,7 @@ func (prt *ProofRuntime) Decode(pop ProofOp) (ProofOperator, error) {
 	if decoder == nil {
 		return nil, errors.New("unrecognized proof type %v", pop.Type)
 	}
+
 	return decoder(pop)
 }
 
@@ -106,6 +108,7 @@ func (prt *ProofRuntime) DecodeProof(proof *Proof) (ProofOperators, error) {
 		}
 		poz = append(poz, operator)
 	}
+
 	return poz, nil
 }
 

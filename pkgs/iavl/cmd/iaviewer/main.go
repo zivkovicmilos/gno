@@ -70,6 +70,7 @@ func OpenDB(dir string) (dbm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return db, nil
 }
 
@@ -107,6 +108,7 @@ func parseWeaveKey(key []byte) string {
 	}
 	prefix := key[:cut]
 	id := key[cut+1:]
+
 	return fmt.Sprintf("%s:%s", encodeID(prefix), encodeID(id))
 }
 
@@ -117,6 +119,7 @@ func encodeID(id []byte) string {
 			return strings.ToUpper(hex.EncodeToString(id))
 		}
 	}
+
 	return string(id)
 }
 
@@ -134,6 +137,7 @@ func nodeEncoder(id []byte, depth int, isLeaf bool) string {
 	if len(id) == 0 {
 		return fmt.Sprintf("%s<nil>", prefix)
 	}
+
 	return fmt.Sprintf("%s%s", prefix, parseWeaveKey(id))
 }
 

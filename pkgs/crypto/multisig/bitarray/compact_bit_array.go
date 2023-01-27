@@ -24,6 +24,7 @@ func NewCompactBitArray(bits int) *CompactBitArray {
 	if bits <= 0 {
 		return nil
 	}
+
 	return &CompactBitArray{
 		ExtraBitsStored: byte(bits % 8),
 		Elems:           make([]byte, (bits+7)/8),
@@ -52,6 +53,7 @@ func (bA *CompactBitArray) GetIndex(i int) bool {
 	if i >= bA.Size() {
 		return false
 	}
+
 	return bA.Elems[i>>3]&(uint8(1)<<uint8(7-(i%8))) > 0
 }
 
@@ -69,6 +71,7 @@ func (bA *CompactBitArray) SetIndex(i int, v bool) bool {
 	} else {
 		bA.Elems[i>>3] &= ^(uint8(1) << uint8(7-(i%8)))
 	}
+
 	return true
 }
 
@@ -82,6 +85,7 @@ func (bA *CompactBitArray) NumTrueBitsBefore(index int) int {
 			numTrueValues++
 		}
 	}
+
 	return numTrueValues
 }
 

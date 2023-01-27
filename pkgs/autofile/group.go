@@ -99,6 +99,7 @@ func OpenGroup(headPath string, groupOptions ...func(*Group)) (g *Group, err err
 
 	g.BaseService = *service.NewBaseService(nil, "Group", g)
 	g.info = g.readGroupInfo()
+
 	return
 }
 
@@ -147,6 +148,7 @@ func (g *Group) Close() {
 func (g *Group) HeadSizeLimit() int64 {
 	g.mtx.Lock()
 	defer g.mtx.Unlock()
+
 	return g.headSizeLimit
 }
 
@@ -154,6 +156,7 @@ func (g *Group) HeadSizeLimit() int64 {
 func (g *Group) TotalSizeLimit() int64 {
 	g.mtx.Lock()
 	defer g.mtx.Unlock()
+
 	return g.totalSizeLimit
 }
 
@@ -161,6 +164,7 @@ func (g *Group) TotalSizeLimit() int64 {
 func (g *Group) MaxIndex() int {
 	g.mtx.Lock()
 	defer g.mtx.Unlock()
+
 	return g.info.MaxIndex
 }
 
@@ -168,18 +172,21 @@ func (g *Group) MaxIndex() int {
 func (g *Group) MinIndex() int {
 	g.mtx.Lock()
 	defer g.mtx.Unlock()
+
 	return g.info.MinIndex
 }
 
 func (g *Group) TotalSize() int64 {
 	g.mtx.Lock()
 	defer g.mtx.Unlock()
+
 	return g.info.TotalSize
 }
 
 func (g *Group) HeadSize() int64 {
 	g.mtx.Lock()
 	defer g.mtx.Unlock()
+
 	return g.info.HeadSize
 }
 
@@ -201,6 +208,7 @@ func (g *Group) Write(p []byte) (nn int, err error) {
 	if err == nil && 0 < g.headSizeLimit && g.headSizeLimit <= g.info.HeadSize {
 		g.rotateFile()
 	}
+
 	return
 }
 
@@ -220,6 +228,7 @@ func (g *Group) WriteLine(line string) error {
 	if err == nil && 0 < g.headSizeLimit && g.headSizeLimit <= g.info.HeadSize {
 		g.rotateFile()
 	}
+
 	return err
 }
 
@@ -227,6 +236,7 @@ func (g *Group) WriteLine(line string) error {
 func (g *Group) Buffered() int {
 	g.mtx.Lock()
 	defer g.mtx.Unlock()
+
 	return g.headBuf.Buffered()
 }
 
@@ -239,6 +249,7 @@ func (g *Group) FlushAndSync() error {
 	if err == nil {
 		err = g.Head.Sync()
 	}
+
 	return err
 }
 
@@ -317,6 +328,7 @@ func (g *Group) rotateFile() {
 // CONTRACT: Caller must close the returned GroupReader.
 func (g *Group) NewReader(startIndex int, endIndex int) (*GroupReader, error) {
 	r := newGroupReader(g, startIndex, endIndex)
+
 	return r, nil
 }
 
@@ -332,6 +344,7 @@ type GroupInfo struct {
 func (g *Group) ReadGroupInfo() GroupInfo {
 	g.mtx.Lock()
 	defer g.mtx.Unlock()
+
 	return g.readGroupInfo()
 }
 
@@ -393,6 +406,7 @@ func (g *Group) readGroupInfo() GroupInfo {
 		// Otherwise, the head file is 1 greater
 		maxIndex++
 	}
+
 	return GroupInfo{minIndex, maxIndex, totalSize, headSize}
 }
 
@@ -400,6 +414,7 @@ func filePathForIndex(headPath string, index int, maxIndex int) string {
 	if index == maxIndex {
 		return headPath
 	}
+
 	return fmt.Sprintf("%v.%03d", headPath, index)
 }
 
@@ -428,6 +443,7 @@ func newGroupReader(g *Group, startIndex int, endIndex int) *GroupReader {
 		curLine:    nil,
 	}
 	gr.openFile(startIndex)
+
 	return gr
 }
 
@@ -444,6 +460,7 @@ func (gr *GroupReader) Close() error {
 		gr.curLine = nil
 		return err
 	}
+
 	return nil
 }
 
@@ -516,6 +533,7 @@ func (gr *GroupReader) openFile(index int) error {
 	gr.curFile = curFile
 	gr.curReader = curReader
 	gr.curLine = nil
+
 	return nil
 }
 
@@ -523,5 +541,6 @@ func (gr *GroupReader) openFile(index int) error {
 func (gr *GroupReader) CurIndex() int {
 	gr.mtx.Lock()
 	defer gr.mtx.Unlock()
+
 	return gr.curIndex
 }

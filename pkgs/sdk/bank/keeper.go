@@ -214,6 +214,7 @@ func (view ViewKeeper) GetCoins(ctx sdk.Context, addr crypto.Address) std.Coins 
 	if acc == nil {
 		return std.NewCoins()
 	}
+
 	return acc.GetCoins()
 }
 

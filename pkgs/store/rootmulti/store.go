@@ -118,6 +118,7 @@ func (ms *multiStore) LoadVersion(ver int64) error {
 			ms.stores[key] = store
 		}
 		ms.lastCommitID = types.CommitID{}
+
 		return nil
 	}
 
@@ -229,6 +230,7 @@ func (ms *multiStore) MultiImmutableCacheWrapWithVersion(version int64) (types.M
 	for storeKey, store := range ims.stores {
 		stores[storeKey] = immut.New(store)
 	}
+
 	return cachemulti.New(stores, ims.keysByName), nil
 }
 
@@ -239,6 +241,7 @@ func (ms *multiStore) GetStore(key types.StoreKey) types.Store {
 	if store == nil {
 		panic("Could not load store " + key.String())
 	}
+
 	return store
 }
 
@@ -254,6 +257,7 @@ func (ms *multiStore) getStoreByName(name string) types.Store {
 	if key == nil {
 		return nil
 	}
+
 	return ms.stores[key]
 }
 

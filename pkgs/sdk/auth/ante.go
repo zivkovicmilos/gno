@@ -185,6 +185,7 @@ func GetSignerAcc(ctx sdk.Context, ak AccountKeeper, addr crypto.Address) (std.A
 	if acc := ak.GetAccount(ctx, addr); acc != nil {
 		return acc, sdk.Result{}
 	}
+
 	return nil, abciResult(std.ErrUnknownAddress(fmt.Sprintf("account %s does not exist", addr)))
 }
 
