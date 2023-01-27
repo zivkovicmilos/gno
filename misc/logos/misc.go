@@ -28,6 +28,7 @@ func splitSpaces(s string) (ss []string) {
 			buf = append(buf, r)
 		}
 	}
+
 	if len(buf) > 0 {
 		ss = append(ss, string(buf))
 	}
@@ -56,6 +57,7 @@ func widthOf(s string) (l int) {
 
 			continue
 		}
+
 		if zwj {
 			zwj = false
 
@@ -159,6 +161,7 @@ func IsInBounds(x, y int, origin Coord, size Size) bool {
 	if x < origin.X || y < origin.Y {
 		return false
 	}
+
 	if origin.X+size.Width <= x ||
 		origin.Y+size.Height <= y {
 		return false

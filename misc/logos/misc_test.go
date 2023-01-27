@@ -27,6 +27,7 @@ func TestStringWidthSlow(t *testing.T) {
 			}
 
 			require.Equal(t, width1, width2)
+
 			if !incBuffer(bz) {
 				break
 			}
@@ -104,9 +105,11 @@ func isRepeatedWZJ(bz []byte) bool {
 		if bz[i] != 0xE2 {
 			return false
 		}
+
 		if bz[i+1] != 0x80 {
 			return false
 		}
+
 		if bz[i+2] != 0x8D {
 			return false
 		}

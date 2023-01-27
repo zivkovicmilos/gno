@@ -35,6 +35,7 @@ func (m simpleMatch) matches(name []string, matchString func(pat, str string) (b
 		if i >= len(m) {
 			break
 		}
+
 		if ok, _ := matchString(m[i], s); !ok {
 			return false, false
 		}

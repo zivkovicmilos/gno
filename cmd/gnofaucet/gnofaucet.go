@@ -71,6 +71,7 @@ func main() {
 	cmd := command.NewStdCommand()
 	exec := os.Args[0]
 	args := os.Args[1:]
+
 	err := runMain(cmd, exec, args)
 	if err != nil {
 		cmd.ErrPrintfln("%s", err.Error())
@@ -134,19 +135,23 @@ func serveApp(cmd *command.Command, args []string, iopts interface{}) error {
 	if remote == "" || remote == "y" {
 		return errors.New("missing remote url")
 	}
+
 	cli := rpcclient.NewHTTP(remote, "/websocket")
 
 	// XXX XXX
 	// Read supply account pubkey.
 	name := args[0]
+
 	kb, err := keys.NewKeyBaseFromDir(opts.Home)
 	if err != nil {
 		return err
 	}
+
 	info, err := kb.GetByName(name)
 	if err != nil {
 		return err
 	}
+
 	fromAddr := info.GetAddress()
 	// pub := info.GetPubKey()
 
@@ -159,6 +164,7 @@ func serveApp(cmd *command.Command, args []string, iopts interface{}) error {
 	}
 	qres, err := cli.ABCIQueryWithOptions(
 		path, data, opts2)
+
 	if err != nil {
 		return errors.Wrap(err, "querying")
 	}
@@ -169,6 +175,7 @@ func serveApp(cmd *command.Command, args []string, iopts interface{}) error {
 
 		return qres.Response.Error
 	}
+
 	resdata := qres.Response.Data
 
 	var acc gnoland.GnoAccount
@@ -192,6 +199,7 @@ func serveApp(cmd *command.Command, args []string, iopts interface{}) error {
 	if err != nil {
 		return err
 	}
+
 	_, _, err = kb.Sign(name, pass, []byte(dummy))
 	if err != nil {
 		return err
@@ -209,6 +217,7 @@ func serveApp(cmd *command.Command, args []string, iopts interface{}) error {
 		if err != nil {
 			return err
 		}
+
 		err = sendAmountTo(cmd, cli, name, pass, testToAddr, accountNumber, sequence, send, opts)
 
 		return err
@@ -336,15 +345,19 @@ func sendAmountTo(
 	if err != nil {
 		return err
 	}
+
 	info, err := kb.GetByName(name)
+
 	if err != nil {
 		return err
 	}
+
 	fromAddr := info.GetAddress()
 	pub := info.GetPubKey()
 
 	// parse gas wanted & fee.
 	gaswanted := opts.GasWanted
+
 	gasfee, err := std.ParseCoin(opts.GasFee)
 	if err != nil {
 		return errors.Wrap(err, "parsing gas fee coin")
@@ -372,6 +385,7 @@ func sendAmountTo(
 			})
 		}
 	}
+
 	err = tx.ValidateBasic()
 	if err != nil {
 		return err
@@ -381,6 +395,7 @@ func sendAmountTo(
 	// get sign-bytes and make signature.
 	chainID := opts.ChainID
 	signbz := tx.GetSignBytes(chainID, accountNumber, sequence)
+
 	sig, _, err := kb.Sign(name, pass, signbz)
 	if err != nil {
 		return err
@@ -414,6 +429,7 @@ func sendAmountTo(
 	if err != nil {
 		return errors.Wrap(err, "broadcasting bytes")
 	}
+
 	if bres.CheckTx.IsErr() {
 		return errors.New("transaction failed %#v\nlog %s", bres, bres.CheckTx.Log)
 	} else if bres.DeliverTx.IsErr() {

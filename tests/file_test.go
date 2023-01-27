@@ -23,6 +23,7 @@ func runFileTest(t *testing.T, path string, nativeLibs bool) {
 	if gno.IsDebug() && testing.Verbose() {
 		logger = t.Log
 	}
+
 	err := RunFileTest("..", path, nativeLibs, logger)
 
 	if err != nil {
@@ -35,6 +36,7 @@ func runFileTest(t *testing.T, path string, nativeLibs bool) {
 func TestFiles1(t *testing.T) {
 	baseDir := filepath.Join(".", "files")
 	files, err := ioutil.ReadDir(baseDir)
+
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -49,6 +51,7 @@ func TestFiles1(t *testing.T) {
 
 			continue
 		}
+
 		file := file
 		t.Run(file.Name(), func(t *testing.T) {
 			runFileTest(t, filepath.Join(baseDir, file.Name()), true)
@@ -75,6 +78,7 @@ func TestFiles2(t *testing.T) {
 
 			continue
 		}
+
 		file := file
 		t.Run(file.Name(), func(t *testing.T) {
 			runFileTest(t, filepath.Join(baseDir, file.Name()), false)

@@ -79,6 +79,7 @@ func NewPage(s string, width int, isCode bool, style *Style) *Page {
 		ypos := 0 + pad.Top
 		xpos := 0 + pad.Left
 		lines := splitLines(s)
+
 		if isCode {
 			for _, line := range lines {
 				te := NewTextElem(line, style)
@@ -86,6 +87,7 @@ func NewPage(s string, width int, isCode bool, style *Style) *Page {
 				te.SetCoord(Coord{X: xpos, Y: ypos})
 				elems = append(elems, te)
 				ypos++
+
 				xpos = 0 + pad.Left
 			}
 		} else {
@@ -111,6 +113,7 @@ func NewPage(s string, width int, isCode bool, style *Style) *Page {
 			}
 		}
 	}
+
 	page.Elems = elems
 	page.Measure()
 	page.SetIsDirty(true)
@@ -176,13 +179,16 @@ func (pg *Page) Measure() Size {
 	for _, view := range pg.Elems {
 		coord := view.GetCoord()
 		size := view.GetSize()
+
 		if maxX < coord.X+size.Width {
 			maxX = coord.X + size.Width
 		}
+
 		if maxY < coord.Y+size.Height {
 			maxY = coord.Y + size.Height
 		}
 	}
+
 	size := Size{
 		Width:  maxX + pad.Right,
 		Height: maxY + pad.Bottom,
@@ -451,6 +457,7 @@ func (tel *TextElem) Render() (updated bool) {
 	if tel.Height != 1 {
 		panic("should not happen")
 	}
+
 	if !tel.GetIsDirty() {
 		return
 	} else {
@@ -481,6 +488,7 @@ func (tel *TextElem) Render() (updated bool) {
 		}
 		i += w
 	}
+
 	if i != tel.Buffer.Width {
 		panic(fmt.Sprintf(
 			"wrote %d cells but there are %d in buffer with text %q",
@@ -605,11 +613,13 @@ func (st *Style) WithAttrs(attrs *Attrs) (res Style) {
 	if st == nil {
 		panic("unexpected nil style")
 	}
+
 	if attrs.GetIsCursor() {
 		res = *st.GetCursorStyle()
 	} else {
 		res = *st
 	}
+
 	if attrs.GetIsOccluded() {
 		res.SetIsShaded(true)
 	}
@@ -623,11 +633,13 @@ func (st Style) GetTStyle() (tst tcell.Style) {
 	} else {
 		tst = tst.Foreground(gDefaultForeground)
 	}
+
 	if st.Background.Valid() {
 		tst = tst.Background(st.Background)
 	} else {
 		tst = tst.Background(gDefaultBackground)
 	}
+
 	if st.GetIsShaded() {
 		tst = tst.Dim(true)
 		tst = tst.Background(tcell.ColorGray)
@@ -802,6 +814,7 @@ func computeIntersection(els Size, elo Coord, vws Size) (minX, maxX, minY, maxY 
 		*/
 		minX = elo.X
 	}
+
 	if els.Width <= vws.Width+elo.X {
 		/*
 			     View
@@ -821,11 +834,13 @@ func computeIntersection(els Size, elo Coord, vws Size) (minX, maxX, minY, maxY 
 		*/
 		maxX = vws.Width + elo.X
 	}
+
 	if elo.Y < 0 {
 		minY = 0
 	} else {
 		minY = elo.Y
 	}
+
 	if els.Height <= vws.Height+elo.Y {
 		maxY = els.Height
 	} else {

@@ -43,6 +43,7 @@ func buildApp(cmd *command.Command, args []string, iopts interface{}) error {
 			errCount++
 		}
 	}
+
 	if errCount > 0 {
 		return fmt.Errorf("%d go build errors", errCount)
 	}

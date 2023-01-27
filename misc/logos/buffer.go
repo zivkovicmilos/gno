@@ -61,6 +61,7 @@ func (bb *Buffer) Sprint() string {
 					fmt.Sprintf("%X", flags))
 			}
 		}
+
 		line := strings.Join(parts, "")
 		lines = append(lines, line)
 	}
@@ -109,6 +110,7 @@ func (cc *Cell) SetValueFromCell(c2 *Cell) {
 	cc.SetValue(c2.Character, c2.Width, c2.Style, c2.Ref)
 	cc.Character = c2.Character
 	cc.Width = c2.Width
+
 	if c2.Style != nil {
 		cc.Style = c2.Style
 	}
@@ -151,6 +153,7 @@ var gDefaultTStyle = gDefaultStyle.GetTStyle().
 func (cc *Cell) GetTCellContent() (mainc rune, combc []rune, tstyle tcell.Style) {
 	style := cc.Style
 	attrs := &cc.Attrs
+
 	if cc.Character == "" {
 		mainc = '?' // for debugging
 
@@ -210,6 +213,7 @@ func (bs View) GetCell(x, y int) *Cell {
 	if bs.Bounds.Width <= x {
 		panic("should not happen")
 	}
+
 	if bs.Bounds.Height <= y {
 		panic("should not happen")
 	}
@@ -246,6 +250,7 @@ func NewBufferedElemView(elem Elem, size Size) *BufferedElemView {
 	if size.IsZero() {
 		size = elem.Measure()
 	}
+
 	bpv := &BufferedElemView{
 		Size:   size,
 		Style:  elem.GetStyle(),
@@ -254,6 +259,7 @@ func NewBufferedElemView(elem Elem, size Size) *BufferedElemView {
 		// NOTE: be lazy, size may change.
 		// Buffer: NewBuffer(size),
 	}
+
 	bpv.SetCoord(elem.GetCoord())
 	bpv.SetIsDirty(true)
 	elem.SetParent(bpv)

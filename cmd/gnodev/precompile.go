@@ -115,6 +115,7 @@ func precompilePkg(pkgPath importPath, opts *precompileOptions) error {
 func precompileFile(srcPath string, opts *precompileOptions) error {
 	flags := opts.getFlags()
 	gofmt := flags.GofmtBinary
+
 	if gofmt == "" {
 		gofmt = defaultPrecompileFlags.GofmtBinary
 	}
@@ -163,6 +164,7 @@ func precompileFile(srcPath string, opts *precompileOptions) error {
 		if err != nil {
 			return fmt.Errorf("resolve output path: %w", err)
 		}
+
 		targetPath = filepath.Join(path, targetFilename)
 	} else {
 		targetPath = filepath.Join(filepath.Dir(srcPath), targetFilename)

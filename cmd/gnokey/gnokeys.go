@@ -265,6 +265,7 @@ func makeCallTxApp(cmd *command.Command, args []string, iopts interface{}) error
 
 	// parse gas wanted & fee.
 	gaswanted := opts.GasWanted
+
 	gasfee, err := std.ParseCoin(opts.GasFee)
 	if err != nil {
 		return errors.Wrap(err, "parsing gas fee coin")
@@ -306,6 +307,7 @@ func signAndBroadcast(
 ) error {
 	// query account
 	nameOrBech32 := args[0]
+
 	kb, err := keys.NewKeyBaseFromDir(baseopts.Home)
 	if err != nil {
 		return err
@@ -315,6 +317,7 @@ func signAndBroadcast(
 	if err != nil {
 		return err
 	}
+
 	accountAddr := info.GetAddress()
 
 	qopts := client.QueryOptions{
@@ -345,6 +348,7 @@ func signAndBroadcast(
 		TxJSON:        amino.MustMarshalJSON(tx),
 	}
 	sopts.Home = baseopts.Home
+
 	if baseopts.Quiet {
 		sopts.Pass, err = cmd.GetPassword("", baseopts.InsecurePasswordStdin)
 	} else {
@@ -431,14 +435,17 @@ func makeSendTxApp(cmd *command.Command, args []string, iopts interface{}) error
 
 	// read account pubkey.
 	nameOrBech32 := args[0]
+
 	kb, err := keys.NewKeyBaseFromDir(opts.Home)
 	if err != nil {
 		return err
 	}
+
 	info, err := kb.GetByNameOrAddress(nameOrBech32)
 	if err != nil {
 		return err
 	}
+
 	fromAddr := info.GetAddress()
 	// info.GetPubKey()
 
@@ -456,6 +463,7 @@ func makeSendTxApp(cmd *command.Command, args []string, iopts interface{}) error
 
 	// parse gas wanted & fee.
 	gaswanted := opts.GasWanted
+
 	gasfee, err := std.ParseCoin(opts.GasFee)
 	if err != nil {
 		return errors.Wrap(err, "parsing gas fee coin")

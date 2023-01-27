@@ -12,6 +12,7 @@ func main() {
 	exec := os.Args[0]
 	args := os.Args[1:]
 	err := runMain(cmd, exec, args)
+
 	if err != nil {
 		cmd.ErrPrintfln("%s", err.Error())
 		// cmd.ErrPrintfln("%#v", err)
