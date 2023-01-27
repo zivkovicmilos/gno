@@ -517,6 +517,7 @@ func (cdc *Codec) getTypeInfoWLocked(rt reflect.Type) (info *TypeInfo, err error
 
 func (cdc *Codec) getTypeInfoFromTypeURLRLock(typeURL string, fopts FieldOptions) (info *TypeInfo, err error) {
 	fullname := typeURLtoFullname(typeURL)
+
 	return cdc.getTypeInfoFromFullnameRLock(fullname, fopts)
 }
 
@@ -530,11 +531,13 @@ func (cdc *Codec) getTypeInfoFromFullnameRLock(fullname string, fopts FieldOptio
 	if fullname == "google.protobuf.Timestamp" && !fopts.UseGoogleTypes {
 		cdc.mtx.RUnlock()
 		info, err = cdc.getTypeInfoWLock(timeType)
+
 		return
 	}
 	if fullname == "google.protobuf.Duration" && !fopts.UseGoogleTypes {
 		cdc.mtx.RUnlock()
 		info, err = cdc.getTypeInfoWLock(durationType)
+
 		return
 	}
 
@@ -542,9 +545,11 @@ func (cdc *Codec) getTypeInfoFromFullnameRLock(fullname string, fopts FieldOptio
 	if !ok {
 		err = fmt.Errorf("unrecognized concrete type full name %s of %v", fullname, cdc.fullnameToTypeInfo)
 		cdc.mtx.RUnlock()
+
 		return
 	}
 	cdc.mtx.RUnlock()
+
 	return
 }
 
@@ -739,6 +744,7 @@ func parseFieldOptions(field reflect.StructField) (skip bool, fopts FieldOptions
 	// NOTE: This skips binary as well.
 	if jsonTag == "-" {
 		skip = true
+
 		return
 	}
 

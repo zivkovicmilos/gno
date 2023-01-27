@@ -63,6 +63,7 @@ func (p *Press) P(s string, args ...interface{}) *Press {
 	// Get ref to last line.
 	l = &(p.lines[len(p.lines)-1])
 	l.value += fmt.Sprintf(s, args...)
+
 	return p
 }
 

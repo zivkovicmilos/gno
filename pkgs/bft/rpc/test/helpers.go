@@ -67,6 +67,7 @@ func randPort() int {
 	if err != nil {
 		panic(err)
 	}
+
 	return port
 }
 
@@ -94,6 +95,7 @@ func GetConfig(forceCreate ...bool) *cfg.Config {
 	if globalConfig == nil || (len(forceCreate) > 0 && forceCreate[0]) {
 		globalConfig = createConfig()
 	}
+
 	return globalConfig
 }
 

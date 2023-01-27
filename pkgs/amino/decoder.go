@@ -133,6 +133,7 @@ func DecodeUvarint32(bz []byte) (u uint32, n int, err error) {
 	}
 	if u64 > uint64(math.MaxUint32) {
 		err = errors.New("EOF decoding uint32")
+
 		return
 	}
 	u = uint32(u64)

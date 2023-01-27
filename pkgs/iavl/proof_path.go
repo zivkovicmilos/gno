@@ -33,6 +33,7 @@ func (pwl pathWithLeaf) StringIndented(indent string) string {
 // PathToLeaf is incorrect.
 func (pwl pathWithLeaf) verify(root []byte) error {
 	leafHash := pwl.Leaf.Hash()
+
 	return pwl.Path.verify(leafHash, root)
 }
 
@@ -40,6 +41,7 @@ func (pwl pathWithLeaf) verify(root []byte) error {
 // Does not verify the root hash.
 func (pwl pathWithLeaf) computeRootHash() []byte {
 	leafHash := pwl.Leaf.Hash()
+
 	return pwl.Path.computeRootHash(leafHash)
 }
 

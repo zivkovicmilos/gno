@@ -81,6 +81,7 @@ func (cdc *Codec) encodeReflectBinary(w io.Writer, info *TypeInfo, rv reflect.Va
 		}
 		// Then, encode the repr instance.
 		err = cdc.encodeReflectBinary(w, rinfo, rrv, fopts, bare, options)
+
 		return
 	}
 
@@ -186,6 +187,7 @@ func (cdc *Codec) encodeReflectBinary(w io.Writer, info *TypeInfo, rv reflect.Va
 	case reflect.Float64:
 		if !fopts.Unsafe {
 			err = errors.New("amino float* support requires `amino:\"unsafe\"`")
+
 			return
 		}
 		err = EncodeFloat64(w, rv.Float())
@@ -193,6 +195,7 @@ func (cdc *Codec) encodeReflectBinary(w io.Writer, info *TypeInfo, rv reflect.Va
 	case reflect.Float32:
 		if !fopts.Unsafe {
 			err = errors.New("amino float* support requires `amino:\"unsafe\"`")
+
 			return
 		}
 		err = EncodeFloat32(w, float32(rv.Float()))
@@ -246,6 +249,7 @@ func (cdc *Codec) encodeReflectBinaryInterface(w io.Writer, iinfo *TypeInfo, rv 
 	}
 	if !cinfo.Registered {
 		err = fmt.Errorf("cannot encode unregistered concrete type %v", crt)
+
 		return
 	}
 
@@ -334,6 +338,7 @@ func (cdc *Codec) encodeReflectBinaryByteArray(w io.Writer, info *TypeInfo, rv r
 
 	// Write byte-length prefixed byteslice.
 	err = EncodeByteSlice(w, byteslice)
+
 	return
 }
 

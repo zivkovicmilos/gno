@@ -529,6 +529,7 @@ func (cdc *Codec) UnmarshalSizedReader(r io.Reader, ptr interface{},
 	if maxSize > 0 {
 		if uint64(maxSize) < u64 {
 			err = errors.New("read overflow, maxSize is %v but this amino binary object is %v bytes", maxSize, u64)
+
 			return
 		}
 		if (maxSize - n) < int64(u64) {
@@ -536,6 +537,7 @@ func (cdc *Codec) UnmarshalSizedReader(r io.Reader, ptr interface{},
 				"read overflow, maxSize is %v but this length-prefixed amino binary object is %v+%v bytes",
 				maxSize, n, u64,
 			)
+
 			return
 		}
 	}
@@ -556,6 +558,7 @@ func (cdc *Codec) UnmarshalSizedReader(r io.Reader, ptr interface{},
 
 	// Decode.
 	err = cdc.Unmarshal(bz, ptr)
+
 	return n, err
 }
 
@@ -734,6 +737,7 @@ func (cdc *Codec) UnmarshalAny(bz []byte, ptr interface{}) (err error) {
 	}
 
 	_, err = cdc.decodeReflectBinaryInterface(bz, iinfo, rv, FieldOptions{}, true)
+
 	return
 }
 
@@ -747,6 +751,7 @@ func (cdc *Codec) UnmarshalAny2(typeURL string, value []byte, ptr interface{}) (
 	}
 	rv = rv.Elem()
 	_, err = cdc.decodeReflectBinaryAny(typeURL, value, rv, FieldOptions{})
+
 	return
 }
 
@@ -879,6 +884,7 @@ func (cdc *Codec) MarshalJSONIndent(o interface{}, prefix, indent string) ([]byt
 // NOTE: do not modify the result.
 func RegisterPackage(pi *pkg.Package) *Package {
 	gcdc.RegisterPackage(pi)
+
 	return pi
 }
 

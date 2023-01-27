@@ -17,6 +17,7 @@ func main() {
 	// Print help.
 	if len(os.Args) == 1 {
 		fmt.Println(`Usage: aminoscan <STRUCT HEXBYTES> or --help`)
+
 		return
 	}
 
@@ -33,9 +34,11 @@ func main() {
 		a printable character.
 
 		> aminoscan --color <HEXBYTES>`)
+
 		return
 	} else if err != nil {
 		fmt.Println(err)
+
 		return
 	}
 
@@ -43,10 +46,12 @@ func main() {
 	if colorize {
 		if flgs.Arg(0) == "" {
 			fmt.Println(`Usage: aminoscan --color <HEXBYTES>`)
+
 			return
 		}
 		bz := hexDecode(flgs.Arg(0))
 		fmt.Println(ColoredBytes(bz, Green, Blue))
+
 		return
 	}
 
@@ -96,6 +101,7 @@ func scanVarint(bz []byte, indent string) (s string, n int, err error) {
 	// If neither work, return error.
 	if !okI64 && !okU64 {
 		err = fmt.Errorf("invalid (u)varint")
+
 		return
 	}
 	// s is the same either way.
@@ -108,17 +114,20 @@ func scanVarint(bz []byte, indent string) (s string, n int, err error) {
 		fmt.Printf("u64:%v", u64)
 	}
 	fmt.Print(")\n")
+
 	return s, n, err
 }
 
 func scan8Byte(bz []byte, indent string) (s string, n int, err error) {
 	if len(bz) < 8 {
 		err = errors.New("while reading 8byte field, EOF was encountered")
+
 		return
 	}
 	n = 8
 	s = Blue(fmt.Sprintf("%X", bz[:8]))
 	fmt.Printf("%s%s\n", indent, s)
+
 	return
 }
 
@@ -128,11 +137,13 @@ func scanByteLength(bz []byte, indent string) (s string, n int, err error) {
 	if n < 0 {
 		n = 0
 		err = errors.New("error decoding uvarint")
+
 		return
 	}
 	length := int(l64)
 	if length >= len(bz) {
 		err = errors.New("while reading 8byte field, EOF was encountered")
+
 		return
 	}
 	lengthStrLong := fmt.Sprintf("%X (%v bytes) ", bz[:_n], length)
@@ -184,6 +195,7 @@ func scanFieldKey(bz []byte, indent string) (s string, typ amino.Typ3, n int, er
 	if n < 0 {
 		n = 0
 		err = errors.New("error decoding uvarint")
+
 		return
 	}
 	typ = amino.Typ3(u64 & 0x07)

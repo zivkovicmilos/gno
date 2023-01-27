@@ -67,6 +67,7 @@ func (app *CounterApplication) DeliverTx(req abci.RequestDeliverTx) abci.Respons
 		}
 	}
 	app.txCount++
+
 	return abci.ResponseDeliverTx{}
 }
 

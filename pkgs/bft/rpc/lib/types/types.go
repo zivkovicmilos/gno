@@ -145,6 +145,7 @@ func (err RPCError) Error() string {
 	if err.Data != "" {
 		return fmt.Sprintf(baseFormat+": %s", err.Code, err.Message, err.Data)
 	}
+
 	return fmt.Sprintf(baseFormat, err.Code, err.Message)
 }
 
@@ -209,6 +210,7 @@ func (response RPCResponse) String() string {
 	if response.Error == nil {
 		return fmt.Sprintf("[%s %v]", response.ID, response.Result)
 	}
+
 	return fmt.Sprintf("[%s %s]", response.ID, response.Error)
 }
 
@@ -280,6 +282,7 @@ func (ctx *Context) RemoteAddr() string {
 	} else if ctx.WSConn != nil {
 		return ctx.WSConn.GetRemoteAddr()
 	}
+
 	return ""
 }
 

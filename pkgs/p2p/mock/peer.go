@@ -57,6 +57,7 @@ func (mp *Peer) Get(key string) interface{} {
 	if value, ok := mp.kv[key]; ok {
 		return value
 	}
+
 	return nil
 }
 

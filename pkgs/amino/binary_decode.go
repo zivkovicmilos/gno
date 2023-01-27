@@ -613,12 +613,14 @@ func (cdc *Codec) decodeReflectBinaryArray(bz []byte, info *TypeInfo, rv reflect
 			_n, err = cdc.decodeReflectBinary(bz, einfo, erv, fopts, false, newoptions)
 			if slide(&bz, &n, _n) && err != nil {
 				err = fmt.Errorf("error reading array contents: %w", err)
+
 				return
 			}
 		}
 		// Ensure that we read the whole buffer.
 		if len(bz) > 0 {
 			err = errors.New("bytes left over after reading array contents")
+
 			return
 		}
 	} else {
@@ -643,10 +645,12 @@ func (cdc *Codec) decodeReflectBinaryArray(bz []byte, info *TypeInfo, rv reflect
 			// Validate field number and typ3.
 			if fnum != fopts.BinFieldNum {
 				err = errors.New(fmt.Sprintf("expected repeated field number %v, got %v", fopts.BinFieldNum, fnum))
+
 				return
 			}
 			if typ != Typ3ByteLength {
 				err = errors.New(fmt.Sprintf("expected repeated field type %v, got %v", Typ3ByteLength, typ))
+
 				return
 			}
 			// Decode the next ByteLength bytes into erv.
@@ -683,6 +687,7 @@ func (cdc *Codec) decodeReflectBinaryArray(bz []byte, info *TypeInfo, rv reflect
 				}
 				if fnum != 1 {
 					err = fmt.Errorf("unexpected field number %v of implicit list struct", fnum)
+
 					return
 				}
 				// Read field value of implicit struct.
@@ -691,11 +696,13 @@ func (cdc *Codec) decodeReflectBinaryArray(bz []byte, info *TypeInfo, rv reflect
 				_n, err = cdc.decodeReflectBinary(ibz, einfo, erv, efopts, false, 0)
 				if slide(&ibz, &n, _n) && err != nil {
 					err = fmt.Errorf("error reading array contents: %w", err)
+
 					return
 				}
 				// Ensure that there are no more bytes left.
 				if len(ibz) > 0 {
 					err = fmt.Errorf("unexpected trailing bytes after implicit list struct's Value field: %X", ibz)
+
 					return
 				}
 			} else {
@@ -705,6 +712,7 @@ func (cdc *Codec) decodeReflectBinaryArray(bz []byte, info *TypeInfo, rv reflect
 				_n, err = cdc.decodeReflectBinary(bz, einfo, erv, efopts, false, 0)
 				if slide(&bz, &n, _n) && err != nil {
 					err = fmt.Errorf("error reading array contents: %w", err)
+
 					return
 				}
 			}
@@ -720,6 +728,7 @@ func (cdc *Codec) decodeReflectBinaryArray(bz []byte, info *TypeInfo, rv reflect
 			}
 			if fnum <= fopts.BinFieldNum {
 				err = fmt.Errorf("unexpected field number %v after repeated field number %v", fnum, fopts.BinFieldNum)
+
 				return
 			}
 		}
@@ -747,6 +756,7 @@ func (cdc *Codec) decodeReflectBinaryByteSlice(bz []byte, info *TypeInfo, rv ref
 	// If len(bz) == 0 the code below will err
 	if len(bz) == 0 {
 		rv.Set(info.ZeroValue)
+
 		return 0, nil
 	}
 
@@ -822,6 +832,7 @@ func (cdc *Codec) decodeReflectBinarySlice(bz []byte, info *TypeInfo, rv reflect
 			_n, err = cdc.decodeReflectBinary(bz, einfo, erv, fopts, false, newoptions)
 			if slide(&bz, &n, _n) && err != nil {
 				err = fmt.Errorf("error reading array contents: %w", err)
+
 				return
 			}
 			srv = reflect.Append(srv, erv)
@@ -854,10 +865,12 @@ func (cdc *Codec) decodeReflectBinarySlice(bz []byte, info *TypeInfo, rv reflect
 			// Validate field number and typ3.
 			if fnum < fopts.BinFieldNum {
 				err = errors.New(fmt.Sprintf("expected repeated field number %v or greater, got %v", fopts.BinFieldNum, fnum))
+
 				return
 			}
 			if typ != Typ3ByteLength {
 				err = errors.New(fmt.Sprintf("expected repeated field type %v, got %v", Typ3ByteLength, typ))
+
 				return
 			}
 			// Decode the next ByteLength bytes into erv.
@@ -895,6 +908,7 @@ func (cdc *Codec) decodeReflectBinarySlice(bz []byte, info *TypeInfo, rv reflect
 				}
 				if fnum != 1 {
 					err = fmt.Errorf("unexpected field number %v of implicit list struct", fnum)
+
 					return
 				}
 				// Read field value of implicit struct.
@@ -903,11 +917,13 @@ func (cdc *Codec) decodeReflectBinarySlice(bz []byte, info *TypeInfo, rv reflect
 				_n, err = cdc.decodeReflectBinary(ibz, einfo, erv, efopts, false, 0)
 				if slide(&ibz, &n, _n) && err != nil {
 					err = fmt.Errorf("error reading slice contents: %w", err)
+
 					return
 				}
 				// Ensure that there are no more bytes left.
 				if len(ibz) > 0 {
 					err = fmt.Errorf("unexpected trailing bytes after implicit list struct's Value field: %X", ibz)
+
 					return
 				}
 			} else {
@@ -917,6 +933,7 @@ func (cdc *Codec) decodeReflectBinarySlice(bz []byte, info *TypeInfo, rv reflect
 				_n, err = cdc.decodeReflectBinary(bz, einfo, erv, efopts, false, 0)
 				if slide(&bz, &n, _n) && err != nil {
 					err = fmt.Errorf("error reading slice contents: %w", err)
+
 					return
 				}
 			}
@@ -924,6 +941,7 @@ func (cdc *Codec) decodeReflectBinarySlice(bz []byte, info *TypeInfo, rv reflect
 		}
 	}
 	rv.Set(srv)
+
 	return n, err
 }
 
@@ -1003,6 +1021,7 @@ func (cdc *Codec) decodeReflectBinaryStruct(bz []byte, info *TypeInfo, rv reflec
 			if fnum <= lastFieldNum {
 				err = fmt.Errorf("encountered fieldNum: %v, but we have already seen fnum: %v\nbytes:%X",
 					fnum, lastFieldNum, bz)
+
 				return
 			}
 			lastFieldNum = fnum
@@ -1012,12 +1031,14 @@ func (cdc *Codec) decodeReflectBinaryStruct(bz []byte, info *TypeInfo, rv reflec
 			if field.BinFieldNum != fnum {
 				err = errors.New(fmt.Sprintf("expected field # %v of %v, got %v",
 					field.BinFieldNum, info.Type, fnum))
+
 				return
 			}
 			typWanted := finfo.GetTyp3(field.FieldOptions)
 			if typ != typWanted {
 				err = errors.New(fmt.Sprintf("expected field type %v for # %v of %v, got %v",
 					typWanted, fnum, info.Type, typ))
+
 				return
 			}
 			// Decode field into frv.
@@ -1041,6 +1062,7 @@ func (cdc *Codec) decodeReflectBinaryStruct(bz []byte, info *TypeInfo, rv reflec
 		if fnum <= lastFieldNum {
 			err = fmt.Errorf("encountered fieldNum: %v, but we have already seen fnum: %v\nbytes:%X",
 				fnum, lastFieldNum, bz)
+
 			return
 		}
 		lastFieldNum = fnum
@@ -1070,13 +1092,16 @@ func consumeAny(typ3 Typ3, bz []byte) (n int, err error) {
 		_, _n, err = DecodeInt32(bz)
 	default:
 		err = fmt.Errorf("invalid typ3 bytes %v", typ3)
+
 		return
 	}
 	if err != nil {
 		// do not slide
+
 		return
 	}
 	slide(&bz, &n, _n)
+
 	return
 }
 
@@ -1097,9 +1122,11 @@ func decodeFieldNumberAndTyp3(bz []byte) (num uint32, typ Typ3, n int, err error
 	num64 := value64 >> 3
 	if num64 > (1<<29 - 1) {
 		err = fmt.Errorf("invalid field num %v", num64)
+
 		return
 	}
 	num = uint32(num64)
+
 	return
 }
 
@@ -1123,6 +1150,7 @@ func decodeMaybeBare(bz []byte, n *int, bare bool) ([]byte, error) {
 		// This is a trick for debuggability -- we slide on &n more later.
 		*n += UvarintSize(uint64(len(buf)))
 		bz = buf
+
 		return bz, nil
 	}
 }

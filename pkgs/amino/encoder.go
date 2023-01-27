@@ -371,6 +371,7 @@ func EncodeByteSlice(w io.Writer, bz []byte) (err error) {
 		return
 	}
 	_, err = w.Write(bz)
+
 	return
 }
 

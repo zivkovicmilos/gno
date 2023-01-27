@@ -100,6 +100,7 @@ func (pkg *Package) String() string {
 
 func (pkg *Package) WithP3GoPkgPath(p3gopkg string) *Package {
 	pkg.P3GoPkgPath = p3gopkg
+
 	return pkg
 }
 
@@ -110,11 +111,13 @@ func (pkg *Package) WithGoPkgName(name string) *Package {
 	// so it never gets out of sync.
 	pkg.P3ImportPath = filepath.Join(pkg.GoPkgPath, name+".proto")
 	pkg.P3SchemaFile = filepath.Join(pkg.DirName, name+".proto")
+
 	return pkg
 }
 
 func (pkg *Package) WithDependencies(deps ...*Package) *Package {
 	pkg.Dependencies = append(pkg.Dependencies, deps...)
+
 	return pkg
 }
 

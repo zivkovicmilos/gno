@@ -18,6 +18,7 @@ func randBytes(length int) []byte {
 	// math.rand.Read always returns err=nil
 	// we do not need cryptographic randomness for this test:
 	rand.Read(key)
+
 	return key
 }
 
@@ -34,6 +35,7 @@ func prepareTree(b *testing.B, db db.DB, size, keyLen, dataLen int) (*iavl.Mutab
 	}
 	commitTree(b, t)
 	runtime.GC()
+
 	return t, keys
 }
 
@@ -268,6 +270,7 @@ func memUseMB() float64 {
 	runtime.ReadMemStats(&mem)
 	asize := mem.Alloc
 	mb := float64(asize) / 1000000
+
 	return mb
 }
 

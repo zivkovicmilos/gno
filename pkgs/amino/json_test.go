@@ -172,6 +172,7 @@ func (f *fp) UnmarshalAmino(repr string) (err error) {
 	}
 	f.Name = parts[0]
 	f.Version, err = strconv.Atoi(parts[1])
+
 	return
 }
 
@@ -257,6 +258,7 @@ func TestUnmarshalJSON(t *testing.T) {
 		{ // #7
 			`["1", "2", "3"]`, new([]int), func() interface{} {
 				v := []int{1, 2, 3}
+
 				return &v
 			}(), "",
 		},

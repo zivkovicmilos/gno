@@ -45,6 +45,7 @@ func makeAndCommitGoodBlock(
 	if err != nil {
 		return state, types.BlockID{}, nil, err
 	}
+
 	return state, blockID, commit, nil
 }
 
@@ -60,6 +61,7 @@ func makeAndApplyGoodBlock(state sm.State, height int64, lastCommit *types.Commi
 	if err != nil {
 		return state, types.BlockID{}, err
 	}
+
 	return state, blockID, nil
 }
 
@@ -78,6 +80,7 @@ func makeValidCommit(
 		}
 		sigs = append(sigs, vote.CommitSig())
 	}
+
 	return types.NewCommit(blockID, sigs), nil
 }
 
@@ -86,6 +89,7 @@ func makeTxs(height int64) (txs []types.Tx) {
 	for i := 0; i < nTxsPerBlock; i++ {
 		txs = append(txs, types.Tx([]byte{byte(height), byte(i)}))
 	}
+
 	return txs
 }
 
@@ -118,6 +122,7 @@ func makeState(nVals, height int) (sm.State, dbm.DB, map[string]types.PrivValida
 		s.LastValidators = s.Validators.Copy()
 		sm.SaveState(stateDB, s)
 	}
+
 	return s, stateDB, privVals
 }
 
@@ -132,6 +137,7 @@ func genValSet(size int) *types.ValidatorSet {
 	for i := 0; i < size; i++ {
 		vals[i] = types.NewValidator(ed25519.GenPrivKey().PubKey(), 10)
 	}
+
 	return types.NewValidatorSet(vals)
 }
 
@@ -197,6 +203,7 @@ func makeHeaderPartsResponsesParams(
 	abciResponses := &sm.ABCIResponses{
 		EndBlock: abci.ResponseEndBlock{ConsensusParams: &params},
 	}
+
 	return block.Header, types.BlockID{Hash: block.Hash(), PartsHeader: types.PartSetHeader{}}, abciResponses
 }
 

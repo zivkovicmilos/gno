@@ -15,6 +15,7 @@ func Routine(fn func()) <-chan struct{} {
 		fn()
 		close(done)
 	}()
+
 	return done
 }
 
@@ -59,6 +60,7 @@ func (trs *TaskResultSet) LatestResult(index int) (TaskResult, bool) {
 		return TaskResult{}, false
 	}
 	resultOK := trs.results[index]
+
 	return resultOK.TaskResult, resultOK.OK
 }
 
@@ -83,6 +85,7 @@ func (trs *TaskResultSet) Reap() *TaskResultSet {
 			// Do nothing.
 		}
 	}
+
 	return trs
 }
 

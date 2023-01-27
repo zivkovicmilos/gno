@@ -139,6 +139,7 @@ func parseBalance(bal string) (crypto.Address, std.Coins) {
 	if err != nil {
 		panic(fmt.Sprintf("invalid balance coins %s (%v)", bal, err))
 	}
+
 	return addr, coins
 }
 

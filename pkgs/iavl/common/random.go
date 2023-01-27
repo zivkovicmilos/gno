@@ -120,6 +120,7 @@ func (r *Rand) Uint32() uint32 {
 	r.Lock()
 	u32 := r.rand.Uint32()
 	r.Unlock()
+
 	return u32
 }
 
@@ -131,6 +132,7 @@ func (r *Rand) Uint() uint {
 	r.Lock()
 	i := r.rand.Int()
 	r.Unlock()
+
 	return uint(i)
 }
 
@@ -150,6 +152,7 @@ func (r *Rand) Int() int {
 	r.Lock()
 	i := r.rand.Int()
 	r.Unlock()
+
 	return i
 }
 
@@ -157,6 +160,7 @@ func (r *Rand) Int31() int32 {
 	r.Lock()
 	i31 := r.rand.Int31()
 	r.Unlock()
+
 	return i31
 }
 
@@ -164,6 +168,7 @@ func (r *Rand) Int31n(n int32) int32 {
 	r.Lock()
 	i31n := r.rand.Int31n(n)
 	r.Unlock()
+
 	return i31n
 }
 
@@ -171,6 +176,7 @@ func (r *Rand) Int63() int64 {
 	r.Lock()
 	i63 := r.rand.Int63()
 	r.Unlock()
+
 	return i63
 }
 
@@ -178,6 +184,7 @@ func (r *Rand) Int63n(n int64) int64 {
 	r.Lock()
 	i63n := r.rand.Int63n(n)
 	r.Unlock()
+
 	return i63n
 }
 
@@ -185,6 +192,7 @@ func (r *Rand) Float32() float32 {
 	r.Lock()
 	f32 := r.rand.Float32()
 	r.Unlock()
+
 	return f32
 }
 
@@ -192,6 +200,7 @@ func (r *Rand) Float64() float64 {
 	r.Lock()
 	f64 := r.rand.Float64()
 	r.Unlock()
+
 	return f64
 }
 
@@ -217,6 +226,7 @@ func (r *Rand) Intn(n int) int {
 	r.Lock()
 	i := r.rand.Intn(n)
 	r.Unlock()
+
 	return i
 }
 
@@ -224,6 +234,7 @@ func (r *Rand) Intn(n int) int {
 func (r *Rand) Bool() bool {
 	// See https://github.com/golang/go/issues/23804#issuecomment-365370418
 	// for reasoning behind computing like this
+
 	return r.Int63()%2 == 0
 }
 
@@ -232,6 +243,7 @@ func (r *Rand) Perm(n int) []int {
 	r.Lock()
 	perm := r.rand.Perm(n)
 	r.Unlock()
+
 	return perm
 }
 
