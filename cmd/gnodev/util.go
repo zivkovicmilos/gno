@@ -48,6 +48,7 @@ func gnoFilesFromArgs(args []string) ([]string, error) {
 			}
 		}
 	}
+
 	return paths, nil
 }
 
@@ -94,6 +95,7 @@ func gnoPackagesFromArgs(args []string) ([]string, error) {
 			}
 		}
 	}
+
 	return paths, nil
 }
 
@@ -129,6 +131,7 @@ func getPathsFromImportSpec(importSpec []*ast.ImportSpec) (importPaths []importP
 			importPaths = append(importPaths, importPath("."+res))
 		}
 	}
+
 	return
 }
 

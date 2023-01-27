@@ -124,6 +124,7 @@ func (pg *Page) StringIndented(indent string) string {
 	for _, elem := range pg.Elems {
 		elines = append(elines, eindent+elem.StringIndented(eindent))
 	}
+
 	return fmt.Sprintf("Page%v@%p\n%s",
 		pg.Size,
 		pg,
@@ -270,6 +271,7 @@ func (pg *Page) Render() (updated bool) {
 	for _, elem := range pg.Elems {
 		elem.Render()
 	}
+
 	return true
 }
 
@@ -477,6 +479,7 @@ func (tel *TextElem) Render() (updated bool) {
 			"wrote %d cells but there are %d in buffer with text %q",
 			i, tel.Buffer.Width, tel.Text))
 	}
+
 	return true
 }
 
@@ -602,6 +605,7 @@ func (st *Style) WithAttrs(attrs *Attrs) (res Style) {
 	if attrs.GetIsOccluded() {
 		res.SetIsShaded(true)
 	}
+
 	return
 }
 
@@ -817,6 +821,7 @@ func computeIntersection(els Size, elo Coord, vws Size) (minX, maxX, minY, maxY 
 	} else {
 		maxY = vws.Height + elo.Y
 	}
+
 	return
 }
 
@@ -974,6 +979,7 @@ func (sz Size) SubCoord(crd Coord) Size {
 	if !sz2.IsValid() {
 		panic("should not happen")
 	}
+
 	return sz2
 }
 

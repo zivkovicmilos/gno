@@ -36,6 +36,7 @@ func (st *Stack) StringIndented(indent string) string {
 	for _, elem := range st.Elems {
 		elines = append(elines, eindent+elem.StringIndented(eindent))
 	}
+
 	return fmt.Sprintf("Stack%v@%p\n%s",
 		st.Size,
 		st,
@@ -157,5 +158,6 @@ func StackOf(elem Elem) *Stack {
 			elem = elem.GetParent()
 		}
 	}
+
 	return nil // no stack
 }
