@@ -26,15 +26,16 @@ type loggerFunc func(args ...interface{})
 
 func TestMachine(store gno.Store, stdout io.Writer, pkgPath string) *gno.Machine {
 	// default values
-	var send std.Coins
-	var maxAlloc int64
+	var (
+		send     std.Coins
+		maxAlloc int64
+	)
 
 	return testMachineCustom(store, pkgPath, stdout, maxAlloc, send)
 }
 
 func testMachineCustom(store gno.Store, pkgPath string, stdout io.Writer, maxAlloc int64, send std.Coins) *gno.Machine {
 	// FIXME: create a better package to manage this, with custom constructors
-
 	pkgAddr := gno.DerivePkgAddr(pkgPath) // the addr of the pkgPath called.
 	// NOTE: for the purpose of testing, the caller is generally the "main" package, same as pkgAddr.
 	caller := gno.DerivePkgAddr(pkgPath)
@@ -393,6 +394,7 @@ func replaceWantedInPlace(path string, directive string, output string) {
 				isReplacing = false
 			}
 		}
+
 		newlines = append(newlines, line)
 	}
 	osm.MustWriteFile(path, []byte(strings.Join(newlines, "\n")), 0o644)
@@ -427,9 +429,11 @@ type testBanker struct {
 
 func newTestBanker(args ...interface{}) *testBanker {
 	coinTable := make(map[crypto.Bech32Address]std.Coins)
+
 	if len(args)%2 != 0 {
 		panic("newTestBanker requires even number of arguments; addr followed by coins")
 	}
+
 	for i := 0; i < len(args); i += 2 {
 		addr := args[i].(crypto.Bech32Address)
 		amount := args[i+1].(std.Coins)

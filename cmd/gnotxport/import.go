@@ -35,6 +35,7 @@ func txImportApp(cmd *command.Command, args []string, iopts interface{}) error {
 	if err != nil {
 		return err
 	}
+
 	lines := strings.Split(strings.TrimSpace(string(filebz)), "\n")
 	for i, line := range lines {
 		print(".")
@@ -42,7 +43,9 @@ func txImportApp(cmd *command.Command, args []string, iopts interface{}) error {
 		if len(line) == 0 {
 			panic(i)
 		}
+
 		var tx std.Tx
+
 		amino.MustUnmarshalJSON([]byte(line), &tx)
 		txbz := amino.MustMarshal(tx)
 		res, err := c.BroadcastTxSync(txbz)
@@ -58,6 +61,7 @@ func txImportApp(cmd *command.Command, args []string, iopts interface{}) error {
 				} else {
 					fmt.Println("SECOND ERROR!", res.Error)
 				}
+
 				fmt.Println(line)
 
 				return errors.Wrap(err, "broadcasting tx %d", i)

@@ -46,17 +46,21 @@ func txExportApp(cmd *command.Command, args []string, iopts interface{}) error {
 	if err != nil {
 		panic(err)
 	}
+
 	start := opts.StartHeight
 	end := opts.EndHeight
 	tail := opts.TailHeight
+
 	if end == 0 { // take last block height
 		end = status.SyncInfo.LatestBlockHeight
 	}
+
 	if tail > 0 {
 		start = end - tail
 	}
 
 	var out io.Writer
+
 	switch opts.OutFile {
 	case "-", "STDOUT":
 		out = os.Stdout
@@ -74,12 +78,14 @@ func txExportApp(cmd *command.Command, args []string, iopts interface{}) error {
 
 	getBlock:
 		block, err := c.Block(&height)
+
 		if err != nil {
 			if opts.Follow && strings.Contains(err.Error(), "") {
 				time.Sleep(time.Second)
 
 				goto getBlock
 			}
+
 			panic(err)
 		}
 		txs := block.Block.Data.Txs
@@ -93,8 +99,10 @@ func txExportApp(cmd *command.Command, args []string, iopts interface{}) error {
 
 				goto getBlock
 			}
+
 			panic(err)
 		}
+
 		for i := 0; i < len(txs); i++ {
 			// need to include error'd txs, to keep sequence alignment.
 			// if bres.Results.DeliverTxs[i].Error != nil {
@@ -106,6 +114,7 @@ func txExportApp(cmd *command.Command, args []string, iopts interface{}) error {
 			bz := amino.MustMarshalJSON(stdtx)
 			fmt.Fprintln(out, string(bz))
 		}
+
 		if !opts.Quiet {
 			log.Printf("h=%d/%d (txs=%d)", height, end, len(txs))
 		}

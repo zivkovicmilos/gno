@@ -33,6 +33,7 @@ func NewStack(size Size) *Stack {
 func (st *Stack) StringIndented(indent string) string {
 	elines := []string{}
 	eindent := indent + "    "
+
 	for _, elem := range st.Elems {
 		elines = append(elines, eindent+elem.StringIndented(eindent))
 	}

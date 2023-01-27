@@ -26,6 +26,7 @@ func NewSubnetThrottler() *SubnetThrottler {
 
 func (st *SubnetThrottler) OnStart() error {
 	st.BaseService.OnStart()
+
 	go st.routineTimer()
 
 	return nil

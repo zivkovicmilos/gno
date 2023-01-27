@@ -45,6 +45,7 @@ var defaultTestOptions = testOptions{
 
 func testApp(cmd *command.Command, args []string, iopts interface{}) error {
 	opts := iopts.(testOptions)
+
 	if len(args) < 1 {
 		cmd.ErrPrintfln("Usage: test [test flags] [packages]")
 
@@ -57,6 +58,7 @@ func testApp(cmd *command.Command, args []string, iopts interface{}) error {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	defer os.RemoveAll(tempdirRoot)
 
 	// go.mod
@@ -85,6 +87,7 @@ func testApp(cmd *command.Command, args []string, iopts interface{}) error {
 
 	buildErrCount := 0
 	testErrCount := 0
+
 	for _, pkgPath := range pkgPaths {
 		if opts.Precompile {
 			if verbose {
@@ -303,6 +306,7 @@ func runTestFiles(
 		if ret == "" {
 			err := errors.New("failed to execute unit test: %q", test.Name)
 			errs = multierr.Append(errs, err)
+
 			cmd.ErrPrintfln("--- FAIL: %s (%v)", test.Name, duration)
 
 			continue
@@ -313,6 +317,7 @@ func runTestFiles(
 		err = json.Unmarshal([]byte(ret), &rep)
 		if err != nil {
 			errs = multierr.Append(errs, err)
+
 			cmd.ErrPrintfln("--- FAIL: %s (%s)", test.Name, dstr)
 
 			continue
@@ -329,6 +334,7 @@ func runTestFiles(
 		case rep.Failed:
 			err := errors.New("failed: %q", test.Name)
 			errs = multierr.Append(errs, err)
+
 			cmd.ErrPrintfln("--- FAIL: %s (%s)", test.Name, dstr)
 		default:
 			if verbose {
@@ -431,6 +437,7 @@ func loadTestFuncs(pkgName string, t *testFuncs, tfiles *gno.FileSet) *testFuncs
 func parseMemPackageTests(memPkg *std.MemPackage) (tset, itset *gno.FileSet) {
 	tset = &gno.FileSet{}
 	itset = &gno.FileSet{}
+
 	for _, mfile := range memPkg.Files {
 		if !strings.HasSuffix(mfile.Name, ".gno") {
 			continue // skip this file.

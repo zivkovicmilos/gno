@@ -82,6 +82,7 @@ func splitRegexp(s string) filterMatch {
 	b := make(alternationMatch, 0, strings.Count(s, "|"))
 	cs := 0
 	cp := 0
+
 	for i := 0; i < len(s); {
 		switch s[i] {
 		case '[':
@@ -111,9 +112,12 @@ func splitRegexp(s string) filterMatch {
 		case '|':
 			if cs == 0 && cp == 0 {
 				a = append(a, s[:i])
+
 				s = s[i+1:]
 				i = 0
+
 				b = append(b, a)
+
 				a = make(simpleMatch, 0, len(a))
 
 				continue

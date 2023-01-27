@@ -46,6 +46,7 @@ func runMain(cmd *command.Command, exec string, args []string) error {
 	// show help message.
 	if len(args) == 0 || args[0] == "help" || args[0] == "--help" {
 		cmd.Println("available subcommands:")
+
 		for _, appItem := range mainApps {
 			cmd.Printf("  %s - %s\n", appItem.Name, appItem.Desc)
 		}
@@ -110,17 +111,21 @@ var DefaultServeOptions = serveOptions{
 
 func serveApp(cmd *command.Command, args []string, iopts interface{}) error {
 	opts := iopts.(serveOptions)
+
 	if len(args) != 1 {
 		cmd.ErrPrintfln("Usage: serve <keyname>")
 
 		return errors.New("invalid args")
 	}
+
 	if opts.ChainID == "" {
 		return errors.New("chain-id not specified")
 	}
+
 	if opts.GasWanted == 0 {
 		return errors.New("gas-wanted not specified")
 	}
+
 	if opts.GasFee == "" {
 		return errors.New("gas-fee not specified")
 	}
@@ -164,7 +169,9 @@ func serveApp(cmd *command.Command, args []string, iopts interface{}) error {
 		return qres.Response.Error
 	}
 	resdata := qres.Response.Data
+
 	var acc gnoland.GnoAccount
+
 	amino.MustUnmarshalJSON(resdata, &acc)
 	accountNumber := acc.BaseAccount.AccountNumber
 	sequence := acc.BaseAccount.Sequence
@@ -172,7 +179,9 @@ func serveApp(cmd *command.Command, args []string, iopts interface{}) error {
 	// Get password for supply account.
 	// Test by signing a dummy message;
 	const dummy = "test"
+
 	var pass string
+
 	if opts.Quiet {
 		pass, err = cmd.GetPassword("", opts.InsecurePasswordStdin)
 	} else {
@@ -376,6 +385,7 @@ func sendAmountTo(
 	}
 
 	found := false
+
 	for i := range tx.Signatures {
 		// override signature for matching slot.
 		if signers[i] == fromAddr {
@@ -390,6 +400,7 @@ func sendAmountTo(
 		return errors.New("addr %v (%s) not in signer set",
 			fromAddr, name)
 	}
+
 	fmt.Println("will deliver:", string(amino.MustMarshalJSON(tx)))
 
 	// construct tx serialized bytes.

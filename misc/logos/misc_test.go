@@ -12,6 +12,7 @@ import (
 func TestStringWidthSlow(t *testing.T) {
 	for n := 1; n < 4; n++ {
 		bz := make([]byte, n)
+
 		for {
 			width1 := widthOf(string(bz))
 			width2 := widthOfSlow(string(bz))
@@ -84,6 +85,7 @@ func TestStringWidthDummy2(t *testing.T) {
 	bz := []byte("\U0001f1fa\U0001f1f8")
 	width1 := widthOf(string(bz))
 	width2 := widthOfSlow(string(bz))
+
 	require.Equal(t, width1, 1)
 	require.Equal(t, width2, width1,
 		"want %d but got %d the slow way: %X",

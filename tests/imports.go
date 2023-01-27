@@ -448,7 +448,6 @@ func TestStore(
 				return pkg, pkg.NewPackage()
 			*/
 			default:
-				// continue on...
 			}
 		}
 

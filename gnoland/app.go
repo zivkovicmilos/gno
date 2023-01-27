@@ -51,6 +51,7 @@ func NewApp(rootDir string, skipFailingGenesisTxs bool, logger log.Logger) (abci
 	}
 	authAnteHandler := auth.NewAnteHandler(
 		acctKpr, bankKpr, auth.DefaultSigVerificationGasConsumer, authOptions)
+
 	baseApp.SetAnteHandler(
 		// Override default AnteHandler with custom logic.
 		func(ctx sdk.Context, tx std.Tx, simulate bool) (

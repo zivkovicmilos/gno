@@ -121,6 +121,7 @@ func NewPage(s string, width int, isCode bool, style *Style) *Page {
 func (pg *Page) StringIndented(indent string) string {
 	elines := []string{}
 	eindent := indent + "    "
+
 	for _, elem := range pg.Elems {
 		elines = append(elines, eindent+elem.StringIndented(eindent))
 	}
@@ -171,6 +172,7 @@ func (pg *Page) Measure() Size {
 	pad := pg.GetPadding()
 	maxX := pad.Left
 	maxY := pad.Top
+
 	for _, view := range pg.Elems {
 		coord := view.GetCoord()
 		size := view.GetSize()
@@ -268,6 +270,7 @@ func (pg *Page) Render() (updated bool) {
 	} else {
 		defer pg.SetIsDirty(false)
 	}
+
 	for _, elem := range pg.Elems {
 		elem.Render()
 	}
@@ -453,10 +456,12 @@ func (tel *TextElem) Render() (updated bool) {
 	} else {
 		defer tel.SetIsDirty(false)
 	}
+
 	tel.Buffer.Reset()
 	style := tel.GetStyle()
 	runes := toRunes(tel.Text)
 	i := 0
+
 	for 0 < len(runes) {
 		s, w, n := nextCharacter(runes)
 		if n == 0 {
@@ -466,8 +471,10 @@ func (tel *TextElem) Render() (updated bool) {
 		} else {
 			runes = runes[n:]
 		}
+
 		cell := tel.Buffer.GetCell(i, 0)
 		cell.SetValue(s, w, style, tel)
+
 		for j := 1; j < w; j++ {
 			cell := tel.Buffer.GetCell(i+j, 0)
 			cell.SetValue("", 0, style, tel) // clear next cells
@@ -491,6 +498,7 @@ func (tel *TextElem) Draw(offset Coord, view View) {
 		if minY != 0 {
 			panic("should not happen")
 		}
+
 		for x := minX; x < maxX; x++ {
 			bcell := tel.Buffer.GetCell(x, y)
 			vcell := view.GetCell(x-offset.X, y-offset.Y)
@@ -701,6 +709,7 @@ func (tt *Attrs) SetIsCursor(ic bool) {
 	} else {
 		tt.AttrFlags &= ^AttrFlagIsCursor
 	}
+
 	tt.SetIsDirty(true)
 }
 
@@ -729,6 +738,7 @@ func (tt *Attrs) SetIsOccluded(ic bool) {
 	} else {
 		tt.AttrFlags &= ^AttrFlagIsOccluded
 	}
+
 	tt.SetIsDirty(true)
 }
 

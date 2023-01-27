@@ -45,8 +45,10 @@ func (bb *Buffer) GetCell(x, y int) *Cell {
 
 func (bb *Buffer) Sprint() string {
 	lines := []string{}
+
 	for y := 0; y < bb.Height; y++ {
 		parts := []string{}
+
 		for x := 0; x < bb.Width; x++ {
 			cell := bb.GetCell(x, y)
 			parts = append(parts, cell.Character)
@@ -70,9 +72,11 @@ func (bb *Buffer) DrawToScreen(s tcell.Screen) {
 	if bb.Size.Width != sw || bb.Size.Height != sh {
 		panic("buffer doesn't match screen size")
 	}
+
 	for y := 0; y < sh; y++ {
 		for x := 0; x < sw; x++ {
 			cell := bb.GetCell(x, y)
+
 			if x == 0 && y == 0 {
 				// NOTE: to thwart some inexplicable bugs.
 				s.SetContent(0, 0, tcell.RunePlus, nil, gDefaultSpaceTStyle)
@@ -144,6 +148,7 @@ func (cc *Cell) GetTCellContent() (mainc rune, combc []rune, tstyle tcell.Style)
 	attrs := &cc.Attrs
 	if cc.Character == "" {
 		mainc = '?' // for debugging
+
 		if style == nil {
 			// special case
 			tstyle = gDefaultSpaceTStyle
