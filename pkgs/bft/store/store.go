@@ -71,6 +71,7 @@ func (bs *BlockStore) LoadBlock(height int64) *types.Block {
 		// block. So, make sure meta is only saved after blocks are saved.
 		panic(errors.Wrap(err, "Error reading block"))
 	}
+
 	return block
 }
 
@@ -87,6 +88,7 @@ func (bs *BlockStore) LoadBlockPart(height int64, index int) *types.Part {
 	if err != nil {
 		panic(errors.Wrap(err, "Error reading block part"))
 	}
+
 	return part
 }
 
@@ -102,6 +104,7 @@ func (bs *BlockStore) LoadBlockMeta(height int64) *types.BlockMeta {
 	if err != nil {
 		panic(errors.Wrap(err, "Error reading block meta"))
 	}
+
 	return blockMeta
 }
 

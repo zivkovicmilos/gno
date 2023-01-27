@@ -277,5 +277,6 @@ func (m *Monitor) waitNextSample(now time.Duration) time.Duration {
 		m.mu.Lock()
 		now = m.update(0)
 	}
+
 	return now
 }

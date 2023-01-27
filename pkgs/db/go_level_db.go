@@ -38,6 +38,7 @@ func NewGoLevelDBWithOpts(name string, dir string, o *opt.Options) (*GoLevelDB, 
 	database := &GoLevelDB{
 		db: db,
 	}
+
 	return database, nil
 }
 
@@ -51,6 +52,7 @@ func (db *GoLevelDB) Get(key []byte) []byte {
 		}
 		panic(err)
 	}
+
 	return res
 }
 
@@ -139,6 +141,7 @@ func (db *GoLevelDB) Stats() map[string]string {
 			stats[key] = str
 		}
 	}
+
 	return stats
 }
 
@@ -238,6 +241,7 @@ func newGoLevelDBIterator(source iterator.Iterator, start, end []byte, isReverse
 			source.Seek(start)
 		}
 	}
+
 	return &goLevelDBIterator{
 		source:    source,
 		start:     start,
@@ -289,6 +293,7 @@ func (itr *goLevelDBIterator) Valid() bool {
 	}
 
 	// Valid
+
 	return true
 }
 

@@ -50,6 +50,7 @@ func (se *signerEndpoint) GetAvailableConnection(connectionAvailableCh chan net.
 		return true
 	default:
 	}
+
 	return false
 }
 

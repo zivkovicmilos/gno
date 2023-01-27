@@ -127,6 +127,7 @@ func (prt *ProofRuntime) Verify(proof *Proof, root []byte, keypath string, args 
 	if err != nil {
 		return errors.Wrap(err, "decoding proof")
 	}
+
 	return poz.Verify(root, keypath, args)
 }
 

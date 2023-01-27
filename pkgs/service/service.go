@@ -144,6 +144,7 @@ func (bs *BaseService) Start() error {
 
 			return err
 		}
+
 		return nil
 	}
 	bs.Logger.Debug(fmt.Sprintf("Not starting %v -- already started", bs.name), "impl", bs.impl)

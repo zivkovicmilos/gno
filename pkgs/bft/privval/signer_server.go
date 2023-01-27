@@ -69,6 +69,7 @@ func (ss *SignerServer) servicePendingRequest() {
 		if !errors.Is(err, io.EOF) {
 			ss.Logger.Error("SignerServer: HandleMessage", "err", err)
 		}
+
 		return
 	}
 

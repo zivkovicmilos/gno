@@ -459,6 +459,7 @@ func (gr *GroupReader) Close() error {
 		gr.curReader = nil
 		gr.curFile = nil
 		gr.curLine = nil
+
 		return err
 	}
 

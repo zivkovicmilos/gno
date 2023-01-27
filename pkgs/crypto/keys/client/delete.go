@@ -78,5 +78,6 @@ func confirmDeletion(cmd *command.Command) error {
 	if !answer {
 		return errors.New("aborted")
 	}
+
 	return nil
 }

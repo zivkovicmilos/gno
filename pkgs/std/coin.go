@@ -95,6 +95,7 @@ func (coin Coin) IsGTE(other Coin) bool {
 	if coin.Denom != other.Denom {
 		panic(fmt.Sprintf("invalid coin denominations; %s, %s", coin.Denom, other.Denom))
 	}
+
 	return coin.Amount >= other.Amount
 }
 
@@ -104,6 +105,7 @@ func (coin Coin) IsLT(other Coin) bool {
 	if coin.Denom != other.Denom {
 		panic(fmt.Sprintf("invalid coin denominations; %s, %s", coin.Denom, other.Denom))
 	}
+
 	return coin.Amount < other.Amount
 }
 
@@ -112,6 +114,7 @@ func (coin Coin) IsEqual(other Coin) bool {
 	if coin.Denom != other.Denom {
 		panic(fmt.Sprintf("invalid coin denominations; %s, %s", coin.Denom, other.Denom))
 	}
+
 	return coin.Amount == other.Amount
 }
 
@@ -124,6 +127,7 @@ func (coin Coin) Add(coinB Coin) Coin {
 	if !res.IsValid() {
 		panic(fmt.Sprintf("invalid result: %v + %v = %v", coin, coinB, res))
 	}
+
 	return res
 }
 
@@ -135,6 +139,7 @@ func (coin Coin) AddUnsafe(coinB Coin) Coin {
 	if !ok {
 		panic(fmt.Sprintf("coin add overflow/underflow: %v, %v", coin, coinB))
 	}
+
 	return Coin{coin.Denom, sum}
 }
 
@@ -147,6 +152,7 @@ func (coin Coin) Sub(coinB Coin) Coin {
 	if !res.IsValid() {
 		panic(fmt.Sprintf("invalid result: %v - %v = %v", coin, coinB, res))
 	}
+
 	return res
 }
 
@@ -158,6 +164,7 @@ func (coin Coin) SubUnsafe(coinB Coin) Coin {
 	if !ok {
 		panic(fmt.Sprintf("coin subtract overflow/underflow: %v, %v", coin, coinB))
 	}
+
 	return Coin{coin.Denom, dff}
 }
 
@@ -222,6 +229,7 @@ func (coins Coins) String() string {
 	for _, coin := range coins {
 		out += fmt.Sprintf("%v,", coin.String())
 	}
+
 	return out[:len(out)-1]
 }
 
@@ -275,6 +283,7 @@ func (coins Coins) Add(coinsB Coins) Coins {
 	if !res.IsValid() {
 		panic(fmt.Sprintf("invalid result: %v + %v = %v", coins, coinsB, res))
 	}
+
 	return res
 }
 
@@ -362,6 +371,7 @@ func (coins Coins) Sub(coinsB Coins) Coins {
 	if !res.IsValid() {
 		panic(fmt.Sprintf("invalid result: %v - %v = %v", coins, coinsB, res))
 	}
+
 	return res
 }
 
@@ -636,6 +646,7 @@ func validateDenom(denom string) error {
 	if !reDnm.MatchString(denom) {
 		return fmt.Errorf("invalid denom: %s", denom)
 	}
+
 	return nil
 }
 
@@ -650,6 +661,7 @@ func MustParseCoin(coinStr string) Coin {
 	if err != nil {
 		panic(err)
 	}
+
 	return coin
 }
 
@@ -682,6 +694,7 @@ func MustParseCoins(coinsStr string) Coins {
 	if err != nil {
 		panic(err)
 	}
+
 	return coins
 }
 

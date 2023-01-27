@@ -253,6 +253,7 @@ func (pv *FilePV) SignVote(chainID string, vote *types.Vote) error {
 	if err := pv.signVote(chainID, vote); err != nil {
 		return fmt.Errorf("error signing vote: %w", err)
 	}
+
 	return nil
 }
 
@@ -262,6 +263,7 @@ func (pv *FilePV) SignProposal(chainID string, proposal *types.Proposal) error {
 	if err := pv.signProposal(chainID, proposal); err != nil {
 		return fmt.Errorf("error signing proposal: %w", err)
 	}
+
 	return nil
 }
 

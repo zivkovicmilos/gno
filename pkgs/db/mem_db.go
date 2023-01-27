@@ -25,6 +25,7 @@ func NewMemDB() *MemDB {
 	database := &MemDB{
 		db: make(map[string][]byte),
 	}
+
 	return database
 }
 
@@ -40,6 +41,7 @@ func (db *MemDB) Get(key []byte) []byte {
 	key = nonNilBytes(key)
 
 	value := db.db[string(key)]
+
 	return value
 }
 
@@ -50,6 +52,7 @@ func (db *MemDB) Has(key []byte) bool {
 	key = nonNilBytes(key)
 
 	_, ok := db.db[string(key)]
+
 	return ok
 }
 

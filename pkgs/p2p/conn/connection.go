@@ -374,6 +374,7 @@ func (c *MConnection) Send(chID byte, msgBytes []byte) bool {
 	} else {
 		c.Logger.Debug("Send failed", "channel", chID, "conn", c, "msgBytes", fmt.Sprintf("%X", msgBytes))
 	}
+
 	return success
 }
 
@@ -419,6 +420,7 @@ func (c *MConnection) CanSend(chID byte) bool {
 
 		return false
 	}
+
 	return channel.canSend()
 }
 
@@ -515,6 +517,7 @@ func (c *MConnection) sendSomePacketMsgs() bool {
 			return true
 		}
 	}
+
 	return false
 }
 
@@ -717,6 +720,7 @@ func (c *MConnection) Status() ConnectionStatus {
 			RecentlySent:      atomic.LoadInt64(&channel.recentlySent),
 		}
 	}
+
 	return status
 }
 
@@ -766,6 +770,7 @@ func newChannel(conn *MConnection, desc ChannelDescriptor) *Channel {
 	if desc.Priority <= 0 {
 		panic("Channel default priority must be a positive integer")
 	}
+
 	return &Channel{
 		conn:                    conn,
 		desc:                    desc,
@@ -828,6 +833,7 @@ func (ch *Channel) isSendPending() bool {
 		}
 		ch.sending = <-ch.sendQueue
 	}
+
 	return true
 }
 
@@ -846,6 +852,7 @@ func (ch *Channel) nextPacketMsg() PacketMsg {
 		packet.EOF = byte(0x00)
 		ch.sending = ch.sending[maths.MinInt(maxSize, len(ch.sending)):]
 	}
+
 	return packet
 }
 
@@ -880,6 +887,7 @@ func (ch *Channel) recvPacketMsg(packet PacketMsg) ([]byte, error) {
 
 		return msgBytes, nil
 	}
+
 	return nil, nil
 }
 

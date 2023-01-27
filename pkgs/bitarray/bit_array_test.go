@@ -24,6 +24,7 @@ func randBitArray(bits int) (*BitArray, []byte) {
 			bA.SetIndex(i*8+j, setBit)
 		}
 	}
+
 	return bA, src
 }
 

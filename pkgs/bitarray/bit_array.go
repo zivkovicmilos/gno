@@ -366,6 +366,7 @@ func (bA *BitArray) Bytes() []byte {
 		binary.LittleEndian.PutUint64(elemBytes[:], bA.Elems[i])
 		copy(bytes[i*8:], elemBytes[:])
 	}
+
 	return bytes
 }
 
@@ -404,6 +405,7 @@ func (bA *BitArray) MarshalJSON() ([]byte, error) {
 		}
 	}
 	bits += `"`
+
 	return []byte(bits), nil
 }
 
@@ -438,5 +440,6 @@ func (bA *BitArray) UnmarshalJSON(bz []byte) error {
 		}
 	}
 	*bA = *bA2 //nolint:govet
+
 	return nil
 }

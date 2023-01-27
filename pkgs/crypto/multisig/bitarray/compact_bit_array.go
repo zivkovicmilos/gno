@@ -142,6 +142,7 @@ func (bA *CompactBitArray) StringIndented(indent string) string {
 	if len(bits) > 0 {
 		lines = append(lines, bits)
 	}
+
 	return fmt.Sprintf("BA{%v:%v}", size, strings.Join(lines, indent))
 }
 
@@ -162,6 +163,7 @@ func (bA *CompactBitArray) MarshalJSON() ([]byte, error) {
 		}
 	}
 	bits += `"`
+
 	return []byte(bits), nil
 }
 

@@ -284,6 +284,7 @@ func createMempoolAndMempoolReactor(config *cfg.Config, proxyApp proxy.AppConns,
 	if config.Consensus.WaitForTxs() {
 		mempool.EnableTxsAvailable()
 	}
+
 	return mempoolReactor, mempool
 }
 
@@ -910,6 +911,7 @@ func LoadStateFromDBOrGenesisDocProvider(
 	if err != nil {
 		return sm.State{}, nil, err
 	}
+
 	return state, genDoc, nil
 }
 
@@ -924,6 +926,7 @@ func loadGenesisDoc(db dbm.DB) (*types.GenesisDoc, error) {
 	if err != nil {
 		panic(fmt.Sprintf("Failed to load genesis doc due to unmarshaling error: %v (bytes: %X)", err, b))
 	}
+
 	return genDoc, nil
 }
 
@@ -971,5 +974,6 @@ func splitAndTrimEmpty(s, sep, cutset string) []string {
 			nonEmptyStrings = append(nonEmptyStrings, element)
 		}
 	}
+
 	return nonEmptyStrings
 }

@@ -46,6 +46,7 @@ func main() {
 	headPath, chopSize, limitSize, sync, throttle, version := parseFlags()
 	if version {
 		fmt.Printf("logjack version %v\n", Version)
+
 		return
 	}
 

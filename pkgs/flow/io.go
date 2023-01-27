@@ -46,6 +46,7 @@ func (r *Reader) Read(p []byte) (n int, err error) {
 	if len(p) > 0 {
 		n, err = r.IO(r.Reader.Read(p))
 	}
+
 	return
 }
 
@@ -72,6 +73,7 @@ func (r *Reader) Close() error {
 	if c, ok := r.Reader.(io.Closer); ok {
 		return c.Close()
 	}
+
 	return nil
 }
 

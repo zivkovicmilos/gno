@@ -67,6 +67,7 @@ func Validators(ctx *rpctypes.Context, heightPtr *int64) (*ctypes.ResultValidato
 	if err != nil {
 		return nil, err
 	}
+
 	return &ctypes.ResultValidators{
 		BlockHeight: height,
 		Validators:  validators.Validators,

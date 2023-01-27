@@ -137,6 +137,7 @@ func (cfg *P2PConfig) ValidateBasic() error {
 	if cfg.RecvRate < 0 {
 		return errors.New("recv_rate can't be negative")
 	}
+
 	return nil
 }
 

@@ -135,6 +135,7 @@ func NewNetAddressFromStrings(idaddrs []string) ([]*NetAddress, []error) {
 			netAddrs = append(netAddrs, netAddr)
 		}
 	}
+
 	return netAddrs, errs
 }
 
@@ -154,6 +155,7 @@ func (na *NetAddress) Equals(other interface{}) bool {
 	if o, ok := other.(*NetAddress); ok {
 		return na.String() == o.String()
 	}
+
 	return false
 }
 
@@ -167,6 +169,7 @@ func (na *NetAddress) Same(other interface{}) bool {
 			return true
 		}
 	}
+
 	return false
 }
 
@@ -182,6 +185,7 @@ func (na *NetAddress) String() string {
 	if err != nil {
 		return "<bad-NetAddress>"
 	}
+
 	return str
 }
 
@@ -195,6 +199,7 @@ func (na NetAddress) MarshalAmino() (string, error) {
 		}
 		na.str = addrStr
 	}
+
 	return na.str, nil
 }
 
@@ -212,6 +217,7 @@ func (na *NetAddress) DialString() string {
 	if na == nil {
 		return "<nil-NetAddress>"
 	}
+
 	return net.JoinHostPort(
 		na.IP.String(),
 		strconv.FormatUint(uint64(na.Port), 10),
@@ -224,6 +230,7 @@ func (na *NetAddress) Dial() (net.Conn, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return conn, nil
 }
 
@@ -233,6 +240,7 @@ func (na *NetAddress) DialTimeout(timeout time.Duration) (net.Conn, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return conn, nil
 }
 
@@ -259,6 +267,7 @@ func (na *NetAddress) ValidateLocal() error {
 	if na.RFC3849() || na.IP.Equal(net.IPv4bcast) {
 		return errors.New("invalid IP", na.IP.IsUnspecified())
 	}
+
 	return nil
 }
 
@@ -275,6 +284,7 @@ func (na *NetAddress) Validate() error {
 	if na.IP.IsUnspecified() || na.RFC3849() || na.IP.Equal(net.IPv4bcast) {
 		return errors.New("invalid IP", na.IP.IsUnspecified())
 	}
+
 	return nil
 }
 
@@ -386,5 +396,6 @@ func removeProtocolIfDefined(addr string) string {
 	if strings.Contains(addr, "://") {
 		return strings.Split(addr, "://")[1]
 	}
+
 	return addr
 }

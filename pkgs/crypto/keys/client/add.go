@@ -137,6 +137,7 @@ func addApp(cmd *command.Command, args []string, iopts interface{}) error {
 		if err != nil {
 			return err
 		}
+
 		return nil
 	}
 

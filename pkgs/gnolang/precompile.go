@@ -87,6 +87,7 @@ func guessRootDir(fileOrPkg string, goBinary string) (string, error) {
 		return "", fmt.Errorf("can't guess --root-dir")
 	}
 	rootDir := strings.TrimSpace(string(out))
+
 	return rootDir, nil
 }
 
@@ -178,6 +179,7 @@ func PrecompileVerifyFile(path string, gofmtBinary string) error {
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, string(out))
+
 		return fmt.Errorf("%s: %w", gofmtBinary, err)
 	}
 	return nil
@@ -233,6 +235,7 @@ func PrecompileBuildPackage(fileOrPkg string, goBinary string) error {
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, string(out))
+
 		return fmt.Errorf("std go compiler: %w", err)
 	}
 

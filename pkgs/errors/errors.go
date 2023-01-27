@@ -104,6 +104,7 @@ func (err *cmnError) Stacktrace() Error {
 		depth := 32
 		err.stacktrace = captureStacktrace(offset, depth)
 	}
+
 	return err
 }
 

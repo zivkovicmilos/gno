@@ -573,6 +573,7 @@ func (m *Machine) Eval(x Expr) []TypedValue {
 	m.PushOp(OpEval)
 	m.Run()
 	res := m.ReapValues(start)
+
 	return res
 }
 

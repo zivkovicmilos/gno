@@ -68,6 +68,7 @@ func genNodeKey(filePath string) (*NodeKey, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return nodeKey, nil
 }
 

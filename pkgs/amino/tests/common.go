@@ -286,6 +286,7 @@ func (am AminoMarshalerInt4) MarshalAmino() (ReprStruct4, error) {
 
 func (am *AminoMarshalerInt4) UnmarshalAmino(rs ReprStruct4) error {
 	*am = AminoMarshalerInt4(rs.A)
+
 	return nil
 }
 
@@ -305,6 +306,7 @@ func (goo *AminoMarshalerInt5) UnmarshalAmino(repr string) error {
 		return err
 	}
 	*goo = AminoMarshalerInt5(i)
+
 	return nil
 }
 
@@ -324,6 +326,7 @@ func (am AminoMarshalerStruct6) MarshalAmino() ([]AminoMarshalerStruct1, error) 
 func (am *AminoMarshalerStruct6) UnmarshalAmino(repr []AminoMarshalerStruct1) error {
 	am.A = repr[0].A
 	am.B = repr[0].B
+
 	return nil
 }
 
@@ -342,6 +345,7 @@ func (goo AminoMarshalerStruct7) MarshalAmino() ([]ReprElem7, error) {
 
 func (goo *AminoMarshalerStruct7) UnmarshalAmino(repr []ReprElem7) error {
 	goo.A = repr[0].A
+
 	return nil
 }
 
@@ -355,6 +359,7 @@ func (goo ReprElem7) MarshalAmino() (uint8, error) {
 
 func (goo *ReprElem7) UnmarshalAmino(u uint8) error {
 	goo.A = int8(u)
+
 	return nil
 }
 

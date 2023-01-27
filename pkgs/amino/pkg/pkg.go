@@ -245,6 +245,7 @@ func (pkg *Package) HasFullName(fullname string) (exists bool) {
 			return true
 		}
 	}
+
 	return false
 }
 
@@ -258,12 +259,14 @@ func (pkg *Package) FullNameForType(rt reflect.Type) string {
 	if !ok {
 		panic(fmt.Errorf("unknown type %v", drt))
 	}
+
 	return t.FullName(pkg)
 }
 
 // panics of rt (or a pointer to it) was not registered.
 func (pkg *Package) TypeURLForType(rt reflect.Type) string {
 	name := pkg.FullNameForType(rt)
+
 	return "/" + name
 }
 
@@ -278,6 +281,7 @@ func (pkg *Package) GetDependency(gopkg string) (*Package, error) {
 			return pkg, nil
 		}
 	}
+
 	return nil, fmt.Errorf("go package not declared a (in)direct dependency of %v",
 		pkg.GoPkgPath)
 }
@@ -308,6 +312,7 @@ func (pkg *Package) CrawlPackages(seen map[*Package]struct{}) (res []*Package) {
 		}
 	}
 	crawl(pkg)
+
 	return res
 }
 
@@ -387,6 +392,7 @@ func DefaultPkgName(gopkgPath string) (name string) {
 	parts = strings.Split(last, "-")
 	name = parts[len(parts)-1]
 	name = strings.ToLower(name)
+
 	return name
 }
 
