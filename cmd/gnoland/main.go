@@ -44,6 +44,7 @@ func main() {
 			LongHelp:   "Starts the gnoland blockchain node",
 		},
 		cfg,
+		runMain,
 	)
 
 	if err := cmd.ParseAndRun(context.Background(), os.Args[1:]); err != nil {
@@ -104,7 +105,10 @@ func (c *gnolandCfg) RegisterFlags(fs *flag.FlagSet) {
 	)
 }
 
-func (c *gnolandCfg) Exec(_ context.Context, _ []string) error {
+func runMain(ctx context.Context, _ []string) error {
+	// Extract the configuration from the context
+	c, _ := ctx.Value(commands.ConfigKey).(*gnolandCfg)
+
 	logger := log.NewTMLogger(log.NewSyncWriter(os.Stdout))
 	rootDir := c.rootDir
 

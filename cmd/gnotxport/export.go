@@ -43,6 +43,7 @@ func newExportCommand(rootCfg *config) *commands.Command {
 			ShortHelp:  "Export transactions to file",
 		},
 		cfg,
+		runExport,
 	)
 }
 
@@ -55,7 +56,10 @@ func (c *exportCfg) RegisterFlags(fs *flag.FlagSet) {
 	fs.BoolVar(&c.follow, "follow", false, "keep attached and follow new events")
 }
 
-func (c *exportCfg) Exec(_ context.Context, _ []string) error {
+func runExport(ctx context.Context, _ []string) error {
+	// Extract the configuration from the context
+	c, _ := ctx.Value(commands.ConfigKey).(*exportCfg)
+
 	node := client.NewHTTP(c.rootCfg.remote, "/websocket")
 
 	status, err := node.Status()

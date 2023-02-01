@@ -13,10 +13,14 @@ import (
 type Config interface {
 	// RegisterFlags registers the specific flags to the flagset
 	RegisterFlags(*flag.FlagSet)
-
-	// Exec executes the command using the specified config
-	Exec(ctx context.Context, args []string) error
 }
+
+// ExecMethod executes the command using the specified config
+type ExecMethod func(ctx context.Context, args []string) error
+
+const (
+	ConfigKey = "config"
+)
 
 // HelpExec is a standard exec method for displaying
 // help information about a command
@@ -49,6 +53,7 @@ func (c *Command) GetConfig() Config {
 func NewCommand(
 	meta Metadata,
 	config Config,
+	exec ExecMethod,
 ) *Command {
 	command := &Command{
 		Command: ffcli.Command{
@@ -58,7 +63,12 @@ func NewCommand(
 			ShortUsage: meta.ShortUsage,
 			Options:    meta.Options,
 			FlagSet:    flag.NewFlagSet(meta.Name, flag.ExitOnError),
-			Exec:       config.Exec,
+			Exec: func(ctx context.Context, args []string) error {
+				return exec(
+					context.WithValue(ctx, ConfigKey, config),
+					args,
+				)
+			},
 		},
 		cfg: config,
 	}
