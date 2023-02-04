@@ -9,6 +9,11 @@ type Post struct {
 	title string
 	body  string
 
+	category string
+	tags     []string
+
+	comments []*Comment
+
 	author std.Address
 }
 
@@ -20,10 +25,11 @@ func NewPost(
 	author std.Address,
 ) *Post {
 	return &Post{
-		id:     id,
-		title:  title,
-		body:   body,
-		author: author,
+		id:       id,
+		title:    title,
+		body:     body,
+		author:   author,
+		comments: make([]*Comment, 0),
 	}
 }
 
@@ -45,4 +51,34 @@ func (p Post) GetBody() string {
 // GetAuthor returns the post's author (address)
 func (p Post) GetAuthor() std.Address {
 	return p.author
+}
+
+// GetCategory returns the post's category
+func (p Post) GetCategory() string {
+	return p.category
+}
+
+// GetTags returns the post's tags
+func (p Post) GetTags() []string {
+	return p.tags
+}
+
+// SetCategory sets the post's category
+func (p Post) SetCategory(category string) {
+	p.category = category
+}
+
+// SetTags sets the post's tags
+func (p Post) SetTags(tags ...string) {
+	p.tags = tags
+}
+
+// AddComment adds a new comment to a post
+func (p Post) AddComment(comment *Comment) {
+	p.comments = append(p.comments, comment)
+}
+
+// GetComments returns the comments on a post
+func (p Post) GetComments() []*Comment {
+	return p.comments
 }

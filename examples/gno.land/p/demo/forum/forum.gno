@@ -10,8 +10,10 @@ import (
 type Forum struct {
 	name string
 
-	categories avl.Tree // category name -> []post
-	tags       avl.Tree // tag name -> []post
+	posts avl.Tree // post id -> post
+
+	categories avl.Tree // category name -> []post (for lookups)
+	tags       avl.Tree // tag name -> []post (for lookups)
 
 	admin      std.Address
 	moderators avl.Tree // category name -> []address
@@ -29,6 +31,7 @@ func NewForum(
 		name:       name,
 		categories: avl.Tree{},
 		tags:       avl.Tree{},
+		posts:      avl.Tree{},
 		admin:      admin,
 		moderators: avl.Tree{},
 	}
@@ -128,13 +131,16 @@ func (f Forum) AddModerator(
 }
 
 // AddPost adds a new post to the forum
-func (f Forum) AddPost(
-	post *Post,
-	category string,
-	tags ...string,
-) bool {
+func (f Forum) AddPost(post *Post) bool {
+	// Check if the post exists
+	_, found := f.posts.Get(post.GetID())
+	if found {
+		// Post with this ID already exists
+		return false
+	}
+
 	// Check if the category exists
-	postsRaw, found := f.categories.Get(category)
+	postsRaw, found := f.categories.Get(post.GetCategory())
 	if !found {
 		// Invalid category specified
 		return false
@@ -146,7 +152,7 @@ func (f Forum) AddPost(
 	f.categories.Set(category, posts)
 
 	// Attempt to apply tags
-	for _, tag := range tags {
+	for _, tag := range post.GetTags() {
 		taggedPostsRaw, found := f.tags.Get(tag)
 		if !found {
 			// Tag does not exist, so it won't be applied
@@ -160,7 +166,38 @@ func (f Forum) AddPost(
 		f.tags.Set(tag, taggedPosts)
 	}
 
+	// Save the post
+	f.posts.Set(post.GetID(), post)
+
 	return true
+}
+
+// AddComment appends a new comment to a post, if it exists
+func (f Forum) AddComment(postID uint, body string) bool {
+	postRaw, found := f.posts.Get(postID)
+	if !found {
+		// Post does not exist
+		return false
+	}
+
+	post, _ := postRaw.(*Post)
+
+	post.AddComment(NewComment(body))
+
+	return true
+}
+
+// GetComments fetches the comments for a specific post
+func (f Forum) GetComments(postID uint) []*Comment {
+	postRaw, found := f.posts.Get(postID)
+	if !found {
+		// Post does not exist
+		return nil
+	}
+
+	post, _ := postRaw.(*Post)
+
+	return post.GetComments()
 }
 
 // RemovePost removes the specific post
@@ -171,35 +208,39 @@ func (f Forum) AddPost(
 func (f Forum) RemovePost(id uint) bool {
 	postRemoved := false
 
-	// Find the specific category, and remove the post
-	f.categories.Iterate("", "", func(category *avl.Node) bool {
-		categoryName := category.Key()
-
-		// Check if the caller is a moderator for this category
-		if !f.isModerator(std.GetOrigCaller(), categoryName) {
-			// User is not a moderator, continue
-			return true
-		}
-
-		postsRaw := category.Value()
-		posts, _ := postsRaw.([]*Post)
-
-		for index, post := range posts {
-			// Check if this is the post to be deleted
-			if post.GetID() == id {
-				// Prune out the element
-				posts = append(posts[:index], posts[index+1:]...)
-				postRemoved = true
-
-				f.categories.Set(categoryName, posts)
-
-				return true
-			}
-		}
-
-		// Continue the search
+	postRaw, found := f.posts.Get(id)
+	if !found {
+		// Post does not exist
 		return false
-	})
+	}
+
+	post, _ := postRaw.(*Post)
+
+	// Check if the caller is a moderator for this category
+	if !f.isModerator(std.GetOrigCaller(), post.GetCategory()) {
+		// User is not a moderator, continue
+		return false
+	}
+
+	// Remove the post from the category
+	categoryPostsRaw, found := f.categories.Get(post.GetCategory())
+	if !found {
+		// Category for this post is not found (impossible)
+		return false
+	}
+
+	categoryPosts, _ := categoryPostsRaw.([]*Post)
+
+	for index, post := range categoryPosts {
+		// Check if this is the post to be deleted
+		if post.GetID() == id {
+			// Prune out the element
+			posts = append(posts[:index], posts[index+1:]...)
+			postRemoved = true
+
+			f.categories.Set(post.GetCategory(), posts)
+		}
+	}
 
 	// No need to remove the post from tags
 	// if it didn't exist in the first place
@@ -208,27 +249,28 @@ func (f Forum) RemovePost(id uint) bool {
 	}
 
 	// Find the specific tag, if any, and remove the post
-	f.tags.Iterate("", "", func(tag *avl.Node) bool {
-		tagName := tag.Key()
+outer:
+	for _, tag := range post.GetTags() {
+		tagPostsRaw, found := f.tags.Get(tag)
+		if !found {
+			// No posts found for this tag
+			continue
+		}
 
-		tagsRaw := tag.Value()
-		tags, _ := tagsRaw.([]*Post)
+		tagPosts, _ := tagPostsRaw.([]*Post)
 
-		for index, post := range tags {
+		for index, post := range tagPosts {
 			// Check if this is the post to be deleted
 			if post.GetID() == id {
 				// Prune out the element
 				posts = append(posts[:index], posts[index+1:]...)
 
-				f.tags.Set(tagName, posts)
+				f.tags.Set(tag, posts)
 
-				return true
+				break outer
 			}
 		}
-
-		// Continue the search
-		return false
-	})
+	}
 
 	return true
 }
