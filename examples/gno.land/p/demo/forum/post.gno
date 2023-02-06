@@ -64,17 +64,17 @@ func (p Post) GetTags() []string {
 }
 
 // SetCategory sets the post's category
-func (p Post) SetCategory(category string) {
+func (p *Post) SetCategory(category string) {
 	p.category = category
 }
 
 // SetTags sets the post's tags
-func (p Post) SetTags(tags ...string) {
+func (p *Post) SetTags(tags ...string) {
 	p.tags = tags
 }
 
 // AddComment adds a new comment to a post
-func (p Post) AddComment(comment *Comment) {
+func (p *Post) AddComment(comment *Comment) {
 	p.comments = append(p.comments, comment)
 }
 

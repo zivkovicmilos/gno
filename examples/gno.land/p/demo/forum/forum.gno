@@ -1,6 +1,7 @@
 package forum
 
 import (
+	"fmt"
 	"std"
 
 	"gno.land/p/demo/avl"
@@ -133,7 +134,7 @@ func (f Forum) AddModerator(
 // AddPost adds a new post to the forum
 func (f Forum) AddPost(post *Post) bool {
 	// Check if the post exists
-	_, found := f.posts.Get(post.GetID())
+	_, found := f.posts.Get(fmt.Sprintf("%d", post.GetID()))
 	if found {
 		// Post with this ID already exists
 		return false
@@ -149,7 +150,7 @@ func (f Forum) AddPost(post *Post) bool {
 	// Add the post reference
 	posts, _ := postsRaw.([]*Post)
 	posts = append(posts, post)
-	f.categories.Set(category, posts)
+	f.categories.Set(post.GetCategory(), posts)
 
 	// Attempt to apply tags
 	for _, tag := range post.GetTags() {
@@ -167,14 +168,14 @@ func (f Forum) AddPost(post *Post) bool {
 	}
 
 	// Save the post
-	f.posts.Set(post.GetID(), post)
+	f.posts.Set(fmt.Sprintf("%d", post.GetID()), post)
 
 	return true
 }
 
 // AddComment appends a new comment to a post, if it exists
 func (f Forum) AddComment(postID uint, body string) bool {
-	postRaw, found := f.posts.Get(postID)
+	postRaw, found := f.posts.Get(fmt.Sprintf("%d", postID))
 	if !found {
 		// Post does not exist
 		return false
@@ -189,7 +190,7 @@ func (f Forum) AddComment(postID uint, body string) bool {
 
 // GetComments fetches the comments for a specific post
 func (f Forum) GetComments(postID uint) []*Comment {
-	postRaw, found := f.posts.Get(postID)
+	postRaw, found := f.posts.Get(fmt.Sprintf("%d", postID))
 	if !found {
 		// Post does not exist
 		return nil
@@ -205,12 +206,19 @@ func (f Forum) GetComments(postID uint) []*Comment {
 // This method is highly ineffective, and is simply meant
 // to demonstrate how post removal can work.
 // In this example, only moderators can remove posts
-func (f Forum) RemovePost(id uint) bool {
+func (f Forum) RemovePost(postID uint) bool {
 	postRemoved := false
 
-	postRaw, found := f.posts.Get(id)
+	postRaw, found := f.posts.Get(fmt.Sprintf("%d", postID))
 	if !found {
 		// Post does not exist
+		return false
+	}
+
+	// Remove the post from the posts repo
+	_, removed := f.posts.Remove(fmt.Sprintf("%d", postID))
+	if !removed {
+		// Unable to remove post
 		return false
 	}
 
@@ -233,12 +241,14 @@ func (f Forum) RemovePost(id uint) bool {
 
 	for index, post := range categoryPosts {
 		// Check if this is the post to be deleted
-		if post.GetID() == id {
+		if post.GetID() == postID {
 			// Prune out the element
-			posts = append(posts[:index], posts[index+1:]...)
+			posts := append(categoryPosts[:index], categoryPosts[index+1:]...)
 			postRemoved = true
 
 			f.categories.Set(post.GetCategory(), posts)
+
+			break
 		}
 	}
 
@@ -261,9 +271,9 @@ outer:
 
 		for index, post := range tagPosts {
 			// Check if this is the post to be deleted
-			if post.GetID() == id {
+			if post.GetID() == postID {
 				// Prune out the element
-				posts = append(posts[:index], posts[index+1:]...)
+				posts := append(tagPosts[:index], tagPosts[index+1:]...)
 
 				f.tags.Set(tag, posts)
 
@@ -301,4 +311,40 @@ func (f Forum) isModerator(address std.Address, category string) bool {
 	}
 
 	return false
+}
+
+// GetTagPosts fetches the posts associated with a specific tag
+func (f Forum) GetTagPosts(tag string) []*Post {
+	tagPostsRaw, found := f.tags.Get(tag)
+	if !found {
+		// No posts found for this tag
+		return nil
+	}
+
+	return tagPostsRaw.([]*Post)
+}
+
+// GetCategoryPosts fetches the posts associated with a specific category
+func (f Forum) GetCategoryPosts(category string) []*Post {
+	categoryPostsRaw, found := f.categories.Get(category)
+	if !found {
+		// No posts found for this category
+		return nil
+	}
+
+	return categoryPostsRaw.([]*Post)
+}
+
+// GetPosts returns all posts on the forum
+func (f Forum) GetPosts() []*Post {
+	posts := make([]*Post, f.posts.Size())
+
+	index := 0
+	f.posts.Iterate("", "", func(n *avl.Node) bool {
+		posts[index] = n.Value().(*Post)
+
+		return false
+	})
+
+	return posts
 }

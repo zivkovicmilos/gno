@@ -10,15 +10,19 @@ import (
 // TestPost_New verifies that a
 // new forum post can be created successfully
 func TestPost_New(t *testing.T) {
-	const (
-		id     uint        = 123
-		title  string      = "Example Post Title"
-		body   string      = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-		author std.Address = testutils.TestAddress("author")
+	var (
+		id       uint        = 123
+		title                = "Example Post Title"
+		body                 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+		tags                 = []string{"tag 1", "tag 2"}
+		category             = "category 1"
+		author   std.Address = testutils.TestAddress("author")
 	)
 
 	// Create a new post
 	p := NewPost(id, title, body, author)
+	p.SetCategory(category)
+	p.SetTags(tags...)
 
 	// Check that the data matches
 	if p.GetID() != id {
@@ -33,7 +37,17 @@ func TestPost_New(t *testing.T) {
 		t.Fatalf("invalid body")
 	}
 
+	if p.GetCategory() != category {
+		t.Fatalf("invalid category")
+	}
+
 	if p.GetAuthor().String() != author.String() {
 		t.Fatalf("invalid author")
+	}
+
+	for index, tag := range p.GetTags() {
+		if tags[index] != tag {
+			t.Fatalf("invalid tag")
+		}
 	}
 }
