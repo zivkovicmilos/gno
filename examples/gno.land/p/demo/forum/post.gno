@@ -6,15 +6,12 @@ import "std"
 type Post struct {
 	id uint
 
-	title string
-	body  string
-
+	title    string
+	body     string
 	category string
-	tags     []string
 
 	comments []*Comment
-
-	author std.Address
+	author   std.Address
 }
 
 // NewPost creates a new forum post
@@ -58,19 +55,9 @@ func (p Post) GetCategory() string {
 	return p.category
 }
 
-// GetTags returns the post's tags
-func (p Post) GetTags() []string {
-	return p.tags
-}
-
 // SetCategory sets the post's category
 func (p *Post) SetCategory(category string) {
 	p.category = category
-}
-
-// SetTags sets the post's tags
-func (p *Post) SetTags(tags ...string) {
-	p.tags = tags
 }
 
 // AddComment adds a new comment to a post

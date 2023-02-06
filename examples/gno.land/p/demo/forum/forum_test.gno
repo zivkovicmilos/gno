@@ -13,12 +13,11 @@ func TestForum_New(t *testing.T) {
 	var (
 		name       = "forum name"
 		categories = []string{"category 1", "category 2", "category 3"}
-		tags       = []string{"tag 1", "tag 2", "tag 3"}
 		admin      = testutils.TestAddress("admin")
 	)
 
 	// Create a new forum instance
-	f := NewForum(name, categories, tags, admin)
+	f := NewForum(name, categories, admin)
 
 	// Verify it has been initialized correctly
 	if f.GetName() != name {
@@ -34,12 +33,6 @@ func TestForum_New(t *testing.T) {
 			t.Fatalf("invalid category")
 		}
 	}
-
-	for index, tag := range f.GetTags() {
-		if tags[index] != tag {
-			t.Fatalf("invalid tag")
-		}
-	}
 }
 
 // TestForum_AddPost verifies that the post can
@@ -49,7 +42,6 @@ func TestForum_AddPost(t *testing.T) {
 		// Forum info
 		name       = "forum name"
 		categories = []string{"category 1"}
-		tags       = []string{"tag 1"}
 		admin      = testutils.TestAddress("admin")
 
 		// Post info
@@ -61,11 +53,10 @@ func TestForum_AddPost(t *testing.T) {
 	)
 
 	// Create a new forum instance
-	f := NewForum(name, categories, tags, admin)
+	f := NewForum(name, categories, admin)
 
 	// Create a new post
 	p := NewPost(postID, postTitle, postBody, author)
-	p.SetTags(tags...)
 	p.SetCategory(postCategory)
 
 	// Add the post
@@ -77,12 +68,6 @@ func TestForum_AddPost(t *testing.T) {
 	posts := f.GetPosts()
 	if len(posts) != 1 {
 		t.Fatalf("invalid number of posts")
-	}
-
-	// Get all the tag posts
-	tagPosts := f.GetTagPosts(tags[0])
-	if len(tagPosts) != 1 {
-		t.Fatalf("invalid number of tagged posts")
 	}
 
 	// Get all the category posts
@@ -106,7 +91,6 @@ func TestForum_RemovePost(t *testing.T) {
 	f := NewForum(
 		"forum example",
 		categories,
-		[]string{},
 		admin,
 	)
 
@@ -161,7 +145,6 @@ func TestForum_AddComment(t *testing.T) {
 	f := NewForum(
 		"forum example",
 		[]string{"category 1"},
-		[]string{},
 		testutils.TestAddress("admin"),
 	)
 

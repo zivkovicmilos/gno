@@ -1,30 +1,29 @@
-package gno_overflow
+package forum
 
 import (
 	"bytes"
-	"fmt"
 	"std"
 	"strings"
 
 	"gno.land/p/demo/forum"
+	"gno.land/p/demo/ufmt"
 )
 
 // State of the Realm
 var (
 	name = "Gno Overflow"
 	// TODO define address
-	admin      = "?"
-	categories = []string{"General", "Announcements", "Devs"}
-	tags       = []string{"gno-vm", "news", "roadmap"}
+	admin      std.Address = "g1yqfh6eghagkheclq0vkz49useseydelg6uxznc"
+	categories             = []string{"General", "Announcements", "Devs"}
 
 	f           *forum.Forum
-	forumPrefix = "/r/demo/gno-overflow:" // used for routing
-	postIndex   = 0
+	forumPrefix      = "/r/demo/forum:" // used for routing
+	postIndex   uint = 0
 )
 
 // init constructs the forum instance during deployment
 func init() {
-	f = forum.NewForum(name, categories, tags, admin)
+	f = forum.NewForum(name, categories, admin)
 }
 
 // AddModerator adds a new moderator to the forum
@@ -41,12 +40,10 @@ func AddPost(
 	title string,
 	body string,
 	category string,
-	tags []string,
 ) string {
 	// Create a new post
 	p := forum.NewPost(postIndex, title, body, std.GetOrigCaller())
 	p.SetCategory(category)
-	p.SetTags(tags...)
 
 	// Add the post to the forum
 	if !f.AddPost(p) {
@@ -56,7 +53,7 @@ func AddPost(
 	// Increment the global post index
 	postIndex++
 
-	return fmt.Sprintf("post successfully added with ID %d", postIndex-1)
+	return ufmt.Sprintf("post successfully added with ID %d", postIndex-1)
 }
 
 // AddComment adds a new comment to a post
@@ -65,11 +62,8 @@ func AddComment(
 	postID uint,
 	body string,
 ) string {
-	// Create a new comment
-	c := forum.NewComment(body)
-
 	// Add the post to the forum
-	if !f.AddComment(postID, c) {
+	if !f.AddComment(postID, body) {
 		return "unable to add comment"
 	}
 
@@ -83,24 +77,17 @@ func Render(path string) string {
 
 	switch {
 	case path == "":
-		return ""
+		return renderHomepage()
 	case len(parts) == 2 && parts[0] == "post":
-		post := f.posts.Get(parts[1])
+		post := f.GetPost(parts[1])
 		if post == nil {
 			return "post not found"
 		}
 
 		return renderPost(post)
-	case len(parts) == 2 && parts[0] == "tag":
-		tagPosts := f.GetTagPosts(parts[1])
-		if tagPosts == nil {
-			return "no posts found"
-		}
-
-		return renderPostList(tagPosts)
 	case len(parts) == 2 && parts[0] == "category":
 		categoryPosts := f.GetCategoryPosts(parts[1])
-		if categoryPosts == nil {
+		if len(categoryPosts) == 0 {
 			return "no posts found"
 		}
 
@@ -115,9 +102,9 @@ func renderPostList(posts []*forum.Post) string {
 	var b bytes.Buffer
 
 	for _, post := range posts {
-		postURL := forumPrefix + "post/" + post.GetID()
+		postURL := ufmt.Sprintf("%s%s%d", forumPrefix, "post/", post.GetID())
 		b.WriteString(
-			fmt.Sprintf("[### %s](%s)", post.GetTitle(), postURL),
+			ufmt.Sprintf("### [%s](%s)\n", post.GetTitle(), postURL),
 		)
 	}
 
@@ -130,14 +117,14 @@ func renderHomepage() string {
 
 	// Write welcome message
 	b.WriteString(
-		fmt.Sprintf("## Welcome to the %s forum!", f.GetName()),
+		ufmt.Sprintf("## Welcome to the %s forum!\n\n", f.GetName()),
 	)
 
 	// For each category, write the name
 	for _, category := range f.GetCategories() {
-		categoryURL := forumPrefix + "category/" + category
+		categoryURL := ufmt.Sprintf("%s%s%s", forumPrefix, "category/", category)
 		b.WriteString(
-			fmt.Sprintf("## [Category: %s](%s)\n", category, categoryURL),
+			ufmt.Sprintf("## [Category: %s](%s)\n", category, categoryURL),
 		)
 	}
 
@@ -150,34 +137,17 @@ func renderPost(p *forum.Post) string {
 
 	// Write the title
 	b.WriteString(
-		fmt.Sprintf("## %s\n", p.GetTitle()),
+		ufmt.Sprintf("## %s\n", p.GetTitle()),
 	)
 
 	// Write the author and ID
 	b.WriteString(
-		fmt.Sprintf("id: %d; author: **%s**\n", p.GetID(), p.GetAuthor().String()),
+		ufmt.Sprintf("id: %d; author: **%s** \n", p.GetID(), p.GetAuthor().String()),
 	)
-
-	// Write the tags
-	tags := p.GetTags()
-	for index, tag := range tags {
-		tagURL := forumPrefix + "tag/" + tag
-		b.WriteString(
-			fmt.Sprintf("[#%s](%s)", tag, tagURL),
-		)
-
-		if index != len(tags)-1 {
-			b.WriteString(" ")
-
-			continue
-		}
-
-		b.WriteString("\n")
-	}
 
 	// Write the body
 	b.WriteString(
-		fmt.Sprintf("%s\n", p.GetBody()),
+		ufmt.Sprintf("\n%s\n", p.GetBody()),
 	)
 
 	// Write the comment section
@@ -203,12 +173,12 @@ func renderComment(c *forum.Comment) string {
 
 	// Write out the body
 	b.WriteString(
-		fmt.Sprintf("%s\n", c.GetBody()),
+		ufmt.Sprintf("%s\n\n", c.GetBody()),
 	)
 
 	// Write out the author
 	b.WriteString(
-		fmt.Sprintf("author: %s\n", c.GetAuthor().String()),
+		ufmt.Sprintf("author: %s\n", c.GetAuthor().String()),
 	)
 
 	return b.String()
