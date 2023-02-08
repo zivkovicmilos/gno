@@ -169,18 +169,18 @@ func (f Forum) RemovePost(postID uint) bool {
 		return false
 	}
 
-	// Remove the post from the posts repo
-	_, removed := f.posts.Remove(ufmt.Sprintf("%d", postID))
-	if !removed {
-		// Unable to remove post
-		return false
-	}
-
 	post, _ := postRaw.(*Post)
 
 	// Check if the caller is a moderator for this category
 	if !f.isModerator(std.GetOrigCaller(), post.GetCategory()) {
 		// User is not a moderator, continue
+		return false
+	}
+
+	// Remove the post from the posts repo
+	_, removed := f.posts.Remove(ufmt.Sprintf("%d", postID))
+	if !removed {
+		// Unable to remove post
 		return false
 	}
 

@@ -11,9 +11,8 @@ import (
 
 // State of the Realm
 var (
-	name = "Gno Overflow"
-	// TODO define address
-	admin      std.Address = "g1yqfh6eghagkheclq0vkz49useseydelg6uxznc"
+	name                   = "Gno Overflow"
+	admin      std.Address = "g1ery8mvnnggr4fm5md9cj99hljr3seml9em6dnf"
 	categories             = []string{"General", "Announcements", "Devs"}
 
 	f           *forum.Forum
@@ -57,7 +56,6 @@ func AddPost(
 }
 
 // AddComment adds a new comment to a post
-// AddPost adds a new post to the forum
 func AddComment(
 	postID uint,
 	body string,
@@ -68,6 +66,15 @@ func AddComment(
 	}
 
 	return "comment successfully added"
+}
+
+// RemovePost removes a post from the forum
+func RemovePost(postID uint) string {
+	if f.RemovePost(postID) {
+		return "post successfully removed"
+	}
+
+	return "unable to remove post"
 }
 
 // Render displays the forum's content
