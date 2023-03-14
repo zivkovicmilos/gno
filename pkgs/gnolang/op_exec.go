@@ -675,8 +675,39 @@ EXEC_SWITCH:
 			bs.NextBodyIndex = cs.BodyIndex
 			bs.Active = bs.Body[cs.BodyIndex] // prefill
 		case FALLTHROUGH:
-			// TODO CHALLENGE implement fallthrough
-			panic("not yet implemented (CHALLENGE)")
+			ss, ok := m.LastFrame().Source.(*SwitchStmt)
+			if !ok {
+				// fallthrough is only allowed in a switch statement
+				panic("fallthrough statement out of place")
+			}
+			if ss.IsTypeSwitch {
+				// fallthrough is not allowed in type switches
+				panic("cannot fallthrough in type switch")
+			}
+			b := m.LastBlock()
+			if b.bodyStmt.NextBodyIndex != len(b.bodyStmt.Body) {
+				// fallthrough is not the final statement
+				panic("fallthrough statement out of place")
+			}
+			// compute next switch clause from BodyIndex (assigned in preprocess)
+			nextClause := cs.BodyIndex + 1
+			if nextClause >= len(ss.Clauses) {
+				// no more clause after the one executed, this is not allowed
+				panic("cannot fallthrough final case in switch")
+			}
+			// expand block size
+			cl := ss.Clauses[nextClause]
+			if nn := cl.GetNumNames(); int(nn) > len(b.Values) {
+				b.ExpandToSize(m.Alloc, nn)
+			}
+			// exec clause body
+			b.bodyStmt = bodyStmt{
+				Body:          cl.Body,
+				BodyLen:       len(cl.Body),
+				NextBodyIndex: -2,
+			}
+			m.PushOp(OpBody)
+			m.PushStmt(b.GetBodyStmt())
 		default:
 			panic("unknown branch op")
 		}
