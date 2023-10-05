@@ -18,7 +18,7 @@ Our _GRC20_ Realm will have the following functionality:
 
 We will proceed using the typical directory structure for a Realm found within the [simple-contract guide](simple-contract.md). It is also worthwhile to consult the [GRC20 interface](../../../../examples/gno.land/p/demo/grc/grc20/igrc20.gno) which we will be importing and utilizing within this guide.
 
-## 1. Adding token functionality
+## 1. Importing token package
 For this realm, we'll want to import the `grc20` package as this will include the main functionality of our token factory realm.
 
 mytoken.gno
@@ -55,7 +55,7 @@ In this code preview, we have:
 - Set the value of `mytoken` (type `*AdminToken`) to equal the result of creating a new token and configuring its name, symbol + decimal representation.
 - Minted 1 million `Mytoken` and set the administrator as the owner of these tokens.
 
-## 2.
+## 2. Adding token functionality
 
 The following section will be about introducing Public functions to expose functionality imported from the [grc20 package](../../../../examples/gno.land/p/demo/grc/grc20).
 
