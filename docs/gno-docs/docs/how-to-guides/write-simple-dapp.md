@@ -102,7 +102,8 @@ A few remarks:
 - We are using the `std` library for accessing blockchain-related functionality and types, such as `std.Address`.
 - Since the `map` data type is not deterministic in Go, we need to use the AVL tree structure, defined under `p/demo/avl`.
 It behaves similarly to a map; it maps a key of type `string` onto a value of any type - `interface{}`.
-- We are importing the `p/demo/avl` package directly from on-chain storage, which can be accessed through the path `gno.land/`.
+- We are importing the `p/demo/avl` package directly from on-chain storage, which can be accessed through the path `gno.land/`. 
+As of October 2023, you can find already-deployed packages & libraries which provide additional Gno functionality in the [monorepo](https://github.com/gnolang/gno), under the `examples/gno.land` folder. 
 
 ### Poll Factory Realm
 
