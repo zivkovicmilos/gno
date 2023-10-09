@@ -17,7 +17,7 @@ Regardless of whether you're deploying a realm or a package, you will be using `
 - **Have `gnokey` installed**
 - **Have access to a `gnoland` node (local or remote)**
 - **Have generated a keypair with `gnokey` & funded it with `gnot`**
-- **Have a completed Realm / Package**
+- **Have a Realm or Package ready to deploy**
 
 ## Deploying
 
@@ -53,7 +53,6 @@ Let's analyze all of the flags in detail:
 - `--chain-id` - id of the chain to connect to - local or remote
 - `--remote` - `gnoland` node endpoint - local or remote
 - `MyKey` - the keypair to use for the transaction
-
 
 Next, confirm the transaction with your keypair passphrase. If deployment was successful, you will be presented with a message similar to the following:
 
