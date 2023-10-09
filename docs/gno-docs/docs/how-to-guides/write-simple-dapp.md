@@ -207,7 +207,7 @@ func Render(path string) string {
 	}
 	polls.Iterate("", "", func(key string, value interface{}) bool {
 
-		// cast raw data from tree into Whitelist struct
+		// cast raw data from tree into Poll struct
 		p := value.(*poll.Poll)
 		ddl := p.Deadline()
 
@@ -276,7 +276,7 @@ func Render(path string) string {
 
 That's it 🎉
 
-You have successfully built a simple but fully fledged dApp using Gno!
+You have successfully built a simple but fully-fledged dApp using Gno!
 Now you're ready to conquer new, more complex dApps in Gno.
 
 
