@@ -278,5 +278,3 @@ That's it 🎉
 
 You have successfully built a simple but fully-fledged dApp using Gno!
 Now you're ready to conquer new, more complex dApps in Gno.
-
-
