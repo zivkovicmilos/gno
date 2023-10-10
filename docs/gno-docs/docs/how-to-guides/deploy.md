@@ -48,7 +48,7 @@ Let's analyze all of the flags in detail:
 - `--pkgpath` - path where the package/realm will be placed on-chain
 - `--pkgdir` - local path where the package/realm is located
 - `--gas-wanted` - the upper limit for units of gas for the execution of the transaction - similar to Solidity's gas limit
-- `--gas-fee` - similar to Solidity's gas-price.
+- `--gas-fee` - similar to Solidity's gas-price
 - `--broadcast` - broadcast the transaction on-chain
 - `--chain-id` - id of the chain to connect to - local or remote
 - `--remote` - `gnoland` node endpoint - local or remote
