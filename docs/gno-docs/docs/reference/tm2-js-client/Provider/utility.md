@@ -49,7 +49,7 @@ and checks if a transaction
   optional, default `latest`)
 * `timeout` **number** the timeout in MS for the search (optional, default `15000`)
 
-Returns **Promise\<Tx>**
+Returns **Promise<Tx\>**
 
 ## Request Helpers
 
@@ -60,7 +60,7 @@ Creates a new JSON-RPC 2.0 request
 #### Parameters
 
 * `method` **string** the requested method
-* `params` **Array<string>?** the requested params, if any
+* `params` **Array<string\>?** the requested params, if any
 
 Returns **RPCRequest**
 
@@ -73,7 +73,7 @@ Creates a new JSON-RPC 2.0 response
 * `result` **Result** the response result, if any
 * `error` **RPCError** the response error, if any
 
-Returns **RPCResponse\<Result>**
+Returns **RPCResponse<Result\>**
 
 ### parseABCI
 

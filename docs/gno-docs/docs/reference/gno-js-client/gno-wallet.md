@@ -15,10 +15,10 @@ Initiates a native currency transfer transaction between accounts
 #### Parameters
 
 * `to` **string** the bech32 address of the receiver
-* `funds` **Map\<string, number>** the denomination -> value map for funds
+* `funds` **Map<string, number\>** the denomination -> value map for funds
 * `fee` **TxFee** the custom transaction fee, if any
 
-Returns **Promise\<string>**
+Returns **Promise<string\>**
 
 #### Usage
 
@@ -40,10 +40,10 @@ Invokes the specified method on a GNO contract
 * `path` **string** the gno package / realm path
 * `method` **string** the method name
 * `args` **string[]** the method arguments, if any
-* `funds` **Map\<string, number>** the denomination -> value map for funds
+* `funds` **Map<string, number\>** the denomination -> value map for funds
 * `fee` **TxFee** the custom transaction fee, if any
 
-Returns **Promise\<string>**
+Returns **Promise<string\>**
 
 #### Usage
 
@@ -63,10 +63,10 @@ Deploys the specified package / realm
 #### Parameters
 
 * `gnoPackage` **MemPackage** the package / realm to be deployed
-* `funds` **Map\<string, number>** the denomination -> value map for funds
+* `funds` **Map<string, number>** the denomination -> value map for funds
 * `fee` **TxFee** the custom transaction fee, if any
 
-Returns **Promise\<string>**
+Returns **Promise<string\>**
 
 #### Usage
 

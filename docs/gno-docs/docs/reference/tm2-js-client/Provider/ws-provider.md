@@ -45,7 +45,7 @@ upon receiving the response
 
 * `request` **RPCRequest** the RPC request
 
-Returns **Promise<RPCResponse\<Result>>**
+Returns **Promise<RPCResponse<Result\>>**
 
 #### Usage
 
@@ -64,7 +64,7 @@ Parses the result from the response
 
 #### Parameters
 
-* `response` **RPCResponse\<Result>** the response to be parsed
+* `response` **RPCResponse<Result\>** the response to be parsed
 
 Returns **Result**
 
@@ -83,7 +83,7 @@ wsProvider.parseResponse<Result>(response);
 
 Waits for the WS connection to be established
 
-Returns **Promise\<null>**
+Returns **Promise<null\>**
 
 #### Usage
 

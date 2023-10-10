@@ -2,7 +2,7 @@
 id: tm2-js-signer
 ---
 
-# Signer
+# Overview
 
 A `Signer` is an interface that abstracts the interaction with a single Secp256k1 key pair. It exposes methods for
 signing data, verifying signatures, and getting metadata associated with the key pair, such as the address.
@@ -19,7 +19,7 @@ Currently, the `tm2-js-client` package provides support for two `Signer` impleme
 
 Returns the address associated with the signer's public key
 
-Returns **Promise<string>**
+Returns **Promise<string\>**
 
 #### Usage
 
@@ -32,7 +32,7 @@ await signer.getAddress();
 
 Returns the signer's Secp256k1-compressed public key
 
-Returns **Promise<Uint8Array>**
+Returns **Promise<Uint8Array\>**
 
 #### Usage
 
@@ -45,7 +45,7 @@ await signer.getPublicKey();
 
 Returns the signer's actual raw private key
 
-Returns **Promise<Uint8Array>**
+Returns **Promise<Uint8Array\>**
 
 #### Usage
 
@@ -62,7 +62,7 @@ Generates a data signature for arbitrary input
 
 * `data` **Uint8Array** the data to be signed
 
-Returns **Promise<Uint8Array>**
+Returns **Promise<Uint8Array\>**
 
 #### Usage
 
@@ -82,7 +82,7 @@ Verifies if the signature matches the provided raw data
 * `data` **Uint8Array** the raw data (not-hashed)
 * `signature` **Uint8Array** the hashed-data signature
 
-Returns **Promise<boolean>**
+Returns **Promise<boolean\>**
 
 #### Usage
 

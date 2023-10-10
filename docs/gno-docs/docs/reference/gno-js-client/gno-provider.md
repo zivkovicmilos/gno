@@ -11,7 +11,7 @@ outlined [here](../tm2-js-client/Provider/provider.md). Both JSON-RPC and WS pro
 
 ### getRenderOutput
 
-Executes the Render(<path>) method in read-only mode
+Executes the Render(path) method in read-only mode
 
 #### Parameters
 
@@ -20,7 +20,7 @@ Executes the Render(<path>) method in read-only mode
 * `height` **number** the height for querying.
   If omitted, the latest height is used (optional, default `0`)
 
-Returns **Promise\<string>**
+Returns **Promise<string\>**
 
 #### Usage
 
@@ -39,7 +39,7 @@ Fetches public facing function signatures
 * `height` **number** the height for querying.
   If omitted, the latest height is used (optional, default `0`)
 
-Returns **Promise\<FunctionSignature[]>**
+Returns **Promise<FunctionSignature[]>**
 
 #### Usage
 
@@ -92,7 +92,7 @@ Evaluates any expression in readonly mode and returns the results
 * `height` **number** the height for querying.
   If omitted, the latest height is used (optional, default `0`)
 
-Returns **Promise\<string>**
+Returns **Promise<string\>**
 
 #### Usage
 
@@ -111,7 +111,7 @@ Fetches the file content, or the list of files if the path is a directory
 * `height` **number** the height for querying.
   If omitted, the latest height is used (optional, default `0`)
 
-Returns **Promise\<string>**
+Returns **Promise<string\>**
 
 #### Usage
 

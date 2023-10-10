@@ -2,7 +2,7 @@
 id: tm2-js-provider
 ---
 
-# Provider
+# Overview
 
 A `Provider` is an interface that abstracts the interaction with the Tendermint2 chain, making it easier for users to
 communicate with it. Rather than requiring users to understand which endpoints are exposed, what their return types are,
@@ -28,7 +28,7 @@ Fetches the denomination balance of the account
 * `height` **number** the height for querying.
   If omitted, the latest height is used (optional, default `0`)
 
-Returns **Promise\<number>**
+Returns **Promise<number\>**
 
 #### Usage
 
@@ -47,7 +47,7 @@ Fetches the account sequence
 * `height` **number** the height for querying.
   If omitted, the latest height is used. (optional, default `0`)
 
-Returns **Promise\<number>**
+Returns **Promise<number\>**
 
 #### Usage
 
@@ -67,7 +67,7 @@ is not initialized
 * `height` **number** the height for querying.
   If omitted, the latest height is used (optional, default `0`)
 
-Returns **Promise\<number>**
+Returns **Promise<number\>**
 
 #### Usage
 
@@ -86,7 +86,7 @@ Fetches the block at the specific height, if any
 
 * `height` **number** the height for querying
 
-Returns **Promise\<BlockInfo>**
+Returns **Promise<BlockInfo\>**
 
 #### Usage
 
@@ -178,7 +178,7 @@ Fetches the block at the specific height, if any
 
 * `height` **number** the height for querying
 
-Returns **Promise\<BlockResult>**
+Returns **Promise<BlockResult\>**
 
 #### Usage
 
@@ -219,7 +219,7 @@ await provider.getBlockResult(1);
 
 Fetches the latest block number from the chain
 
-Returns **Promise\<number>**
+Returns **Promise<number\>**
 
 #### Usage
 
@@ -234,7 +234,7 @@ await provider.getBlockNumber();
 
 Fetches the network information
 
-Returns **Promise\<NetworkInfo>**
+Returns **Promise<NetworkInfo\>**
 
 #### Usage
 
@@ -260,7 +260,7 @@ Fetches the consensus params for the specific block height
 
 * `height` **number** the height for querying
 
-Returns **Promise\<ConsensusParams>**
+Returns **Promise<ConsensusParams\>**
 
 #### Usage
 
@@ -291,7 +291,7 @@ await provider.getConsensusParams(1);
 
 Fetches the current node status
 
-Returns **Promise\<Status>**
+Returns **Promise<Status\>**
 
 #### Usage
 
@@ -363,7 +363,7 @@ await provider.getStatus();
 
 Fetches the current (recommended) average gas price
 
-Returns **Promise\<number>**
+Returns **Promise<number\>**
 
 ### estimateGas
 
@@ -375,7 +375,7 @@ Estimates the gas limit for the transaction
 
 * `tx` **Tx** the transaction that needs estimating
 
-Returns **Promise\<number>**
+Returns **Promise<number\>**
 
 ## Transaction methods
 
@@ -388,7 +388,7 @@ The transaction needs to be signed beforehand.
 
 * `tx` **string** the base64-encoded signed transaction
 
-Returns **Promise\<string>**
+Returns **Promise<string\>**
 
 #### Usage
 
@@ -413,7 +413,7 @@ get latest block -> send transaction -> waitForTransaction(block before send)
 * `fromHeight` **number** The block height used to begin the search (optional, default `latest`)
 * `timeout` **number** Optional wait timeout in MS (optional, default `15000`)
 
-Returns **Promise\<Tx>**
+Returns **Promise<Tx\>**
 
 #### Usage
 

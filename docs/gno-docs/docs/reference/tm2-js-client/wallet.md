@@ -22,7 +22,7 @@ Generates a private key-based wallet, using a random seed
 
 * `options?` **AccountWalletOption** the account options
 
-Returns **Promise<Wallet>**
+Returns **Promise<Wallet\>**
 
 #### Usage
 
@@ -40,7 +40,7 @@ Generates a bip39 mnemonic-based wallet
 * `mnemonic` **string** the bip39 mnemonic
 * `options?` **CreateWalletOptions** the wallet generation options
 
-Returns **Promise<Wallet>**
+Returns **Promise<Wallet\>**
 
 #### Usage
 
@@ -59,9 +59,9 @@ Generates a private key-based wallet
 * `privateKey` **string** the private key
 * `options?` **AccountWalletOption** the wallet generation options
 
-Returns **Promise<Wallet>**
+Returns **Promise<Wallet\>**
 
-#### Usage
+#### Usage 
 
 ```ts
 // Generate the private key from somewhere
@@ -132,7 +132,7 @@ wallet.getProvider();
 
 Fetches the address associated with the wallet
 
-Returns **Promise<string>**
+Returns **Promise<string\>**
 
 #### Usage
 
@@ -156,7 +156,7 @@ await wallet.getSequence();
 // 42
 ```
 
-Returns **Promise<number>**
+Returns **Promise<number\>**
 
 ### getAccountNumber
 
@@ -167,7 +167,7 @@ account is not initialized
 
 * `height` **number** the block height (optional, default `latest`)
 
-Returns **Promise<number>**
+Returns **Promise<number\>**
 
 #### Usage
 
@@ -184,7 +184,7 @@ Fetches the account balance for the specific denomination
 
 * `denomination` **string** the fund denomination (optional, default `ugnot`)
 
-Returns **Promise<number>**
+Returns **Promise<number\>**
 
 #### Usage
 
@@ -197,7 +197,7 @@ await wallet.getBalance('ugnot');
 
 Fetches the current (recommended) average gas price
 
-Returns **Promise<number>**
+Returns **Promise<number\>**
 
 #### Usage
 
@@ -214,7 +214,7 @@ Estimates the gas limit for the transaction
 
 * `tx` **Tx** the transaction that needs estimating
 
-Returns **Promise<number>**
+Returns **Promise<number\>**
 
 #### Usage
 
@@ -233,7 +233,7 @@ Generates a transaction signature, and appends it to the transaction
 
 * `tx` **Tx** the transaction to be signed
 
-Returns **Promise\<Tx>**
+Returns **Promise<Tx\>**
 
 #### Usage
 
@@ -252,7 +252,7 @@ Signs and sends the transaction. Returns the transaction hash (base-64)
 
 * `tx` **Tx** the unsigned transaction
 
-Returns **Promise<string>**
+Returns **Promise<string\>**
 
 #### Usage
 
