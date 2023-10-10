@@ -105,9 +105,15 @@ It behaves similarly to a map; it maps a key of type `string` onto a value of an
 - We are importing the `p/demo/avl` package directly from on-chain storage, which can be accessed through the path `gno.land/`. 
 As of October 2023, you can find already-deployed packages & libraries which provide additional Gno functionality in the [monorepo](https://github.com/gnolang/gno), under the `examples/gno.land` folder. 
 
+:::info
+After testing the `Poll` package, we need to deploy it in order to use it in our realm.
+Check out the [deployment](./deploy.md) guide to learn how to do this.
+:::
+
 ### Poll Factory Realm
 
-After testing & _deploying_ the Poll package, we can move on to creating the Poll Factory realm. 
+Moving on, we can create the Poll Factory realm.
+
 The realm will contain the following functionality:
 - An exported `NewPoll` method, to allow users to create polls
 - An exported `Vote` method, to allow users to pledge votes for any active poll 
